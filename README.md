@@ -31,7 +31,7 @@ for process, etc.
 
 ## Contributors
 
-- **Hứa Vĩ Trung**
-- **Lê Xuân Tiến**
-- **Huỳnh Minh Tân**
+- **Hứa Vĩ Trung : 15520940**
+- **Lê Xuân Tiến : 15520xxx**
+- **Huỳnh Minh Tân : 15520xxx**
 
