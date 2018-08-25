@@ -30,6 +30,6 @@ The server handle request from payment app and manage transactions
 ## Contributors
 
 - **Hứa Vĩ Trung : 15520940**
-- **Lê Xuân Tiến : 15520xxx**
-- **Huỳnh Minh Tân : 15520xxx**
+- **Lê Xuân Tiến : 15520884**
+- **Huỳnh Minh Tân : 15520763**
 
