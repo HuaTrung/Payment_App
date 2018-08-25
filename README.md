@@ -1,7 +1,5 @@
 # Our Service :steam_locomotive::train::train::train::train::train:
 
-The server handle request from payment app and manage transactions
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -12,7 +10,7 @@ The server handle request from payment app and manage transactions
 
 ## Introduction
 
-You can find more examples in **[Size Limit: Make the Web lighter]** article.
+The server handle request from payment app and manage transactions
 
 ## Technology
 
