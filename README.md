@@ -41,7 +41,7 @@ The server handle request from payment app and manage transactions
     - [SOLID](https://toidicodedao.com/2015/03/24/solid-la-gi-ap-dung-cac-nguyen-ly-solid-de-tro-thanh-lap-trinh-vien-code-cung/)
   - [Quy trình xử lí của zalopay](https://developers.zalopay.vn/docs/webtoapp/index.html#t-ng-quan)
   - [Tạo project spring boot đơn giản với Springs Tool Suite](http://blog.netgloo.com/2014/05/18/very-basic-web-application-with-spring-mvc-spring-boot-and-eclipse-sts/)
-  - [Tạo project spring boot đơn giản với SPRING INITIALIZR, cái nào cũng ](https://start.spring.io/)
+  - [Tạo project spring boot đơn giản với SPRING INITIALIZR, cái nào cũng OK](https://start.spring.io/)
   
   ## Contributors
 
