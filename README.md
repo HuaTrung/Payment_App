@@ -4,8 +4,10 @@
 
 - [Introduction](#introduction)
 - [Technology](#technology)
+- [Tool](#tool)
 - [Features](#features)
 - [Sequence Diagram](#sequence-diagram)
+- [Preferences](#preferences)
 - [Contributors](#contributors)
 
 ## Introduction
@@ -19,6 +21,10 @@ The server handle request from payment app and manage transactions
 - __[Thymeleaf](https://o7planning.org/vi/11545/huong-dan-spring-boot-va-thymeleaf) :__ is a Java XML/XHTML/HTML5 template engine that can work both in web and non-web environments
 - __[MySQL](https://www.mysql.com/) :__ is an open-source relational database management system. Its name is a combination of "My", the name of co-founder Michael Widenius's daughter, and "SQL", the abbreviation for Structured Query Language.
 
+## Tool
+1. Eclipse
+2. MySQL
+
 ## Features
 1. Handle request from payment app
 2. Manage transactions
@@ -27,9 +33,18 @@ The server handle request from payment app and manage transactions
 
 ![Image description](assests/Websequencediagram.png)
 
-## Contributors
+## Preferences
+  - Spring nó đặc trưng là dependency injection, tụi bây hiểu kĩ cái này. Nó là nguyên lí thứ 5 trong Solid 
+    - [Dependency Injection](https://toidicodedao.com/2015/11/03/dependency-injection-va-inversion-of-control-phan-1-dinh-nghia/)
+    - [Spring với DI 1](https://kipalog.com/posts/Spring--Ky-1---Dependency-Injection-trong-Spring) 
+    - [Spring với DI 2](http://viettuts.vn/spring/dependency-injection-trong-spring) 
+    - [SOLID](https://toidicodedao.com/2015/03/24/solid-la-gi-ap-dung-cac-nguyen-ly-solid-de-tro-thanh-lap-trinh-vien-code-cung/)
+  - [Quy trình xử lí của zalopay](https://developers.zalopay.vn/docs/webtoapp/index.html#t-ng-quan)
+  - [Tạo project spring boot đơn giản với Springs Tool Suite](http://blog.netgloo.com/2014/05/18/very-basic-web-application-with-spring-mvc-spring-boot-and-eclipse-sts/)
+  - [Tạo project spring boot đơn giản với SPRING INITIALIZR, cái nào cũng ](https://start.spring.io/)
+  
+  ## Contributors
 
 - **Hứa Vĩ Trung : 15520940**
 - **Lê Xuân Tiến : 15520884**
 - **Huỳnh Minh Tân : 15520763**
-
