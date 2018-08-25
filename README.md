@@ -1,4 +1,4 @@
-# Our Service
+# Our Service :steam_locomotive::train::train::train::train::train:
 
 The server handle request from payment app and manage transactions
 
@@ -7,17 +7,12 @@ The server handle request from payment app and manage transactions
 - [Introduction](#introduction)
 - [Technology](#technology)
 - [Features](#features)
+- [Sequence Diagram](#sequence-diagram)
 - [Contributors](#contributors)
 
 ## Introduction
 
 You can find more examples in **[Size Limit: Make the Web lighter]** article.
-
-To be really specific, Size Limit creates an empty webpack project in memory.
-Then, it adds your library as a dependency to the project and calculates
-the real cost of your libraries, including all dependencies, webpack’s polyfills
-for process, etc.
-
 
 ## Technology
 
@@ -27,11 +22,16 @@ for process, etc.
 - __[MySQL](https://www.mysql.com/) :__ is an open-source relational database management system. Its name is a combination of "My", the name of co-founder Michael Widenius's daughter, and "SQL", the abbreviation for Structured Query Language.
 
 ## Features
+1. Handle request from payment app
+2. Manage transactions
 
+## Sequence Diagram
+
+![Image description](assests/Websequencediagram.png)
 
 ## Contributors
 
-- **Hứa Vĩ Trung**
-- **Lê Xuân Tiến**
-- **Huỳnh Minh Tân**
+- **Hứa Vĩ Trung : 15520940**
+- **Lê Xuân Tiến : 15520xxx**
+- **Huỳnh Minh Tân : 15520xxx**
 
