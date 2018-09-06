@@ -1,0 +1,10 @@
+0 silly argv { _: [ 'add' ],
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '3.2.1',
+0 silly argv   '$0': 'lerna',
+0 silly argv   pkg: 'moongoose@5.2.13' }
+1 notice cli v3.2.1
+2 verbose rootPath /home/lap10815/Documents/mynodejs/lerna-repo
+3 error moongoose: No matching version found for moongoose@5.2.13
+3 error     at pickManifest (/home/lap10815/.nvm/versions/node/v6.9.5/lib/node_modules/lerna/node_modules/npm-pick-manifest/index.js:65:11)
+3 error     at fetchPackument.then.err (/home/lap10815/.nvm/versions/node/v6.9.5/lib/node_modules/lerna/node_modules/pacote/lib/fetchers/registry/manifest.js:21:14)
