@@ -9,8 +9,9 @@ const AccountSchema = new Schema({
     age: { type: String, require: true },
     avatar: { type: String },
     password: { type: String, require: true },
+
     // email verity
-    confirmationCode: { type: String, default: undefined }
+    // secretToken: { type: String},
     activate: { type: Boolean, default: false },     
 
     role: { type: String, default: true },
@@ -18,6 +19,7 @@ const AccountSchema = new Schema({
     gender: { type: Boolean, default: true }
     
 });
+const account = mongoose.model('accounts',AccountSchema);
+module.exports = account;
 
 
-module.exports = Account = mongoose.model('accounts',AccountSchema);

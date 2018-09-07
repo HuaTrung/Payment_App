@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.13",
     "moongoose": "^0.0.5",
+    "nodemailer": "^4.6.8",
     "passport-jwt": "^4.0.0",
     "validator": "^10.7.1"
   }

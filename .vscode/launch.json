@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/login-admin\\src\\controllers\\register-controller.js"
+            "program": "${workspaceFolder}/app.js"
         }
     ]
 }
