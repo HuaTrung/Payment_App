@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const passport = require('passport');
+
 
 const config = require('../config/config');
 const Account = require('../models/Account');
@@ -78,7 +80,8 @@ const registerRoute = async (req, res ) => {
     const avatar = gravatar.url(req.body.email, { s: '200', r: 'pg', d:'mm' });
 
     // Generate default password:
-    const password = await HashPassword( Math.random().toString(36).slice(-8));
+    const password = await HashPassword('123456789');
+    //const password = await HashPassword( Math.random().toString(36).slice(-8));
 
     // generate secret token for email verity
     // const secretToken = randomString.generate();
@@ -124,6 +127,64 @@ verifyRoute =  (req,res) => {
   
 };
 
+/**
+ * @description Login and save jwt
+ * 1. Check email
+ * 2. Check email activated ot not
+ * 3. Check password
+ * 4. Save jwt token
+ */
+loginRoute = (req,res) => { 
+    
+    const email = req.body.email;
+    const password = req.body.password;
+    console.log(1);
+    Account.findOne({ email }).then( acc => {
+
+        // Check email
+        if(!acc) return res.status(404).json({email:'not found'});
+       
+        // Check email activated ot not
+        if(!acc.activate) return res.status(404).json({account:'not activate'});
+
+        bcrypt.hash(password, acc.password).then( isMatch => {
+            if(isMatch) {
+
+                // Create jwt token
+                const payload ={ id:acc._id, email:acc.email };
+                console.log(payload);
+                jwt.sign(
+                    payload , 
+                    config.LOGIN_SECRET, 
+                    {  expiresIn:config.LOGIN_EXPIRE },
+                    (err,token) => {
+                        res.json({ success: true, token: 'Bearer '+ token });
+                    })
+
+            } else  res.status(404).json({ password:'incorrect' });
+        });
+
+
+    });
+};
+
+changePasswordRoute = (req,res) => { 
+    
+    const currentPass = req.body.currentPass;
+    const newPass = req.body.newPass;
+    const rePass = req.body.rePass;
+
+    Account.findOne({ email }).then( acc => {
+        // Check password
+        ComparePassword(password,acc.password)
+            .then( isMatch => {
+                console.log(isMatch);         
+            });
+    });
+};
+
 
 module.exports.RegisterRoute = registerRoute;
 module.exports.VerifyRoute = verifyRoute;
+module.exports.LoginRoute = loginRoute;
+module.exports.ChangePasswordRoute = changePasswordRoute;
