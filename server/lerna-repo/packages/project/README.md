@@ -6,7 +6,7 @@
 - if in **node_modules** doesn't have react-scripts -> **npm install reaact-scripts**
 - it's just a temporary fix:
     + Go to **/node_modules/react-scripts/config** then edit **webpack.config.dev.js**
-    + Add 'src' in your code. Change this code
+    + Add **'src'** in your code. Change this code line **83**
     ``` javascript
     modules: ['node_modules', paths.appNodeModules].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
