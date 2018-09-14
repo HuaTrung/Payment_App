@@ -1,10 +1,12 @@
-0 silly argv { _: [ 'add' ],
-0 silly argv   globs: [],
-0 silly argv   lernaVersion: '3.2.1',
-0 silly argv   '$0': 'lerna',
-0 silly argv   pkg: 'moongoose@5.2.13' }
-1 notice cli v3.2.1
-2 verbose rootPath /home/lap10815/Documents/mynodejs/lerna-repo
-3 error moongoose: No matching version found for moongoose@5.2.13
-3 error     at pickManifest (/home/lap10815/.nvm/versions/node/v6.9.5/lib/node_modules/lerna/node_modules/npm-pick-manifest/index.js:65:11)
-3 error     at fetchPackument.then.err (/home/lap10815/.nvm/versions/node/v6.9.5/lib/node_modules/lerna/node_modules/pacote/lib/fetchers/registry/manifest.js:21:14)
+0 silly argv { _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '3.3.0',
+0 silly argv   '$0': '..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\lerna\\cli.js' }
+1 notice cli v3.3.0
+2 verbose rootPath C:\Users\LeXuanTien\Documents\GitHub\OurService\server\lerna-repo
+3 error Error: Invalid package name "base config": name can only contain URL-friendly characters
+3 error     at invalidPackageName (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\npm-package-arg\npa.js:82:15)
+3 error     at Result.setName (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\npm-package-arg\npa.js:118:11)
+3 error     at new Result (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\npm-package-arg\npa.js:107:23)
+3 error     at Function.resolve (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\npm-package-arg\npa.js:54:15)
+3 error     at new Package (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\@lerna\package\index.js:32:26)
+3 error     at loadJsonFile.then.packageJson (C:\Users\LeXuanTien\AppData\Roaming\npm\node_modules\lerna\node_modules\@lerna\project\index.js:172:24)

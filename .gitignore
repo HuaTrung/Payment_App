@@ -1,4 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-server/lerna-repo/packages/project/node_modules
+server/lerna-repo/packages/server/node_modules
+server/lerna-repo/packages/server/project/node_modules
+server/lerna-repo/packages/account/node_modules
+server/lerna-repo/packages/database/node_modules
