@@ -3,5 +3,8 @@
 # dependencies
 server/lerna-repo/packages/server/node_modules
 server/lerna-repo/packages/server/project/node_modules
-server/lerna-repo/packages/account/node_modules
+server/lerna-repo/packages/account manage/node_modules
 server/lerna-repo/packages/database/node_modules
+
+server/lerna-repo/packages/server/.vscode
+server/lerna-repo/packages/.vscode

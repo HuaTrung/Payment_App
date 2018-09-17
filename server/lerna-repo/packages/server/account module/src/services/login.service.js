@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Account = require('database/models/admin/account');
+const Account = require('../models/account');
 
 /**
  * @description find email in database

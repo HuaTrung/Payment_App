@@ -17,10 +17,19 @@ const passport = require('passport');
 /**
  * IMPORT PACKAGES
  */
- const accountRoute = require('account/src/routes/index');
- const passportConfig = require('account/src/configs/passport.config');
+ const accountRoute = require('./account module/src/routes/index');
+ const testRoute = require('./account module/src/routes/test');
+ const passportConfig = require('./account module/src/configs/passport.config');
 // Init express
 const app = express();
+
+// config CORS problem:
+//app.use(function(req, res, next) {
+//    res.header('Access-Control-Allow-Origin', "*");
+//    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+//    res.header('Access-Control-Allow-Headers', 'Content-Type');
+//    next();
+//})
 
 
 
@@ -49,6 +58,6 @@ app.use(bodyParser.json());
 
 // Route splits
 app.use('/secure',accountRoute);
-
+app.use('/test',testRoute);
 
 app.listen(config.PORT , ()=> console.log('Server running on port: ' + config.PORT ));

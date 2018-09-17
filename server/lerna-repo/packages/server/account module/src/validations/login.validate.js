@@ -4,17 +4,17 @@ const errorsName = require('./errors-name');
 const bcrypt = require('bcryptjs');
 
 function ValidateLogin(data) {
-    
+    console.log(2);
     let errors = {};
 
     data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password: '';
 
-    if(Validator.isEmail(data.email)){
+    if(!Validator.isEmail(data.email)){
         errors.email  = errorsName.EMAIL_INVALID;
     }
 
-    if(Validator.isEmpty(data.password)) {
+    if(Validator.isEmpty(data.email)) {
         errors.email = errorsName.EMAIL_EMPTY;
     }
 
