@@ -1,0 +1,18 @@
+{
+  "name": "packages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "base": "npm install",
+    
+    "admin-module": "cd ./admin module && npm run base",
+    "client-module": "cd ./client project && npm run base",
+    "database-module": "cd ./database module && npm run base",
+    "server-module": "cd ./server module && npm run base",
+
+    "link-modules": "npm run admin-module && npm run client-module && npm run database-module && npm run server-module"
+  },
+  "author": "",
+  "license": "ISC"
+}
