@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 // Support authen in node js
 const passport = require('passport');
+const cors = require('cors');
 
 /**
  * LOCAL IMPORT
@@ -21,25 +22,20 @@ const passport = require('passport');
  const testRoute = require('admin-module/src/routes/test'); // just test
  const passportConfig = require('admin-module/src/configs/passport.config');
 
- const databaseConfig = require('database-module/database.config');
-
+ //const databaseConfig = require('database-module/database.config');
+ const mongoURL = require('./config/database.config').mongoURL;
 // Init express
 const app = express();
-
-// config CORS problem:
-//app.use(function(req, res, next) {
-//    res.header('Access-Control-Allow-Origin', "*");
-//    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
-//    res.header('Access-Control-Allow-Headers', 'Content-Type');
-//    next();
-//})
-
-
+app.use(cors()); // Use this after the variable declaration
 
 /**
  * Database config
  */
-databaseConfig.ConnectDatabase(mongoose);
+
+mongoose
+    .connect(mongoURL, {  useNewUrlParser: true })
+    .then( () => console.log('MongoDB connected successfully') )
+    .catch( err => console.log(err) );
 
 /**
  * Passport config
