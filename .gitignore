@@ -1,10 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# dependencies
-server/lerna-repo/packages/server/node_modules
-server/lerna-repo/packages/server/project/node_modules
-server/lerna-repo/packages/account manage/node_modules
-server/lerna-repo/packages/database/node_modules
+# How to remove node_module
+# https://gist.github.com/paulallies/0052fab554b14bbfa3ef 
 
-server/lerna-repo/packages/server/.vscode
-server/lerna-repo/packages/.vscode
+# dependencies
+server/lerna-repo/packages/admin-module/node_modules
+server/lerna-repo/packages/client-project/node_modules
+server/lerna-repo/packages/server-module/node_modules

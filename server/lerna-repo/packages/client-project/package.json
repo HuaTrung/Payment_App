@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "admin-module": "^1.0.0",
         "axios": "^0.18.0",
         "chartist": "^0.10.1",
         "classname": "0.0.0",

@@ -7,7 +7,9 @@ const errorsName = require('../validations/errors-name');
 const envConfig = require('../configs/env.config');
 
 // database-module
-const Account = require('database-module/models/admin/Account');
+const Account = require('../../../server-module/MongoModel/account');
+
+
 /**
  * @description Login admin page
  * @param req: Request
@@ -15,33 +17,33 @@ const Account = require('database-module/models/admin/Account');
  * @param status: 404: wrong/ 400: can't handle request from client
  */
 module.exports =  (req, res) => {
-    console.log(req.body);
+   
     // To sign in we need email and password not error
     const { errors, isValid } = loginValidate.ValidateLogin(req.body);
-    console.log({ errors, isValid });
+
     // If we have errors
     // Send response to client
-    if(!isValid) {
-        return res.status(400).json(errors);
-    }
- 
-    // get user form client
+    if(!isValid) return res.status(400).json(errors);
+    
+    // If not error we will get email and password from client
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email);
-    // Check account in database
-    // const account = loginService.FindAccountByEmail(email);
-   
-    Account.findOne(email).then( account => {
-        console.log(account);
-        console.log('go database');
+
+    // Check email existed in database or not
+    // If not existed we will get the information of account like email - id - name
+    Account.findOne({email}).then( account => {       
+
         // Cannot find account in database => send error to client
+        // Client will get the error and show to client know
         if(!account) {
             errors.email = errorsName.ACCOUNT_INVALID;
             return res.status(404).json(errors);        
         }
 
-        // Compare password:
+        // If we can find account        
+        // Compare password by using bcryptjs 
+        // You can use SHA512 - Bcrypt - AES256 to secure password
+        // https://kipalog.com/posts/Bam-va-luu-password-dung-cach
         bcrypt.compare(password,account.password)
         .then( isMatch => { 
             if(isMatch) {
@@ -50,22 +52,31 @@ module.exports =  (req, res) => {
                 // we'll check the jwt payload
                 const payload = {             
                     id: account.id,
-                    name: account.name
+                    name: account.lastName
                 }
 
                 // Sign token to the browser
+                /** @param { Objetct } payload - JWT data you want to send to client
+                 *  @param { String } secretOrPrivateKey - something like password */
                 jwt.sign(
                     payload, // data
                     envConfig.PAYLOAD_KEY, // pass to extract
                     { expiresIn: envConfig.TOKEN_EXPIRE }, // day exist
                     ( err, token ) => { // encode to token
+
+                        // when we get the data in database
+                        // Send it to client
+                        // Using Bearer token
                         res.json({
                             success: true,
                             token: 'Bearer ' + token
                         });
                     }
-                )
-            } else { // wrong password => send to client know
+                );
+            } 
+            // If compare password fail that mean
+            // wrong password => send to client know
+            else { 
                 errors.password = errorsName.PASSWORD_INCORRECT;
                 return res.status(400).json(errors);
             }

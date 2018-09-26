@@ -6,10 +6,9 @@
   "scripts": {
     "admin-module": "cd ./admin-module && npm install",
     "client-module": "cd ./client-project && npm install",
-    "database-module": "cd ./database-module && npm install",
     "server-module": "cd ./server-module && npm install",
 
-    "link-modules": "npm run admin-module && npm run client-module && npm run database-module && npm run server-module"
+    "link-modules": "npm run admin-module && npm run client-module  && npm run server-module"
   },
   "author": "",
   "license": "ISC"

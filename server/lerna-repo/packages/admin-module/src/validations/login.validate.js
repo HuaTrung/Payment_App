@@ -5,7 +5,7 @@ const Validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 function ValidateLogin(data) {
-    console.log(2);
+    
     let errors = {};
 
     data.email = !isEmpty(data.email) ? data.email : '';

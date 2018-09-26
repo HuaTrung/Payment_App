@@ -40,7 +40,7 @@ const loginAccountAdmin = accountAdmin => dispatch => {
     // });
 
 
-    axios.post("http://localhost:5000/secure/login",accountAdmin)
+    axios.post("http://localhost:5000/secure/account/login",accountAdmin)
         .then( res => {
             console.log(res);
             // save data to local storage
