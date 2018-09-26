@@ -1,7 +1,7 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-const Account  = require('database-module/models/admin/Account');
+const Account  = require('../../../server-module/MongoModel/account');
 const envConfig = require('./env.config');
 
 const opts = { };
