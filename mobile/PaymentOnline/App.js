@@ -9,13 +9,13 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <ScrollView
+        <ScrollView
           horizontal
           pagingEnabled
-          decelerationRate={0.993} > */}
-          {/* <SignIn/> */}
+          decelerationRate={0.993} >
           <SignUp/>
-        {/* </ScrollView> */}
+          <SignIn/>
+        </ScrollView>
       </View>
     );
   }
