@@ -32,7 +32,7 @@ export default class Hideo extends BaseInput {
     return (
       <View
         style={[styles.container, containerStyle]}
-    //    onLayout={this._onLayout}
+        onLayout={this._onLayout}
       >
         <TouchableWithoutFeedback onPress={this.focus}>
           <Animated.View
@@ -106,7 +106,7 @@ Hideo.defaultProps = {
     iconBackgroundColor: '#899dda',
     height: 48,
     animationDuration: 200,
-};
+  };
 
 const styles = StyleSheet.create({
   container: {

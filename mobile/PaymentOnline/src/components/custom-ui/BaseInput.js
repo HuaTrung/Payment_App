@@ -8,7 +8,7 @@ export default class BaseInput extends Component {
 
   constructor(props) {
     super(props);
-    
+
     // Setting some custom function
     this._onLayout = this._onLayout.bind(this);
     this._onChange = this._onChange.bind(this);
@@ -17,15 +17,20 @@ export default class BaseInput extends Component {
     this.focus = this.focus.bind(this);
 
     const value = props.value || props.defaultValue;
-
+    
     this.state = {
       value,
       focusedAnim: new Animated.Value(value ? 1 : 0),
     };
+
+  
+
   }
 
   componentWillReceiveProps(newProps) {
+    
     const newValue = newProps.value;
+  //  console.log(newValue);
     if (newProps.hasOwnProperty('value') && newValue !== this.state.value) {
       this.setState({
         value: newValue,
@@ -72,6 +77,9 @@ export default class BaseInput extends Component {
   }
 
   _onFocus(event) {
+
+   // alert("Focus");
+
     this._toggle(true);
 
     const onFocus = this.props.onFocus;
@@ -81,6 +89,12 @@ export default class BaseInput extends Component {
   }
 
   _toggle(isActive) {
+    
+    // if(isActive){
+    //   alert("toggle true");
+    // }else {
+    //   alert("toggle false");
+    // }
     const { animationDuration, easing, useNativeDriver } = this.props;
     this.isActive = isActive;
     Animated.timing(this.state.focusedAnim, {
