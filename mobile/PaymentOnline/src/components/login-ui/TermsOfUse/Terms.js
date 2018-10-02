@@ -3,21 +3,14 @@ import { View, Button } from 'react-native';
 
 class Terms extends Component {
 
-    static navigationOptions = {
-        title: 'Terms of use',
-        headerRight: (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
-            />
-        )
+    static navigationOptions = ({ navigation, navigationOptions }) => {
+        return{
+            headerStyle: {},
+            headerTitle: 'Terms of use'
+        };
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {  };
-    }
+    
     render() {
         return (
             <View style = {{ flex: 1 }}>

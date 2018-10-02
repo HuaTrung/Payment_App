@@ -6,23 +6,20 @@ const bannerImage = require('../../../assets/companybanner.jpg');
 const comapnyLogo = require('../../../assets/companylogo.png');
 
 const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-companyBannerHeight = (height / 4);
 companyIconWidth = (width * 52) / 100;
 export default class CompanyBanner extends Component {
-  constructor() {
-    super();
-  
-  }
 
   render() {
+    
+    const { companyBannerHeight } = this.props;
+
     return (
-      <View>
+      <View style = {{ flex: 1 }}>
         <ImageBackground
           source={bannerImage}
-          style={styles.background}
+          style={[styles.background, {height: companyBannerHeight } ]}
         >
-          <Image source={comapnyLogo} resizeMode="contain" style={styles.icon} />
+          <Image source={comapnyLogo} resizeMode="contain" style={[styles.icon , { height: companyBannerHeight }]} />
         </ImageBackground>
       </View>
     );
@@ -31,9 +28,9 @@ export default class CompanyBanner extends Component {
 
 const styles = StyleSheet.create({
   background: {
-    width, height: companyBannerHeight, alignItems: 'center', justifyContent: 'center',
+    width, alignItems: 'center', justifyContent: 'center',
   },
   icon: {
-    position: 'absolute', width: companyIconWidth //, tintColor: mainThemeColor,
+    position: 'absolute',  width: companyIconWidth 
   },
 });

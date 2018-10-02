@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, TextInput, Text} from 'react-native';
+import { StyleSheet, View, YellowBox} from 'react-native';
+
+import {HomeStackNavigator}  from './src/navigation-config/HomeStack';
 
 
-import RootLogin from './src/components/login-ui/RootNavigation/RootLogin';
-import CompanyBanner from './src/components/login-ui/Banner/CompanyBanner';
-
-
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 export default class App extends Component {
+
+
   render() {
     return (
-      <View style={{ flex: 1 /*, backgroundColor: appMainColor */}}>
-        <CompanyBanner />
-        <RootLogin />
+      <View style={{ flex: 1 }}>
+        <HomeStackNavigator/>
       </View>
     );
   }
@@ -22,9 +22,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 0,
     backgroundColor: 'white',
-  },
-  content: {
-    // not cool but good enough to make all inputs visible when keyboard is active
-    paddingBottom: 300,
   }
 });
