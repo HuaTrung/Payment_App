@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Animated, Text, View, ViewPropTypes } from 'react-native';
@@ -8,6 +8,8 @@ export default class BaseInput extends Component {
 
   constructor(props) {
     super(props);
+    
+
 
     // Setting some custom function
     this._onLayout = this._onLayout.bind(this);
@@ -22,15 +24,11 @@ export default class BaseInput extends Component {
       value,
       focusedAnim: new Animated.Value(value ? 1 : 0),
     };
-
-  
-
   }
 
   componentWillReceiveProps(newProps) {
     
     const newValue = newProps.value;
-  //  console.log(newValue);
     if (newProps.hasOwnProperty('value') && newValue !== this.state.value) {
       this.setState({
         value: newValue,
@@ -90,18 +88,13 @@ export default class BaseInput extends Component {
 
   _toggle(isActive) {
     
-    // if(isActive){
-    //   alert("toggle true");
-    // }else {
-    //   alert("toggle false");
-    // }
+
     const { animationDuration, easing, useNativeDriver } = this.props;
     this.isActive = isActive;
     Animated.timing(this.state.focusedAnim, {
       toValue: isActive ? 1 : 0,
       duration: animationDuration,
-      easing,
-      useNativeDriver,
+      easing
     }).start();
   }
 
@@ -139,9 +132,9 @@ BaseInput.propTypes = {
   labelStyle: Text.propTypes.style,
   easing: PropTypes.func,
   animationDuration: PropTypes.number,
-  useNativeDriver: PropTypes.bool,
 
   editable: PropTypes.bool,
+
 
   /* those are TextInput props which are overridden
    * so, i'm calling them manually
@@ -150,3 +143,4 @@ BaseInput.propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func
 }
+
