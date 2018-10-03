@@ -6,7 +6,8 @@ import {
   TouchableWithoutFeedback,
   View,
   StyleSheet,
-  Text
+  Text,
+  Button
 } from 'react-native';
 
 import BaseInput from '../BaseInput';
@@ -81,25 +82,25 @@ export default class LoginInput extends BaseInput {
               </Animated.Text>
             </Animated.View>
           </TouchableWithoutFeedback>
-          <TextInput
-            ref="input"
-            {...this.props}
-            style={[
-              styles.textInput,
-              inputStyle,
-              {
-                width,
-                height: inputHeight /1.5,
-                paddingTop: PADDING / 4
-              },
-            ]}
-            value={value}
-            secureTextEntry = {securePassword}
-            onBlur={this._onBlur}
-            onChange={this._onChange}
-            onFocus={this._onFocus}
-            underlineColorAndroid="rgba(0,0,0,0)"
-          />
+            <TextInput
+              ref="input"
+              {...this.props}
+              style={[
+                styles.textInput,
+                inputStyle,
+                {
+                  width,
+                  height: inputHeight /1.5,
+                  paddingTop: PADDING / 4
+                },
+              ]}
+              value={value}
+              secureTextEntry = {securePassword}
+              onBlur={this._onBlur}
+              onChange={this._onChange}
+              onFocus={this._onFocus}
+              underlineColorAndroid="rgba(0,0,0,0)"
+            />
 
           {/* bottom border */}
           <View
@@ -127,6 +128,8 @@ export default class LoginInput extends BaseInput {
     );
   }
 }
+
+
 
 LoginInput.propTypes = {
   height: PropTypes.number,

@@ -7,8 +7,8 @@ const height = Dimensions.get('window').height;
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-import LoginInput from '../../custom-ui/login-input/LoginInput';
-
+import LoginInput from '../custom-ui/login-input/LoginInput';
+import PhoneAuthen from '../custom-ui/login-input/PhoneAuthen';
 class SignIn extends Component {
 
   
@@ -36,8 +36,6 @@ class SignIn extends Component {
 
                 {/* Email */}
                 <LoginInput   label = {'Email / Phone'} errorMessage = { email_valid ? null : "Email in correct" }/>
-
-
 
                 {/* Password */}
                 <LoginInput  label = {'Password'} />

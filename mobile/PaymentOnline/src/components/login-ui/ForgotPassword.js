@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';    
-import LoginInput from '../../custom-ui/login-input/LoginInput';
+import LoginInput from '../custom-ui/login-input/LoginInput';
 import {  Button } from 'native-base';
 const height = Dimensions.get('window').height;
 class ForgotPassword extends Component {
 
     static navigationOptions = ({ navigation, navigationOptions }) => {
         return{
-            headerStyle: {},
-            headerTitle: 'Forgot password'
+          headerStyle: {
+            backgroundColor:'#42A5F5DC',
+            height: 40
+          },
+          headerTintColor: 'white',
+          headerTitle: 'Forgot password'
         };
     };
 

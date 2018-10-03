@@ -5,8 +5,12 @@ class Terms extends Component {
 
     static navigationOptions = ({ navigation, navigationOptions }) => {
         return{
-            headerStyle: {},
-            headerTitle: 'Terms of use'
+            headerStyle: {
+                backgroundColor:'#42A5F5DC',
+                height: 40
+            },
+            headerTitle: 'Terms of use',
+            headerTintColor: 'white'
         };
     };
 

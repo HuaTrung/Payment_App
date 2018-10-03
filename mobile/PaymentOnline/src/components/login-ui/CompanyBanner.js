@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { ImageBackground, Image, StyleSheet, Dimensions,View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const bannerImage = require('../../../assets/companybanner.jpg');
-const comapnyLogo = require('../../../assets/companylogo.png');
+const bannerImage = require('../../assets/companybanner.jpg');
+const comapnyLogo = require('../../assets/companylogo.png');
 
 const width = Dimensions.get('window').width;
 companyIconWidth = (width * 52) / 100;
