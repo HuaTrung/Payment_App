@@ -1,10 +1,12 @@
 import  { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import React from 'react';
-import TermsScreen from '../components/login-ui/TermsOfUse/Terms';
 import { Dimensions } from 'react-native';
-import CompanyBanner from '../components/login-ui/Banner/CompanyBanner';
-import SignInScreen from '../components/login-ui/RootNavigation/SignIn';
-import SignUpScreen from '../components/login-ui/RootNavigation/SignUp';
+
+import TermsScreen from '../components/login-ui/Login/TermsOfUse';
+import CompanyBanner from '../components/login-ui/Login/CompanyBanner';
+import SignInScreen from '../components/login-ui/Login/SignIn';
+import SignUpScreen from '../components/login-ui/Login/SignUp';
+import ForgotPasswordScreen from '../components/login-ui/Login/ForgotPassword';
 
 const  {height } = Dimensions.get('window');
 Height = (height / 5);
@@ -33,7 +35,8 @@ const TabLoginNavigator = createMaterialTopTabNavigator(
 const HomeStackNavigator = createStackNavigator(
   {
     LoginScreen:TabLoginNavigator,
-    TermStack:TermsScreen 
+    TermStack:TermsScreen ,
+    ForgotPassStack: ForgotPasswordScreen
   },
   {    
     initialRouteName:'LoginScreen',

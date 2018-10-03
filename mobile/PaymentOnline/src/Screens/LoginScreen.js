@@ -3,7 +3,6 @@ import { StyleSheet, View} from 'react-native';
 
 
 import { TabLoginNavigator } from '../navigation-config/HomeStack';
-import CompanyBanner from '../components/login-ui/Banner/CompanyBanner';
 
 
 export default class LoginScreen extends Component {
