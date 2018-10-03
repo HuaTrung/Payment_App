@@ -14,8 +14,6 @@ class SignUp extends Component {
         title: 'Sign Up'
     };
 
-
-  
     render() {
       return (
         <View style = {{ flex: 1, marginHorizontal: 15}} >
