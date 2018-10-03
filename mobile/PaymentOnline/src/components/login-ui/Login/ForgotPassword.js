@@ -22,8 +22,7 @@ class ForgotPassword extends Component {
             <Button block style = {{ backgroundColor: '#ff1a1a' }}>
               <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Get the password</Text>
             </Button>
-            <View style={{ height:height/32}} />
-            <View style={{ height:3}} />
+            <View style={{ height:height/54}} />
           </View>
           <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
             <Text style = {{ fontSize: 15}}>Please provide email address to get the password</Text>

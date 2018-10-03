@@ -7,6 +7,7 @@ const comapnyLogo = require('../../../assets/companylogo.png');
 
 const width = Dimensions.get('window').width;
 companyIconWidth = (width * 52) / 100;
+
 export default class CompanyBanner extends Component {
 
   render() {
@@ -19,6 +20,7 @@ export default class CompanyBanner extends Component {
           source={bannerImage}
           style={[styles.background, {height: companyBannerHeight } ]}
         >
+        <LinearGradient colors={["#42A5F5DC","#42A5F5DC"]}  style={[styles.background, {height: companyBannerHeight } ]} />
           <Image source={comapnyLogo} resizeMode="contain" style={[styles.icon , { height: companyBannerHeight }]} />
         </ImageBackground>
       </View>

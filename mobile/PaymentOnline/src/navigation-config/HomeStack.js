@@ -9,7 +9,7 @@ import SignUpScreen from '../components/login-ui/Login/SignUp';
 import ForgotPasswordScreen from '../components/login-ui/Login/ForgotPassword';
 
 const  {height } = Dimensions.get('window');
-Height = (height / 5);
+Height = (height / 4);
 
 
 const TabLoginNavigator = createMaterialTopTabNavigator(
@@ -23,9 +23,11 @@ const TabLoginNavigator = createMaterialTopTabNavigator(
       labelStyle: {
         fontSize:13,
         color: 'black',
+        margin: 0
       },
       style: {
-        backgroundColor: '#eaeae1'
+        backgroundColor: '#eaeae1',
+        height: 35
       }
     },     
     
