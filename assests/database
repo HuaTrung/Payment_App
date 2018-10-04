@@ -1,1 +1,30 @@
+Server
+  User_App:{
+      id
+      status: [block, unactive, active];
+      ...
+      }
+  Agent_App:{
+      status: [block, active];
+      
+      }
+  Transaction:{
+      id_user: string,
+      id_target: string,
+      type: [0,1,2],
+      money: binocimal,
+      description: string,
+      isDiscount: boolean,
+      date: date
+      }
+  NOTE: 0 - User to user, 1 - User to agent, 2- Agent refund to user.
+  Promotion{
+      
+  }
+  Admin:{
+    
+  }
+}
 
+
+App
