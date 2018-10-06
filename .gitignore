@@ -7,3 +7,4 @@
 server/lerna-repo/packages/admin-module/node_modules
 server/lerna-repo/packages/client-project/node_modules
 server/lerna-repo/packages/server-module/node_modules
+server/lerna-repo/packages/user-client-module/node_modules

@@ -17,7 +17,6 @@ import BaseInput from '../BaseInput';
 
 export default class LoginInput extends BaseInput {
 
-
   render() {
     const {
       label,
@@ -35,8 +34,6 @@ export default class LoginInput extends BaseInput {
     } = this.props;
     const { width, focusedAnim, value } = this.state;
 
-
-
     return (
       <View>
                 
@@ -46,7 +43,6 @@ export default class LoginInput extends BaseInput {
             containerStyle,
             {
               height: inputHeight,
-         //     backgroundColor: 'red'
             }
           ]}
           onLayout={this._onLayout}
@@ -83,6 +79,7 @@ export default class LoginInput extends BaseInput {
             </Animated.View>
           </TouchableWithoutFeedback>
             <TextInput
+              selectionColor = "#4d94ff"
               ref="input"
               {...this.props}
               style={[
@@ -115,14 +112,17 @@ export default class LoginInput extends BaseInput {
             }}
           />
         </View>
-        {errorMessage && (
-        <View style = {{ height: 10 }}>
-          <Text style={[styles.error, errorStyle]}>
-            {errorMessage}
-          </Text>
-        </View>
-        
-        )}
+        {
+          {/* Error message */}
+          errorMessage && 
+          (
+            <View style = {{ height: 10 }}>
+              <Text style={[styles.error, errorStyle]}>
+                {errorMessage}
+              </Text>
+            </View>
+          )
+        }
         
       </View>
     );

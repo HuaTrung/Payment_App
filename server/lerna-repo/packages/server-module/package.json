@@ -20,10 +20,12 @@
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
     "mongoose": "^5.2.14",
+    "nexmo": "^2.4.0",
     "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "promise-retry": "^1.1.1",
+    "user-client-module": "^1.0.0",
     "validator": "^10.7.1"
   }
 }

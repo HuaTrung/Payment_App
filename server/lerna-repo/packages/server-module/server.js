@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const compression = require('compression');
-
+const nexmo = require('nexmo');
  // LOCAL IMPORT
  const config = require('./config/config');
  const mongoURL = require('./config/database.config').mongoURL;
@@ -25,6 +25,8 @@ mongoose
 .connect(mongoURL,  { useNewUrlParser: true })
 .then( () => console.log('MongoDB connected successfully') )
 .catch( err => console.log(err) );
+
+
 
 
 // Init express
