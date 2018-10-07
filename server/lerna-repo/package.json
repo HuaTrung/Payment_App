@@ -2,6 +2,9 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.2.1"
+    "lerna": "^3.4.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
   }
 }
