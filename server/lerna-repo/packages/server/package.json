@@ -9,8 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "admin_module": "1.0.0",
     "the_root": "1.0.0",
-    "admin_module":"1.0.0",
-    "transaction_module":"1.0.0"
+    "transaction_module": "1.0.0",
+    "user-client-module": "^1.0.0"
   }
 }
