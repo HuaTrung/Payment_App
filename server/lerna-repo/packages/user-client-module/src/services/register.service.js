@@ -16,102 +16,91 @@ function checkEmailExist(email) {
   return User.findOne({email}).exec();
 }
 
-// function sendToken(user,callback) {
-//   authy.request_sms(user.request_id,true, (err,response) => {
-//     console.log(response); 
-//     // send token success
-//     // store id and in async storage at app
-//   //  if(response.success) {
-//      // callback('DATA_ID',user.id);
-//     //} else {
-//     //  callback('ERROR_SEND_TOKEN');
-//     //}
-//   })
-// }
+function cancelVerificationRequest(data, callback){
+  nexmo.verify.control({request_id:data.requestId, cmd: 'cancel'}, function(err, result) {
+    if(err) { 
+      callback('CANCEL_VERIFICATION',err);
+    }
+    else {      
+      console.log(result);
+      if(result.status == '0') {
+//        data.request_Id = null;
+      } else {
+        callback('CANCEL_ERROR',{requestId: result.request_Id});
+      }
+    }
+  });
+}
 
-// const verifyAuthyToken = (otp, user,res) => {
-//   authy.verify(user.request_id, otp, function(err,response) {
-//     console.log(response);
-//     if(response.success == 'true') {
-//       user.verified = true;
-//       user.save().then( doc => {
-//         // register success
-//         // auto login 
-//         // create jwt and store at async storage
-//         res.status(200).json(doc);
-//       });
-//     }
-//   });
-// }
+function verifyToken(otp, user,callback){
 
-// function createNewUser(response,newUser,callback) {
-//   if (response.user) {
-//     newUser.request_id = response.user.id;
-//     newUser.save().then( doc => sendToken(doc,callback));
-//   }
-// };
-  
-// function sendAuthyToken(newUser,callback){
-//   if (!newUser.request_id) { // Register this user if it's a new user
-//     console.log('authy register_user: ', newUser);
-//     authy.register_user(
-//       newUser.email, 
-//       newUser.phone,
-//       newUser.countryCode, (err,response) => createNewUser(response, newUser,callback))
-//     }
-//   else  // Otherwise send token to a known user
-//     sendToken(newUser.request_id,callback);
-// }
-
-function sendNexmoToken(number, callback) {
-  nexmo.verify.request({number, brand: 'Online payment'}, (err, result) => {
+  nexmo.verify.check({request_id: user.requestId, code: otp}, (err, result) => {
     if(err) {
       callback('SERVER_ERROR');
     } else {
       console.log(result);
-      let newUser = new User({
-        email: data.email,
-        username: data.username,
-        phone: data.phone,
-        countryCode:'+84',
-        password: data.password,
-        request_id: result.request_id
-      });
-      newUser
-        .save()
-        .then( user => {
-          if(result.status == '0') 
-            callback('DATA_ID',user.id);
-          callback('STATUS_ERROR', {message: result.error_text, requestId: requestId});
-        });
+      if(result && result.status == '0') {
+        user.verified = true;
+        user
+          .save()
+          .then( doc => callback('REGISTER_SUCCESS',doc))
+          .catch(err => callback('MONGO_DB_ERROR',err));
+      } else {
+        callback('NEXMO_SERVER_ERROR',{message: result.error_text, requestId: result.request_Id});
+      }
     }
-});
+  });
 }
 
-const registerUser = (phone,callback) => {
+function sendToken(data,callback) {
+  console.log('resend');
+  nexmo.verify.request({number:data.phone, brand: 'Online payment',country:data.countryCode}, (err, result) => {
+    if(err) {
+      callback('SERVER_ERROR');
+    } else { 
+      if(result.status == '0') { // success
+        data.requestId = result.request_id;
+        if(data.verified) data.verified = false;
+        data
+          .save()
+          .then( user => callback('MONGO_DATA_ID',user.id))
+          .catch(err => callback('MONGO_DB_ERROR',err));
+      } else 
+        callback('NEXMO_STATUS_ERROR', {message: result.error_text, requestId: result.request_id});         
+    }
+  });
+}
+ 
+async function beforeSendNexmoToken(data, callback) {
+  if(!data.requestId) {
+    sendToken(data,callback);
+  } else {  // send again
+    await cancelVerificationRequest(data.requestId,callback);
+    data.requestId = null;
+    sendToken(data,callback);
+  }
+}
 
-  sendNexmoToken(phone,callback);
+function registerUser(data,country,callback) {
 
-  // let newUser = new User({
-  //   email: data.email,
-  //   username: data.username,
-  //   phone: data.phone,
-  //   countryCode:'+84',
-  //   password: data.password
-  // });
+  let newUser = new User({
+    email: data.email,
+    username: data.username,
+    phone: data.phone,
+    countryCode:country,
+    password: data.password
+  });
+  newUser
+    .save()
+    .then( user => beforeSendNexmoToken(user,callback))
+    .catch(err => callback('MONGO_DB_ERROR',err));
 
-  // newUser
-  //   .save()
-  //   .then( doc => sendAuthyToken(doc,callback));
-
-  // newUser
-  //   .save()
-  //   .then( doc => sendAuthyToken(doc,callback));
 }
 
 module.exports = {
   checkUserNameExist,
   checkEmailExist,
   registerUser,
-  verifyAuthyToken
+  verifyToken,
+  beforeSendNexmoToken
 }

@@ -6,6 +6,20 @@ const errorNames = require('../validations/errors-name');
 
 const config = require('the_root/config');
 
+
+function logError(info, data,errors,res) {
+  console.log('info: '+ info +' - data: ' + JSON.stringify(data));
+  switch (info) {
+    case 'MONGO_DATA_ID':
+      api = { 
+        status: 0,
+        errors,
+        user_id: data
+      };
+      return res.status(400).json(api); 
+  }
+}
+
 /**
  * @description: register client user by:
  * 1: Check information client send is correctly or not (logic)
@@ -51,31 +65,13 @@ module.exports =  (req,res) => {
   }).then( result => {
     if(!result[1] && !result[2]) {
       console.log('register user');
-      registerService.registerUser(req.body, function callback(info, data){
-        switch (info) {
-          case 'ERROR_SEND_TOKEN':
-            errors.token = errorNames.TOKEN_ERROR;
-            api = { 
-              status: 1,
-              errors: errors,
-              user_id: null
-            };
-            return res.status(400).json(api);          
-          case 'SEND_TOKEN_SUCCESS':
-            api = { 
-              status: 0,
-              errors: errors,
-              user_id: data
-            };
-          return res.status(400).json(api); 
-        }
-      });
+      registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,errors,res));
     } else {
       if(result[2]) errors.username = errorNames.USERNAME_EXIST;
       if(result[1])	errors.email = errorNames.EMAIL_EXIST;
       api = {
         status: 1,
-        errors: errors,
+        errors,
         user_id: null
       }
       return res.status(400).json(api);  

@@ -21,6 +21,10 @@ router.post('/verify-register-confirm', (req,res) => {
   verifyRegisterController.confirmVerifyCodeController(req, res)
 });
 
+router.post('/resend-verify', (req,res) => {
+  verifyRegisterController.resendVerificationRequest(req,res);
+});
+
 
 // Config express route in ver 4.x
 module.exports = router;
