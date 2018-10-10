@@ -6,17 +6,23 @@ const errorNames = require('../validations/errors-name');
 
 const config = require('the_root/config');
 
+const api = {
+  status: 1,
+  errors: null,
+  user_id: null
+};
 
-function logError(info, data,errors,res) {
+
+function logError(info, data,res,errors) {
   console.log('info: '+ info +' - data: ' + JSON.stringify(data));
   switch (info) {
-    case 'MONGO_DATA_ID':
-      api = { 
-        status: 0,
-        errors,
-        user_id: data
-      };
-      return res.status(400).json(api); 
+    case 'MONGO_DATA_ID': 
+    {
+      api.status = 0;
+      api.errors = errors;
+      api.user_id= data;
+      return res.status(200).json(api); 
+    }
   }
 }
 
@@ -37,11 +43,6 @@ module.exports =  (req,res) => {
   // api response to app
   // status: 0 -> success
   // status: 1 -> found error
-  let api = {
-    status: 0,
-    errors: null,
-    user_id: null
-  };
 
 	// get all errors when user submit regiser:
 	// console.log(req.body);
@@ -49,11 +50,7 @@ module.exports =  (req,res) => {
   // can continue to b2?
   // 400 mean you can get the error
 	if(!isValid) {
-    api = { 
-      status: 1,
-      errors: errors,
-      user_id: null
-    };
+    api.errors = errors;
     return res.status(400).json(api); 
   }
 
@@ -65,15 +62,11 @@ module.exports =  (req,res) => {
   }).then( result => {
     if(!result[1] && !result[2]) {
       console.log('register user');
-      registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,errors,res));
+      registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,res,errors));
     } else {
       if(result[2]) errors.username = errorNames.USERNAME_EXIST;
       if(result[1])	errors.email = errorNames.EMAIL_EXIST;
-      api = {
-        status: 1,
-        errors,
-        user_id: null
-      }
+      api.errors = errors;
       return res.status(400).json(api);  
     }
   })
