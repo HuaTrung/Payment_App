@@ -113,7 +113,6 @@ export default class LoginInput extends BaseInput {
           />
         </View>
         {
-          {/* Error message */}
           errorMessage && 
           (
             <View style = {{ height: 10 }}>

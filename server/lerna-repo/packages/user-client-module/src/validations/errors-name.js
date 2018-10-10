@@ -18,6 +18,8 @@ const VERIFY_PHONE_EMPTY = 'verify code is required';
 const USERNAME_EXIST = 'username existed';
 const EMAIL_EXIST = 'email existed';
 
+const TOKEN_ERROR = 'send code error'
+
 module.exports = {
     EMAIL_EMPTY,
     EMAIL_INVALID,
@@ -37,6 +39,8 @@ module.exports = {
     PHONE_EMPTY,
 
     USERNAME_EXIST,
-    EMAIL_EXIST
+    EMAIL_EXIST,
+
+    TOKEN_ERROR
     
 };

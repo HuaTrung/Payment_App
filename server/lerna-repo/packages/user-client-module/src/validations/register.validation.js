@@ -33,11 +33,6 @@ function ValidateRegister(data) {
     else if(!Validator.isMobilePhone(data.phone)) 
         errors.phone = errorsName.PHONE_INVALID;   
     
-    
-   // if(isEmpty(data.verifyPhone)) 
-   //     errors.verifyPhone = errorsName.VERIFY_PHONE_EMPTY;
-    
-
     if(isEmpty(data.password)) 
         errors.password = errorsName.PASSWORD_EMPTY;
     else { // regex password

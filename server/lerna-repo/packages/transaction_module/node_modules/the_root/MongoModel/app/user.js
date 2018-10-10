@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  authyId: {
+  requestId: {
     type: String
   },
   password:  {
