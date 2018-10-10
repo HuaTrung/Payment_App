@@ -1,0 +1,1 @@
+{"ast":null,"code":"var isEmpty = function isEmpty(value) {\n  return value === undefined || value === null || typeof value === 'object' && Object.keys(value).length === 0 || typeof value === 'string' && value.trim().length === 0;\n};\n\nmodule.exports = isEmpty;","map":null,"metadata":{},"sourceType":"script"}

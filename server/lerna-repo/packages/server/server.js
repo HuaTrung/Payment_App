@@ -11,8 +11,7 @@ const cors = require('the_root/node_modules/cors');
 const compression = require('the_root/node_modules/compression');
 
  // LOCAL IMPORT
- const config = require('./config/config');
- const mongoURL = require('./config/database.config').mongoURL;
+ const config = require('the_root/config');
  const routes = require("./app");
 
 
@@ -22,7 +21,7 @@ const compression = require('the_root/node_modules/compression');
 
  // Database config
 mongoose
-.connect(mongoURL,  { useNewUrlParser: true })
+.connect(config.mongoURL,  { useNewUrlParser: true })
 .then( () => console.log('MongoDB connected successfully') )
 .catch( err => console.log(err) );
 
@@ -61,4 +60,4 @@ app.use(bodyParser.json());
 routes(app);
 
 
-app.listen(config.PORT , ()=> console.log('Server running on port: ' + config.PORT ));
+app.listen(config.port , ()=> console.log('Server running on port: ' + config.port ));
