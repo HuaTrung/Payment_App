@@ -30,6 +30,48 @@ export default {
     },
     {
       title: true,
+      name: 'Management Request URL',
+      wrapper: {
+        element: '',
+        attributes: {},
+      },
+    },
+    {
+      name: 'Transaction',
+      url: '/transaction',
+      icon: 'icon-puzzle',
+      children: [
+        {
+          name: 'User To User',
+          url: '/transaction/usertouser',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'User To Agent',
+          url: '/transaction/usertoagent',
+          icon: 'icon-puzzle',
+        },
+      ],
+    },
+    {
+      name: 'Login and Logout',
+      url: '/loginandlogout',
+      icon: 'icon-puzzle',
+      // children: [
+      //   {
+      //     name: 'User To User',
+      //     url: '/base/breadcrumbs',
+      //     icon: 'icon-puzzle',
+      //   },
+      //   {
+      //     name: 'User To Agent',
+      //     url: '/base/cards',
+      //     icon: 'icon-puzzle',
+      //   },
+      // ],
+    },
+    {
+      title: true,
       name: 'Components',
       wrapper: {
         element: '',

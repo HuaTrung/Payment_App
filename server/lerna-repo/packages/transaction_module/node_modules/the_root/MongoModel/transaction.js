@@ -5,7 +5,8 @@ const TransactionSchema = new mongoose.Schema({
         Target: String,
         Money: String,
         Description: String,
-        DateGet: String
+        DateGet: String,
+        UrlFull: String
 	});
 	
 const Transaction =  mongoose.model('transaction',TransactionSchema);

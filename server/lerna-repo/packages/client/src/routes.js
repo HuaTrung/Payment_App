@@ -182,10 +182,19 @@ const User = Loadable({
   loading: Loading,
 });
 
+const UserToUser = Loadable({
+  loader: () => import('./views/Request_URL/User_To_User'),
+  loading: Loading,
+});
 
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
+  { path: '/transaction', exact: true, name: 'Transaction', component: Colors },
+  { path: '/transaction/usertouser', name: 'User To User', component: UserToUser },
+  { path: '/transaction/usertoagent', name: 'User To Agent', component: Typography },
+
+
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
