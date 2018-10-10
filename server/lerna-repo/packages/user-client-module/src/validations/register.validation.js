@@ -30,7 +30,7 @@ function ValidateRegister(data) {
 
     if(isEmpty(data.phone)) 
         errors.phone = errorsName.PHONE_EMPTY;
-    else if(!Validator.isMobilePhone(data.phone)) 
+    else if(!(/^\d+$/.test(data.phone))) 
         errors.phone = errorsName.PHONE_INVALID;   
     
     if(isEmpty(data.password)) 

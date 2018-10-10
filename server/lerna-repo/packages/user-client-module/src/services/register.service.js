@@ -8,8 +8,8 @@ const nexmo = new Nexmo({
   apiSecret: config.nexmoSecret
 });
 
-function checkUserNameExist(username) {
-  return User.findOne({username}).exec();
+function checkPhoneExist(phone) {
+  return User.findOne({phone}).exec();
 }
 
 function checkEmailExist(email) {
@@ -98,7 +98,7 @@ function registerUser(data,country,callback) {
 }
 
 module.exports = {
-  checkUserNameExist,
+  checkPhoneExist,
   checkEmailExist,
   registerUser,
   verifyToken,

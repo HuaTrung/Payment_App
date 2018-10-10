@@ -46,7 +46,7 @@ module.exports =  (req,res) => {
 
 	// get all errors when user submit regiser:
 	// console.log(req.body);
-	let { errors, isValid } = registerValidate(req.body);
+	const { errors, isValid } = registerValidate(req.body);
   // can continue to b2?
   // 400 mean you can get the error
 	if(!isValid) {
@@ -54,18 +54,19 @@ module.exports =  (req,res) => {
     return res.status(400).json(api); 
   }
 
-	let { username, email } = req.body;
+	let { phone, email } = req.body;
   //	console.log(req.body);
 	// Check user name / email is used or not by access database
   registerService.checkEmailExist(email).then( u1 => {
-    return registerService.checkUserNameExist(username).then( u2 => [u1,u2] );
+    
+    return registerService.checkPhoneExist(phone).then( u2 => [u1,u2] );
   }).then( result => {
-    if(!result[1] && !result[2]) {
+    if(!result[0] && !result[1]) {
       console.log('register user');
       registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,res,errors));
-    } else {
-      if(result[2]) errors.username = errorNames.USERNAME_EXIST;
-      if(result[1])	errors.email = errorNames.EMAIL_EXIST;
+    } else if(result[0] || result[1]){
+      if(result[1]) errors.phone = errorNames.PHONE_EXIST;
+      if(result[0])	errors.email = errorNames.EMAIL_EXIST;
       api.errors = errors;
       return res.status(400).json(api);  
     }
