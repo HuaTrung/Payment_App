@@ -46,7 +46,7 @@ module.exports =  (req,res) => {
 
 	// get all errors when user submit regiser:
 	// console.log(req.body);
-	const { errors, isValid } = registerValidate(req.body);
+	let { errors, isValid } = registerValidate(req.body);
   // can continue to b2?
   // 400 mean you can get the error
 	if(!isValid) {

@@ -1,0 +1,5 @@
+const GET_LOGIN_ERRORS = 'GET_LOGIN_ERRORS';
+
+export { 
+  GET_LOGIN_ERRORS
+};

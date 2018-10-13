@@ -5,6 +5,9 @@ import {HomeStackNavigator}  from './src/navigation-config/HomeStack';
 import Splash from './src/components/splash-ui/Splash';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
+
+import { Provider } from  "react-redux";
+import store from './src/redux/store';
 export default class App extends Component {
 
 
@@ -20,14 +23,17 @@ export default class App extends Component {
   render() {
     const { splashScreen } = this.state;
     let mainScreen = splashScreen ? <Splash /> : <HomeStackNavigator />;
-    return mainScreen;
+
+    return (
+      <Provider store = { store } >
+        { mainScreen }
+      </Provider>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 0,
-    backgroundColor: 'white',
+    flex: 1
   }
 });
