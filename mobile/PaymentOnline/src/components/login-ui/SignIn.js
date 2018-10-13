@@ -9,6 +9,9 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import LoginInput from '../custom-ui/login-input/LoginInput';
 import PhoneAuthen from '../custom-ui/login-input/PhoneAuthen';
+
+import { connect } from 'react-redux';
+import { loginUser }  from '../../redux/actions/login.action';
 class SignIn extends Component {
 
   
@@ -18,14 +21,40 @@ class SignIn extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { email_valid: true };
+        this.state = { 
+          email_valid: true ,
+          emailPhone: '',
+          password: ''
+        };
         this.test = this.test.bind(this);
+        // this.changeEmailPhone = this.changeEmailPhone.bind(this);
+        // this.changePassword = this.changePassword.bind(this);
     }
 
+    handleLogin(e) {
+      const data = {
+        emailPhone: this.state.emailPhone,
+        password: this.state.password
+      };
+      console.log(data);
+//      this.props.loginUser(data);
+    }
+
+    // changeEmailPhone(e) {
+    //   console.log(e);
+    //   this.setState({
+    //     emailPhone : e
+    //  })
+    // }
+
+    // changePassword(e) {
+    //   this.setState({
+    //     password : e.target.value
+    //  })
+    // }
+
     test(e){
-        this.setState({
-            email_valid:!this.state.email_valid
-        })
+      
     }
 
     render() {
@@ -35,16 +64,16 @@ class SignIn extends Component {
                 <View style={{ height:20}} />
 
                 {/* Email */}
-                <LoginInput   label = {'Email / Phone'} errorMessage = { email_valid ? null : "Email in correct" }/>
+                <LoginInput onChange = { (text) => this.setState({emailPhone: text })}  label = {'Email / Phone'} errorMessage = { email_valid ? null : "Email in correct" }/>
 
                 {/* Password */}
-                <LoginInput  label = {'Password'} />
+                <LoginInput onChange = { (text) => this.setState({password: text }) }  label = {'Password'} />
                 
 
 
                 {/* Sign in button */}
                 <View style={{ height:height/40}} />
-                <Button block style = {{ backgroundColor: '#ff1a1a' }}>
+                <Button onPress = { this.handleLogin.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
                     <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
                 </Button>
                 <View style={{ height:height/32}} />
@@ -89,4 +118,8 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+const mapStateToProps = state => ({
+  errors: state.erorrsLoginReducer
+});
+
+export default connect(mapStateToProps, { loginUser })(SignIn);

@@ -26,7 +26,7 @@ export default class App extends Component {
 
     return (
       <Provider store = { store } >
-        { mainScreen }
+        <HomeStackNavigator />
       </Provider>
     );
   }
