@@ -5,6 +5,7 @@ const verifyRegisterController = require('../controllers/verify-register.control
 const router = express.Router();
 
 router.post('/login', (req,res) => {  
+  console.log('user start login');
   loginController(req, res)
 });
 

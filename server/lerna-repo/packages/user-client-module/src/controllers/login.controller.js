@@ -2,10 +2,12 @@ const loginValidate = require('../validations/login.validation');
 const loginService = require('../services/login.service');
 const errorNames = require('../validations/errors-name');
 
+const passwordCrypt = require('../utils/password.crypt');
+
 const api = {
   status: 1,
-  errors: null,
-  user: null
+  errors: {},
+  user: {}
 };
 
 function logError(info, data,res,errors) {
@@ -13,56 +15,56 @@ function logError(info, data,res,errors) {
   switch (info) {
     case 'SERVER_DIE':
       api.status = 1;
+      api.user = null;    
       return res.status(400).json(api); 
   }
 }
-
-function login(user,password,errors,res) {
-  console.log(user);
+/**
+ * @description To login we will check:
+ * 
+ */
+function login(user,password,res) {
   if(user) {
     if(user.verified) {
-      if(password == user.password) {
+      if(passwordCrypt.comparePassowrd(password,user.password)) {
         api.status = 0;
+        // console.log(user);
         api.user = user;    
+        api.errors = {};
+        console.log(user._id +' login');
         return res.status(200).json(api);   
       } else {
-        errors.notCorrect  = errorNames.PASSWORD_NOTCORRECT;
-        api.errors = errors;
-        return res.status(200).json(api);   
+        api.status = 1;
+        api.errors.password = errorNames.PASSWORD_NOTCORRECT;
+        api.user = {};
+        return res.status(400).json(api);   
       }      
     } else {
-      errors.verified = errorNames.NOT_VERIFY;
-      api.errors = errors;    
-      return res.status(200).json(api);   
+      api.status = 1;
+      api.errors.verified = errorNames.NOT_VERIFY;
+      api.user = {};    
+      return res.status(400).json(api);   
     }
   } else {
-    errors.emailPhone = errorNames.EMAIL_PHONE_INVALID;
-    api.errors = errors;     
-    return res.status(200).json(api); 
+    api.status = 1;
+    api.errors.emailPhone = errorNames.EMAIL_PHONE_INVALID;
+    api.user = {};     
+    return res.status(400).json(api); 
   }
 }
 
 module.exports = (req,res) => {
   console.log(req.body);
   
-  let { errors, isValid , isEmail} = loginValidate(req.body);
+  for(let key in req.body) req.body[key] = req.body[key].trim();   
 
-  if(!isValid) {
-    api.errors = errors;
-    return res.status(400).json(api); 
-  }
-  console.log(isEmail);
-  if(isEmail == 1) {
+  if(req.body.type == 'email') {
     loginService.checkEmail(req.body.emailPhone).then (user => {
-      login(user,req.body.password,errors,res);
+      login(user,req.body.password,res);
     });   
-  } else if(isEmail == 2) {
+  } else if(req.body.type == 'phone') {
     loginService.checkPhone(req.body.emailPhone).then (user => {
-      login(user,req.body.password,errors,res);
+      login(user,req.body.password,res);
     });      
-  } else {
-    errors.emailPhone = errorNames.EMAIL_PHONE_INVALID;
-    api.errors = errors;     
-    return res.status(200).json(api); 
   }
 }

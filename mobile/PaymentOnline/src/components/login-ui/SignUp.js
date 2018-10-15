@@ -21,8 +21,8 @@ class SignUp extends Component {
           <LoginInput label= {"Name"} />
           {/* <View style={{ height:height/100}} />           */}
           <LoginInput label= {"Email"} />
-          {/* <View style={{ height:height/100}} /> */}
-          <View style = {{  flexDirection: 'row' }}>
+          <LoginInput label= {"Phone number"} />
+          {/* <View style = {{  flexDirection: 'row' }}>
                 <View style = {{ flex: 1 }}>
                     <LoginInput   label = {'Phone number'} />
                 </View>               
@@ -30,13 +30,11 @@ class SignUp extends Component {
                 <TouchableOpacity style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
                     <Text style = {{fontSize: 16, color: 'white'}}>Send</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
           {/* <View style={{ height:height/100}} /> */}
-          <LoginInput label= {"Verify phone number"} />
+          <LoginInput label= {"Password"} securePassword = {true} />
           {/* <View style={{ height:height/100}} /> */}
-          <LoginInput label= {"Password"} />
-          {/* <View style={{ height:height/100}} /> */}
-          <LoginInput label= {"Confirm password"} />
+          <LoginInput label= {"Confirm password"} securePassword = {true} />
           <View style={{ height:height/80}} />
           {/* Sign up button */}
           <Button block style = {{ backgroundColor: '#ff1a1a' }}>

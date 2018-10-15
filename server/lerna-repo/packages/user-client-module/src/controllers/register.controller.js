@@ -51,7 +51,7 @@ module.exports =  (req,res) => {
   // 400 mean you can get the error
 	if(!isValid) {
     api.errors = errors;
-    return res.status(400).json(api); 
+    return res.status(200).json(api); 
   }
 
 	let { phone, email } = req.body;
@@ -68,7 +68,7 @@ module.exports =  (req,res) => {
       if(result[1]) errors.phone = errorNames.PHONE_EXIST;
       if(result[0])	errors.email = errorNames.EMAIL_EXIST;
       api.errors = errors;
-      return res.status(400).json(api);  
+      return res.status(200).json(api);  
     }
   })
 }

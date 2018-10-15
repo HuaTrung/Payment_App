@@ -11,7 +11,10 @@ import LoginInput from '../custom-ui/login-input/LoginInput';
 import PhoneAuthen from '../custom-ui/login-input/PhoneAuthen';
 
 import { connect } from 'react-redux';
-import { loginUser }  from '../../redux/actions/login.action';
+import { loginUser, resetErrorLogin }  from '../../redux/actions/login.action';
+
+import isEmpty from '../../validations/is-empty.validate';
+
 class SignIn extends Component {
 
   
@@ -22,63 +25,81 @@ class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          email_valid: true ,
-          emailPhone: '',
-          password: ''
+          emailPhone: '0932311434',
+          password: '123456789',
+					errors: '',
         };
-        this.test = this.test.bind(this);
-        // this.changeEmailPhone = this.changeEmailPhone.bind(this);
-        // this.changePassword = this.changePassword.bind(this);
     }
 
-    handleLogin(e) {
-      const data = {
-        emailPhone: this.state.emailPhone,
-        password: this.state.password
-      };
-      console.log(data);
-//      this.props.loginUser(data);
+    handleLogin (e) {
+			const data = {
+				emailPhone: this.state.emailPhone,
+				password: this.state.password,
+				type: ''
+			};
+			this.props.loginUser(data);
     }
 
-    // changeEmailPhone(e) {
-    //   console.log(e);
-    //   this.setState({
-    //     emailPhone : e
-    //  })
-    // }
+		onChangeTextEmailPhone(text) {
+			// alert(JSON.stringify(this.props.errors));
+			if(!isEmpty(this.props.errors.emailPhone)) {
+        let errs = this.props.errors;
+        delete errs.emailPhone;
+				this.props.resetErrorLogin(errs);
+			}
+			this.setState({ emailPhone: text }); 
+		}
 
-    // changePassword(e) {
-    //   this.setState({
-    //     password : e.target.value
-    //  })
-    // }
+		onChangeTextPassword(text) {
+			if(!isEmpty(this.props.errors.password)) {
+				let errs = this.props.errors;
+        delete errs.password;
+				this.props.resetErrorLogin(errs);
+			}
+			this.setState({ password: text }); 
+		}
 
-    test(e){
-      
-    }
+    componentWillReceiveProps(nextProps){
+
+        // Navigate to home page
+        if(nextProps.auth.isAuthenticated) {
+            alert(JSON.stringify(nextProps.auth.user));
+        }
+        
+        if(!isEmpty(nextProps.errors)) {
+            this.setState({ errors: nextProps.errors });
+        }
+		}
+		
 
     render() {
-        const { email_valid } = this.state;
+        const { errors } = this.state;
+        
         return (
             <View style = {{ flex: 1, marginHorizontal: 15}} >
                 <View style={{ height:20}} />
 
                 {/* Email */}
-                <LoginInput onChange = { (text) => this.setState({emailPhone: text })}  label = {'Email / Phone'} errorMessage = { email_valid ? null : "Email in correct" }/>
+                <LoginInput 
+                    onChangeText = { (text) => this.onChangeTextEmailPhone(text)}  
+                    label = {'Email / Phone'} 
+                    value = {'0932311434'} // or tienlx97@gmail.com
+                    errorMessage = { errors.emailPhone }/>
 
                 {/* Password */}
-                <LoginInput onChange = { (text) => this.setState({password: text }) }  label = {'Password'} />
+                <LoginInput 
+                    onChangeText = { (text) => this.onChangeTextPassword(text) } 
+                    securePassword = {true} 
+                    label = {'Password'} 
+                    value = {'123456789'}
+                    errorMessage = { errors.password } />
                 
-
-
                 {/* Sign in button */}
                 <View style={{ height:height/40}} />
                 <Button onPress = { this.handleLogin.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
                     <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
                 </Button>
                 <View style={{ height:height/32}} />
-
-
 
                 {/* Forgot password text */}
                 <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPassStack") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
@@ -105,7 +126,7 @@ class SignIn extends Component {
                             style = {{ borderRadius: 5, marginHorizontal: 0 }}
                         /> 
                     </TouchableOpacity>
-                    <TouchableOpacity onPress = { this.test } style = {{ width: width / 2.35 }}>
+                    <TouchableOpacity style = {{ width: width / 2.35 }}>
                         <SocialIcon 
                             button
                             type = 'google-plus-official'
@@ -119,7 +140,13 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.erorrsLoginReducer
+  errors: state.erorrsLoginReducer,
+  auth: state.authLoginReducer
 });
 
-export default connect(mapStateToProps, { loginUser })(SignIn);
+
+
+export default connect(mapStateToProps, {
+	loginUser,
+	resetErrorLogin
+})(SignIn);

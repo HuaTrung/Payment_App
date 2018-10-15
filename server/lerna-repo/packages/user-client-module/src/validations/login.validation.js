@@ -14,16 +14,15 @@ function validateEmail(email) {
 function ValidateLogin(data) {
     
     let errors = {};
-    let isEmail = 0;
+    let isEmail = 0; // 0 => empty
     for(let key in data) data[key] = data[key].trim();        
-    // console.log(data);
   
     if(isEmpty(data.emailPhone)) 
       errors.emailPhone = errorsName.EMAIL_PHONE_EMPTY;
     else {
       if(!validateEmail(data.emailPhone)){
-        if(/^\d+$/.test(data.emailPhone)) isEmail = 2;        
-      } else isEmail = 1;
+        if(/^\d+$/.test(data.emailPhone)) isEmail = 2; // 2 => phone number        
+      } else isEmail = 1;  // 1 => email
     }
     if(isEmpty(data.password)) 
       errors.password = errorsName.PASSWORD_EMPTY;
