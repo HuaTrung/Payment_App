@@ -35,7 +35,7 @@ const loginUser = data => dispatch => {
     dispatch(setErrorLogin(errors));
   } else {    
     data.type = type;
-    axios.post('http://192.168.1.108:5000/app/user/login',data)
+    axios.post('http://192.168.43.80:5000/app/user/login',data)
     .then( response => {
       let data = response.data;
       if(data.status == 0 && data.user != null) {

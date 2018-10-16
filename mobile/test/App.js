@@ -13,20 +13,20 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    // this.state = { splashScreen: true};
+    this.state = { splashScreen: true};
 
-    // setTimeout(()=>{
-    //   this.setState({ splashScreen:false});
-    // },3000);
+    setTimeout(()=>{
+      this.setState({ splashScreen:false});
+    },3000);
   }
 
   render() {
-    // const { splashScreen } = this.state;
-    // let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;
+    const { splashScreen } = this.state;
+    let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;
 
     return (
       <Provider store = { store } >
-        <RootNavigator />
+        <RootNavigator/>
       </Provider>
     );
   }

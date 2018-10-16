@@ -18,59 +18,59 @@ import isEmpty from '../../validations/is-empty.validate';
 class SignIn extends Component {
 
   
-    static navigationOptions = {
-        title: 'Sign In'
+  static navigationOptions = {
+      title: 'Sign In'
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { 
+      emailPhone: '0932311434',
+      password: '123456789',
+      errors: '',
     };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = { 
-          emailPhone: '0932311434',
-          password: '123456789',
-					errors: '',
-        };
+  handleLogin (e) {
+    const data = {
+      emailPhone: this.state.emailPhone,
+      password: this.state.password,
+      type: ''
+    };
+    this.props.loginUser(data);
+  }
+
+  onChangeTextEmailPhone(text) {
+    // alert(JSON.stringify(this.props.errors));
+    if(!isEmpty(this.props.errors.emailPhone)) {
+      let errs = this.props.errors;
+      delete errs.emailPhone;
+      this.props.resetErrorLogin(errs);
     }
+    this.setState({ emailPhone: text }); 
+  }
 
-    handleLogin (e) {
-			const data = {
-				emailPhone: this.state.emailPhone,
-				password: this.state.password,
-				type: ''
-			};
-			this.props.loginUser(data);
+  onChangeTextPassword(text) {
+    if(!isEmpty(this.props.errors.password)) {
+      let errs = this.props.errors;
+      delete errs.password;
+      this.props.resetErrorLogin(errs);
     }
+    this.setState({ password: text }); 
+  }
 
-		onChangeTextEmailPhone(text) {
-			// alert(JSON.stringify(this.props.errors));
-			if(!isEmpty(this.props.errors.emailPhone)) {
-        let errs = this.props.errors;
-        delete errs.emailPhone;
-				this.props.resetErrorLogin(errs);
-			}
-			this.setState({ emailPhone: text }); 
-		}
+  componentWillReceiveProps(nextProps){
 
-		onChangeTextPassword(text) {
-			if(!isEmpty(this.props.errors.password)) {
-				let errs = this.props.errors;
-        delete errs.password;
-				this.props.resetErrorLogin(errs);
-			}
-			this.setState({ password: text }); 
-		}
-
-    componentWillReceiveProps(nextProps){
-
-        // Navigate to home page
-        if(nextProps.auth.isAuthenticated) {
-            // alert(JSON.stringify(nextProps.auth.user));
-            this.props.navigation.navigate("SignedInScreen");
-        }
-        
-        if(!isEmpty(nextProps.errors)) {
-            this.setState({ errors: nextProps.errors });
-        }
-		}
+    // Navigate to home page
+    if(nextProps.auth.isAuthenticated) {
+      // alert(JSON.stringify(nextProps.auth.user));
+      this.props.navigation.navigate("SignedInScreen");
+    }
+    
+    if(!isEmpty(nextProps.errors)) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 		
 
     render() {
@@ -111,15 +111,13 @@ class SignIn extends Component {
 
 
                 {/* Sign in with social button */}
-                <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
+                {/* <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
                     <Text style = {{ fontSize: 16}}>Or sign in with</Text>
                 </View>
-                <View style={{ height:3}} />
-
-
+                <View style={{ height:3}} /> */}
 
                 {/* Login by Facebook and Gmail */}
-                <View style={{flexDirection: 'row', justifyContent: 'space-evenly' }} >
+                {/* <View style={{flexDirection: 'row', justifyContent: 'space-evenly' }} >
                     <TouchableOpacity style = {{ width: width / 2.35 }} >
                         <SocialIcon 
                             button
@@ -134,7 +132,7 @@ class SignIn extends Component {
                             style = {{ borderRadius: 5, marginHorizontal: 0 }}
                         />   
                     </TouchableOpacity>
-                </View>                                    
+                </View>                                     */}
             </View>            
         );
     }
