@@ -47,7 +47,7 @@ function login(user,password,res) {
     }
   } else {
     api.status = 1;
-    api.errors.emailPhone = errorNames.EMAIL_PHONE_INVALID;
+    api.errors.username = errorNames.USERNAME_EXIST;
     api.user = {};     
     return res.status(400).json(api); 
   }
@@ -58,13 +58,7 @@ module.exports = (req,res) => {
   
   for(let key in req.body) req.body[key] = req.body[key].trim();   
 
-  if(req.body.type == 'email') {
-    loginService.checkEmail(req.body.emailPhone).then (user => {
-      login(user,req.body.password,res);
-    });   
-  } else if(req.body.type == 'phone') {
-    loginService.checkPhone(req.body.emailPhone).then (user => {
-      login(user,req.body.password,res);
-    });      
-  }
+  loginService.checkUsername(req.body.username).then (user => {
+    login(user,req.body.password,res);
+  });   
 }

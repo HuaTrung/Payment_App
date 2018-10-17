@@ -112,6 +112,7 @@ const SignOutStack = createStackNavigator(
   });
 
 const RootNavigator = createSwitchNavigator(
+<<<<<<< HEAD
   {
     SignOutStackNavigator: SignOutStack,
     SignedInScreen: SignedIn
@@ -119,6 +120,15 @@ const RootNavigator = createSwitchNavigator(
   {
     initialRouteName: 'SignedInScreen'
   }
+=======
+    {
+      SignOutStackNavigator:  SignOutStack,
+      SignedInScreen : SignedIn
+    }, 
+    {
+      initialRouteName: 'SignOutStackNavigator'
+    }
+>>>>>>> ec7d5e4e829384327a88b3cccce1b76170d6b2b9
 );
 
 
