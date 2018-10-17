@@ -1,36 +1,41 @@
-import  { 
-  createStackNavigator, 
-  createMaterialTopTabNavigator, 
-  createBottomTabNavigator ,
+import {
+  createStackNavigator,
+  createMaterialTopTabNavigator,
+  createBottomTabNavigator,
+  createTabNavigator,
   createSwitchNavigator,
-  } from 'react-navigation';
+} from 'react-navigation';
 import React from 'react';
 
 import { Dimensions } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
 import { HomeScreen, UserProfileScreen, PromotionScreen, SearchScreen } from '../components/home-ui';
 
-const  {height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 Height = (height / 4);
 
-const SignedIn = createBottomTabNavigator (
+const SignedIn = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        title: 'Home'
+        title: 'Home',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            name='sc-telegram'
+            type='evilicon'
+            color='#517fa4'
+          />
+        )
       }
     },
     Search: {
       screen: SearchScreen,
       navigationOptions: {
         title: 'Search',
-        tabBarIcon : ({tintColor}) => (
-          <Icon name="ios-book" height = {40} color="red" />
-        )
       }
     },
     Promotion: {
@@ -48,61 +53,72 @@ const SignedIn = createBottomTabNavigator (
   },
   {
     tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray'
-    }
+      showIcon: true,
+      activeTintColor: "#6200EE",
+      inactiveTintColor: "#858585",
+      style: {
+        height: 60,
+        paddingVertical: 5,
+        backgroundColor: "#fff"
+      },
+      labelStyle: {
+        fontSize: 12,
+        lineHeight: 20,
+        fontFamily: "CircularStd-Book"
+      }
+    },
   }
 );
 
-const TabLoginNavigator = createMaterialTopTabNavigator(
+const TabLoginNavigator = createBottomTabNavigator(
   {
-    SignIn : SignInScreen,
+    SignIn: SignInScreen,
     SignUp: SignUpScreen
   },
   {
-    initialRouteName: 'SignIn', 
-    tabBarOptions: {          
+    initialRouteName: 'SignIn',
+    tabBarOptions: {
       labelStyle: {
-        fontSize:13,
+        fontSize: 13,
         color: 'black',
         margin: 0,
-        fontWeight:  "400"
+        fontWeight: "400"
       },
       style: {
         backgroundColor: '#eaeae1',
         height: 35
       },
-      indicatorStyle:{
+      indicatorStyle: {
         backgroundColor: "#ffa31a",
         height: 3
       }
-    },     
-    
+    },
+
   }
 );
 
 const SignOutStack = createStackNavigator(
   {
-    LoginScreen:TabLoginNavigator,
-    TermStack:TermsScreen ,
+    LoginScreen: TabLoginNavigator,
+    TermStack: TermsScreen,
     ForgotPassStack: ForgotPasswordScreen,
   },
-  {    
-    initialRouteName:'LoginScreen',
-    navigationOptions : {
-      headerStyle: { height: Height},
-      headerTitle: <CompanyBanner companyBannerHeight = {Height} />
-    } 
-});
+  {
+    initialRouteName: 'LoginScreen',
+    navigationOptions: {
+      headerStyle: { height: Height },
+      headerTitle: <CompanyBanner companyBannerHeight={Height} />
+    }
+  });
 
 const RootNavigator = createSwitchNavigator(
-    {
-      SignOutStackNavigator:  SignOutStack,
-      SignedInScreen : SignedIn
-    }, 
-    {
-      initialRouteName: 'SignedInScreen'
-    }
+  {
+    SignOutStackNavigator: SignOutStack,
+    SignedInScreen: SignedIn
+  },
+  {
+    initialRouteName: 'SignedInScreen'
+  }
 );
 
 
