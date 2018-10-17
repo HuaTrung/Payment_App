@@ -21,14 +21,12 @@ const PHONE_INVALID = 'phone is invalid';
 const VERIFY_CODE_EMPTY = 'verify code is required';
 
 const USERNAME_EXIST = 'username existed';
+const USERNAME_FIRST_NUMBER = 'username begin with number';
+
 const EMAIL_EXIST = 'email existed';
 const PHONE_EXIST = 'phone existed';
 
 const TOKEN_ERROR = 'send code error';
-
-const EMAIL_PHONE_EMPTY = 'email/phone is required';
-
-const EMAIL_PHONE_INVALID = 'email/phone is invalid';
 
 const NOT_VERIFY =  'user not verify';
 
@@ -48,6 +46,7 @@ export {
 
     USERNAME_INVALID,
     USERNAME_EMPTY,
+    USERNAME_FIRST_NUMBER,
 
     CONFIRM_PASSWORD_INCORRECT,
     CONFIRM_PASSWORD_EMPTY,
@@ -62,9 +61,6 @@ export {
     PHONE_EXIST,
 
     TOKEN_ERROR,
-
-    EMAIL_PHONE_EMPTY  ,
-    EMAIL_PHONE_INVALID,
 
     NOT_VERIFY,
     PASSWORD_NOTCORRECT

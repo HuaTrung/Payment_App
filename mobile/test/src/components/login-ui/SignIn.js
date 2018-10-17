@@ -25,29 +25,28 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      emailPhone: '0932311434',
-      password: '123456789',
+      username: '',
+      password: '',
       errors: '',
     };
   }
 
   handleLogin (e) {
     const data = {
-      emailPhone: this.state.emailPhone,
-      password: this.state.password,
-      type: ''
+      username: this.state.username,
+      password: this.state.password
     };
     this.props.loginUser(data);
   }
 
-  onChangeTextEmailPhone(text) {
+  onChangeTextUserName(text) {
     // alert(JSON.stringify(this.props.errors));
-    if(!isEmpty(this.props.errors.emailPhone)) {
+    if(!isEmpty(this.props.errors.username)) {
       let errs = this.props.errors;
-      delete errs.emailPhone;
+      delete errs.username;
       this.props.resetErrorLogin(errs);
     }
-    this.setState({ emailPhone: text }); 
+    this.setState({ username: text }); 
   }
 
   onChangeTextPassword(text) {
@@ -74,67 +73,37 @@ class SignIn extends Component {
 		
 
     render() {
-        const { errors } = this.state;
-        
-        return (
-            <View style = {{ flex: 1, marginHorizontal: 15}} >
-                <View style={{ height:20}} />
+      const { errors } = this.state;
+      
+      return (
+        <View style = {{ flex: 1, marginHorizontal: 15}} >
+          <View style={{ height:20}} />
 
-                {/* Email */}
-                <LoginInput 
-                    onChangeText = { (text) => this.onChangeTextEmailPhone(text)}  
-                    label = {'Email / Phone'} 
-                    value = {'0932311434'} // or tienlx97@gmail.com
-                    errorMessage = { errors.emailPhone }/>
+          <LoginInput 
+              onChangeText = { (text) => this.onChangeTextUserName(text)}  
+              label = {'Username'} 
+              errorMessage = { errors.username }/>
 
-                {/* Password */}
-                <LoginInput 
-                    onChangeText = { (text) => this.onChangeTextPassword(text) } 
-                    securePassword = {true} 
-                    label = {'Password'} 
-                    value = {'123456789'}
-                    errorMessage = { errors.password } />
-                
-                {/* Sign in button */}
-                <View style={{ height:height/40}} />
-                <Button onPress = { this.handleLogin.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
-                    <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
-                </Button>
-                <View style={{ height:height/32}} />
+          <LoginInput 
+              onChangeText = { (text) => this.onChangeTextPassword(text) } 
+              securePassword = {true} 
+              label = {'Password'} 
+              errorMessage = { errors.password } />
+          
+          {/* Sign in button */}
+          <View style={{ height:height/40}} />
+          <Button onPress = { this.handleLogin.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
+              <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
+          </Button>
+          <View style={{ height:height/32}} />
 
-                {/* Forgot password text */}
-                <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPassStack") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>Forgot password ?</Text>
-                </TouchableOpacity>
-                <View style={{ height:height/32 }} />
-                
-
-
-                {/* Sign in with social button */}
-                {/* <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style = {{ fontSize: 16}}>Or sign in with</Text>
-                </View>
-                <View style={{ height:3}} /> */}
-
-                {/* Login by Facebook and Gmail */}
-                {/* <View style={{flexDirection: 'row', justifyContent: 'space-evenly' }} >
-                    <TouchableOpacity style = {{ width: width / 2.35 }} >
-                        <SocialIcon 
-                            button
-                            type = 'facebook'
-                            style = {{ borderRadius: 5, marginHorizontal: 0 }}
-                        /> 
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {{ width: width / 2.35 }}>
-                        <SocialIcon 
-                            button
-                            type = 'google-plus-official'
-                            style = {{ borderRadius: 5, marginHorizontal: 0 }}
-                        />   
-                    </TouchableOpacity>
-                </View>                                     */}
-            </View>            
-        );
+          {/* Forgot password text */}
+          <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPassStack") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
+              <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>Forgot password ?</Text>
+          </TouchableOpacity>
+          <View style={{ height:height/32 }} />
+        </View>            
+      );
     }
 }
 

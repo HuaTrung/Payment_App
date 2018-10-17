@@ -30,7 +30,7 @@ import { GET_REGISTER_ERRORS, LOGIN_SUCCESS } from './types';
  * @param 
  */
 const registerUser = data => dispatch => {
-  alert(JSON.stringify(data));
+//  alert(JSON.stringify(data));
   let errors = {};
   let uppperCase = /[A-Z]/;
   let lowerCase = /[a-z]/;
@@ -63,8 +63,20 @@ const registerUser = data => dispatch => {
 
   if(!isEmpty(errors)) {
     dispatch(setErrorRegister(errors));
+  } else {
+    axios.post('http://192.168.1.108:5000/app/user/register',data)
+    .then( response => {
+      let {data} = response;
+      if(data.status == 0 && isEmpty(data.errors)) {
+        alert('register success => change to sign tab later commit');
+      }
+    })
+    .catch( err => {
+      // alert(JSON.stringify(err.response.data));
+      let { data } = err.response;
+      if(data.status == 1 && data.errors != null)  dispatch(setErrorRegister(data.errors));        
+    });
   }
-
 }
 
 const resetErrorRegister = data => dispatch => {

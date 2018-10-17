@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import isEmpty from '../../validations/is-empty.validate';
-import { EMAIL_PHONE_EMPTY, EMAIL_PHONE_INVALID, PASSWORD_EMPTY} from '../../validations/errors-name';
+import { USERNAME_EMPTY,USERNAME_FIRST_NUMBER, PASSWORD_EMPTY} from '../../validations/errors-name';
 import isEmail from '../../validations/email.validate';
 
 import { GET_LOGIN_ERRORS, LOGIN_SUCCESS } from './types';
@@ -12,43 +12,27 @@ import { GET_LOGIN_ERRORS, LOGIN_SUCCESS } from './types';
  */
 const loginUser = data => dispatch => {
 
-  let errors = {}, type = '';
+  let errors = {}
 
   for(let key in data) data[key] = data[key].trim();        
   
-  if(isEmpty(data.emailPhone)) errors.emailPhone = EMAIL_PHONE_EMPTY;
-  //  else {
-  //   if(!isEmail(data.emailPhone)) { // not email
-  //     if(isNaN(data.emailPhone))  // not phone => invalid
-  //       errors.emailPhone = EMAIL_PHONE_INVALID;
-  //     else errors.type = 'phone';
-  //   } else errors.type = 'email';
-  //  }
-  else
-    (isEmail(data.emailPhone) == false )
-      ? ((isNaN(data.emailPhone) == true) ? errors.emailPhone = EMAIL_PHONE_INVALID : type = 'phone') 
-      : type = 'email';
+  if(isEmpty(data.username)) errors.username = USERNAME_EMPTY;
+  else if( /[0-9]/.test(data.username.charAt(0))) errors.username = USERNAME_FIRST_NUMBER;
 
   if(isEmpty(data.password)) errors.password = PASSWORD_EMPTY;
  // alert(JSON.stringify(errors));
   if(!isEmpty(errors)) {
     dispatch(setErrorLogin(errors));
   } else {    
-    data.type = type;
-    axios.post('http://192.168.43.80:5000/app/user/login',data)
+    axios.post('http://192.168.1.108:5000/app/user/login',data)
     .then( response => {
-      let data = response.data;
-      if(data.status == 0 && data.user != null) {
-        // alert(JSON.stringify(data.user));
-        dispatch(setSuccessLogin(data.user));        
-      }
+      let { data } = response;
+      if(data.status == 0 && data.user != null) dispatch(setSuccessLogin(data.user));        
     })
     .catch( err => {
       // alert(JSON.stringify(err.response.data));
-      let data = err.response.data;
-      if(data.status == 1 && data.errors != null) {
-        dispatch(setErrorLogin(data.errors));        
-      }
+      let { data } = err.response;
+      if(data.status == 1 && data.errors != null)  dispatch(setErrorLogin(data.errors));        
     });
   }
 }

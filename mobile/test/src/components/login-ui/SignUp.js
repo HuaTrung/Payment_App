@@ -11,6 +11,8 @@ import { registerUser, resetErrorRegister }  from '../../redux/actions/register.
 
 import isEmpty from '../../validations/is-empty.validate';
 
+import axios from 'axios';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -44,6 +46,13 @@ class SignUp extends Component {
     let { name, username, phone, verifyCode, password, confirmPassword } = this.state;
     let data = { name, username, phone, verifyCode, password, confirmPassword };
     this.props.registerUser(data);
+  }
+
+  handleSendOtp(e) {
+    axios.post('http://192.168.1.108:5000/app/user/send-verify', {phone :this.state.phone})
+      .then( response => { 
+       
+      });
   }
 
   onChangeTextName(text) {
@@ -125,7 +134,7 @@ class SignUp extends Component {
               />
           </View>               
           <View style = {{ width:3 }} />
-          <TouchableOpacity style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress = { this.handleSendOtp.bind(this) } style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
             <Text style = {{fontSize: 16, color: 'white'}}>Send</Text>
           </TouchableOpacity>
         </View>

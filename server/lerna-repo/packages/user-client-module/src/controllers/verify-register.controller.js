@@ -15,37 +15,12 @@ function logInfo(info, data,res) {
   }
 }
 
-// =================================================================================
 const verifyCodeController = (req,res) => { 
- 
+  let { phone } = req.body;
+  //console.log(phone);
+  registerService.beforeSendNexmoToken(phone, (info,data) => logInfo(info, data, res));
 }
-// =================================================================================
-const confirmVerifyCodeController  = (req,res) => {
-  // console.log(req.body);
-  let { id } = req.body;
-  User.findOne({_id:id}).then( user => {
-    if(user) {
-      console.log(user);
-      registerService.verifyToken(req.body.code, user, (info,data) => logInfo(info,data,res));
-    }else {
-      logInfo('USER_NOTFOUND');
-    }
-  }).catch(err => logInfo('FIND_USER_ERROR',err));
-}
-// =================================================================================
-const resendVerificationRequest = (req,res) => {
-  let { id } = req.body;
-  User.findOne({_id:id}).then( user => {
-    if(user) {
-      console.log(user);
-      registerService.beforeSendNexmoToken(user, (info,data) => logInfo(info,data,res));
-    }else {
-      logInfo('USER_NOTFOUND');
-    }
-  }).catch(err => logInfo('FIND_USER_ERROR',err));
-}
+
 module.exports =  { 
-  verifyCodeController,
-  confirmVerifyCodeController,
-  resendVerificationRequest
+  verifyCodeController
 }
