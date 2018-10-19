@@ -3,7 +3,8 @@ import { View, Text, Dimensions } from 'react-native';
 import LoginInput from '../custom-ui/login-input/LoginInput';
 import {  Button } from 'native-base';
 import { getForgotPassword, resetErrorGetPassword }  from '../../redux/actions/login.action';
-
+import {connect} from "react-redux";
+import isEmpty from "../../validations/is-empty.validate";
 const height = Dimensions.get('window').height;
 
 
@@ -51,12 +52,17 @@ class ForgotPassword extends Component {
     }
     
     render() {
+      const { errors } = this.state;
       return (
         <View style = {{ flex: 1}}>
           <View style = {{ marginHorizontal: 15  }}>
-            <LoginInput label = {'Email / Phone'} />
+            <LoginInput 
+              label = {'Email / Phone'} 
+              onChangeText = { text => this.onChangeTextEmailOrPhone(text) }
+              errorMessage = { errors.emailOrPhone }
+              />
             <View style={{ height:height/40}} />
-            <Button block style = {{ backgroundColor: '#ff1a1a' }}>
+            <Button onPress = { this.handleForgotPassword.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
               <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Get the password</Text>
             </Button>
             <View style={{ height:height/54}} />

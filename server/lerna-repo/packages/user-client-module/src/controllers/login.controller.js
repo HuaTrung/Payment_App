@@ -46,7 +46,7 @@ function login(user,password,res) {
     }
   } else {
     api.status = 1;
-    api.errors.emailOrPhone = errorNames.EMAIL_PHONE_EXIST;
+    api.errors.emailOrPhone = errorNames.EMAIL_PHONE_NOT_EXIST;
     api.user = {};     
     return res.status(200).json(api); 
   }

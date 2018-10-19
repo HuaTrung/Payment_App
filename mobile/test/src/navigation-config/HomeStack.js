@@ -70,7 +70,7 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
-const TabLoginNavigator = createBottomTabNavigator(
+const TabLoginNavigator = createMaterialTopTabNavigator(
   {
     SignIn: SignInScreen,
     SignUp: SignUpScreen
@@ -112,23 +112,13 @@ const SignOutStack = createStackNavigator(
   });
 
 const RootNavigator = createSwitchNavigator(
-<<<<<<< HEAD
   {
     SignOutStackNavigator: SignOutStack,
     SignedInScreen: SignedIn
   },
   {
-    initialRouteName: 'SignedInScreen'
+    initialRouteName: 'SignOutStackNavigator'
   }
-=======
-    {
-      SignOutStackNavigator:  SignOutStack,
-      SignedInScreen : SignedIn
-    }, 
-    {
-      initialRouteName: 'SignOutStackNavigator'
-    }
->>>>>>> ec7d5e4e829384327a88b3cccce1b76170d6b2b9
 );
 
 

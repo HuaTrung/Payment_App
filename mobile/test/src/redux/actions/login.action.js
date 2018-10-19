@@ -29,13 +29,11 @@ const loginUser = data => dispatch => {
   } else {    
     data.type = type;
     axios.post('http://192.168.1.108:5000/app/user/login',data)
-    .then(response => response.json())
-    .catch( err => console.warn(err))
     .then( response => {
       let { data } = response;
       if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
       else if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setErrorLogin(data.errors)); 
-    });
+    }).catch( err => console.warn(err));
   }
 }
 
@@ -48,17 +46,24 @@ const resetErrorGetPassword = errors => dispatch => {
 }
 
 const getForgotPassword = emailOrPhone => dispatch => {
-  let errors = {};
+  let errors = {}, type = '';
   emailOrPhone = emailOrPhone.trim();
   if(isEmpty(emailOrPhone)) errors.emailOrPhone = EMAIL_PHONE_EMPTY;
   else
     (isEmail(emailOrPhone) == false )
       ? ((isNaN(emailOrPhone) == true) ? errors.emailOrPhone = EMAIL_PHONE_INVALID : type = 'phone') 
       : type = 'email';
-  if(!isEmpty(emailOrPhone)) {
+  if(!isEmpty(errors)) {
     dispatch(setForgotPassword(errors));
   } else {
-
+    axios.post('http://192.168.1.108:5000/app/user/forgot-password',{emailOrPhone, type})
+    .then( response => {
+      let { data } = response;
+      // if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
+      // else 
+      alert(JSON.stringify(data));
+      if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setForgotPassword(data.errors)); 
+    }).catch( err => console.warn(err));
   }
 };
 

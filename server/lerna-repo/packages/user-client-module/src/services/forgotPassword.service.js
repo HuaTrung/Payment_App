@@ -7,7 +7,7 @@ const Nexmo = require('the_root/node_modules/nexmo');
 const nexmo = new Nexmo({
   apiKey: config.nexmoKey,
   apiSecret: config.nexmoSecret
-});
+},{debug:true});
 
 function safeRandomBytes(length) {
   while(true) {
@@ -22,12 +22,15 @@ function safeRandomBytes(length) {
 
 const sendForgotPasswordbyPhone = (user,callback) => {
   let pass = Math.random().toString(36).slice(-8);
-  let text = 'Your sign in OP password is: ' + pass;
-  nexmo.message.sendSms('Online Payment', user.phone,text, (err,response) => {
+  let text = 'Reset your OP password: ' +pass;
+  nexmo.message.sendSms('Online Payment', '84'+user.phone,text, (err,response) => {
     if(err) console.log(err);
     else {
-      User.password = passwordCrypt.hashPassword(pass);
-      User.save().then(doc => callback('SEND_SUCCESS')).catch(err => console.log(err));
+      console.log(response);
+      if(response.messages[0].status == 0) {
+        user.password = passwordCrypt.hashPassword(pass);
+        user.save().then(doc => callback('SEND_SUCCESS')).catch(err => console.log(err));
+      }
     }
   });
 };

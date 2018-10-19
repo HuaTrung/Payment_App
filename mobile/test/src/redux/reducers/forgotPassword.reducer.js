@@ -1,16 +1,12 @@
 import { FORGOT_PASSWORD, SEND_FORGOT_PASSWORD_SUCCESS } from '../actions/types';
 const initialState = { 
-  errors: {},
   isSendForgotPassword: false
 };
 
 const forgotPasswordReducer = (state = initialState , action) => {
   switch(action.type) {
     case FORGOT_PASSWORD:
-      return {
-        ...state,
-        errors: action.payload
-      }
+      return action.payload;
     case SEND_FORGOT_PASSWORD_SUCCESS: 
       return {
         ...state,

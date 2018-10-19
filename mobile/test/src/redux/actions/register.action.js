@@ -67,6 +67,7 @@ const registerUser = data => dispatch => {
     dispatch(setErrorRegister(errors));
   } else {
     axios.post('http://192.168.1.108:5000/app/user/register',data)
+    .then(response => response.json())
     .then( response => {
       let {data} = response;
       if(data.status == 0 && isEmpty(data.errors)) {
