@@ -1,7 +1,6 @@
 const loginValidate = require('../validations/login.validation');
 const loginService = require('../services/login.service');
 const errorNames = require('../validations/errors-name');
-
 const passwordCrypt = require('../utils/password.crypt');
 
 const api = {
@@ -37,28 +36,25 @@ function login(user,password,res) {
         api.status = 1;
         api.errors.password = errorNames.PASSWORD_NOTCORRECT;
         api.user = {};
-        return res.status(400).json(api);   
+        return res.status(200).json(api);   
       }      
     } else {
       api.status = 1;
       api.errors.verified = errorNames.NOT_VERIFY;
       api.user = {};    
-      return res.status(400).json(api);   
+      return res.status(200).json(api);   
     }
   } else {
     api.status = 1;
-    api.errors.username = errorNames.USERNAME_EXIST;
+    api.errors.emailOrPhone = errorNames.EMAIL_PHONE_EXIST;
     api.user = {};     
-    return res.status(400).json(api); 
+    return res.status(200).json(api); 
   }
 }
 
 module.exports = (req,res) => {
   console.log(req.body);
-  
   for(let key in req.body) req.body[key] = req.body[key].trim();   
-
-  loginService.checkUsername(req.body.username).then (user => {
-    login(user,req.body.password,res);
-  });   
+  if(req.body.type == 'email') loginService.checkEmail(req.body.emailOrPhone).then (user => login(user,req.body.password,res));   
+  else loginService.checkPhone(req.body.emailOrPhone).then (user => login(user,req.body.password,res));   
 }

@@ -13,9 +13,12 @@ router.post('/register', (req,res) => {
   registerController(req, res)
 });
 
-// post later
 router.post('/send-verify', (req,res) => {  
   verifyRegisterController.verifyCodeController(req, res)
+});
+
+router.post('/forgot-password', (req,res) => {
+
 });
 
 // Config express route in ver 4.x

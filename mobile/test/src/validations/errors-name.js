@@ -32,7 +32,13 @@ const NOT_VERIFY =  'user not verify';
 
 const PASSWORD_NOTCORRECT = 'password not correct';
 
+const EMAIL_PHONE_EMPTY = 'email or phone is required';
+
+const EMAIL_PHONE_INVALID = 'email  or phone incorrect';
+
 export {
+    EMAIL_PHONE_EMPTY,
+    EMAIL_PHONE_INVALID,
     NAME_EMPTY,
 
     EMAIL_EMPTY,

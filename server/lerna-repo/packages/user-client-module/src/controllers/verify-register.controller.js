@@ -11,14 +11,14 @@ function logInfo(info, data,res) {
         error: {},
         user:data
       };
-      return res.status(400).json(api); 
+      return res.status(200).json(api); 
   }
 }
 
 const verifyCodeController = (req,res) => { 
   let { phone } = req.body;
   //console.log(phone);
-  registerService.beforeSendNexmoToken(phone, (info,data) => logInfo(info, data, res));
+  registerService.beforeSendToken(phone, (info,data) => logInfo(info, data, res));
 }
 
 module.exports =  { 

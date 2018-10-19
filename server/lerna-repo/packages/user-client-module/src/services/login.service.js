@@ -5,11 +5,11 @@ function checkPhone(phone) {
   return User.findOne({phone}).exec();
 }
 
-function checkUsername(username) {
-  return User.findOne({username}).exec();
+function checkEmail(email) {
+  return User.findOne({email}).exec();
 }
 
 module.exports = {
-  checkUsername,
+  checkEmail,
   checkPhone
 }

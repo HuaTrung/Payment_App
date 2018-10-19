@@ -1,16 +1,13 @@
 const registerValidate = require('../validations/register.validation');
 const registerService = require('../services/register.service');
-
 const User = require('../../../the_root/MongoModel/app/user');
 const errorNames = require('../validations/errors-name');
-
 const config = require('the_root/config');
 
 const api = {
   status: 1,
   errors: {}
 };
-
 
 function logError(info, data,res,errors) {
   console.log('info: '+ info +' - data: ' + JSON.stringify(data));
@@ -43,17 +40,17 @@ module.exports =  (req,res) => {
   // status: 1 -> found error
 
 	let errors;
-  let { username } = req.body;
+  let { email } = req.body;
   console.log(req.body);
 	// Check user name / phone is used or not by access database
-  registerService.checkUsernameExist(username).then( result => {
+  registerService.checkEmailExist(email).then( result => {
     if(!result) {
-      console.log('register user');
+      console.log('Start registering user');
       registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,res,errors));
     } else {
       api.status = 1;
-      api.errors.username = errorNames.USERNAME_EXIST;
-      return res.status(400).json(api);  
+      api.errors.username = errorNames.EMAIL_EXIST;
+      return res.status(200).json(api);  
     }
   });
 }

@@ -30,6 +30,10 @@ const NOT_VERIFY =  'user not verify';
 
 const PASSWORD_NOTCORRECT = 'password not correct';
 
+const EMAIL_PHONE_EXIST = 'email phone existed';
+
+const EMAIL_PHONE_NOT_EXIST = 'email phone not exist';
+
 module.exports = {
     NAME_EMPTY,
 
@@ -60,6 +64,9 @@ module.exports = {
     TOKEN_ERROR,
 
     NOT_VERIFY,
-    PASSWORD_NOTCORRECT
+    PASSWORD_NOTCORRECT,
+
+    EMAIL_PHONE_EXIST,
+    EMAIL_PHONE_NOT_EXIST
     
 };

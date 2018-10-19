@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import isEmpty from '../../validations/is-empty.validate';
+import isEmail from '../../validations/email.validate';
 import { 
   NAME_EMPTY,
-  USERNAME_EMPTY, 
-  
+  EMAIL_EMPTY,
+  EMAIL_INVALID,  
   PASSWORD_EMPTY, 
   PASSWORD_NOT_ENOUGH,
   PASSWORD_NOT_UPPER_CHARACTER,
@@ -36,7 +37,8 @@ const registerUser = data => dispatch => {
   let lowerCase = /[a-z]/;
   for(let key in data) data[key] = data[key].trim();        
   
-  if(isEmpty(data.username)) errors.username  = USERNAME_EMPTY;
+  if(isEmpty(data.email)) errors.email  = EMAIL_EMPTY;
+  else if(!isEmail(data.email)) errors.email = EMAIL_INVALID;
 
   if(isEmpty(data.name)) errors.name = NAME_EMPTY;
 
@@ -69,14 +71,28 @@ const registerUser = data => dispatch => {
       let {data} = response;
       if(data.status == 0 && isEmpty(data.errors)) {
         alert('register success => change to sign tab later commit');
+      } else if(data.status == 1 && !isEmpty(data.errors)) {
+        dispatch(setErrorRegister(data.errors));
       }
     })
     .catch( err => {
       // alert(JSON.stringify(err.response.data));
-      let { data } = err.response;
-      if(data.status == 1 && data.errors != null)  dispatch(setErrorRegister(data.errors));        
+//      let { data } = err.response;
+//      if(data.status == 1 && data.errors != null)  dispatch(setErrorRegister(data.errors));        
     });
   }
+}
+
+const checkPhoneError = phone => dispatch => {
+  let errors = {};
+  if(!isNaN(phone)) {
+    errors.phone = PHONE_INVALID;
+    dispatch(setErrorRegister(errors));
+  } else {
+    axios.post('http://192.168.1.108:5000/app/user/send-verify', {phone})
+    .then(response => response.json())
+    .catch( err => console.warn(err))
+  } 
 }
 
 const resetErrorRegister = data => dispatch => {
@@ -97,4 +113,4 @@ const setSuccessLogin = data => {
   };
 }
 
-export { registerUser, resetErrorRegister };
+export { registerUser, resetErrorRegister, checkPhoneError };

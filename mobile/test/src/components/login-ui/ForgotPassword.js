@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';    
 import LoginInput from '../custom-ui/login-input/LoginInput';
 import {  Button } from 'native-base';
+import { getForgotPassword, resetErrorGetPassword }  from '../../redux/actions/login.action';
+
 const height = Dimensions.get('window').height;
+
+
 class ForgotPassword extends Component {
 
     static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -16,12 +20,41 @@ class ForgotPassword extends Component {
         };
     };
 
+    constructor(props) {
+      super(props);
+      this.state = { 
+        emailOrPhone: '',
+        errors: '',
+      };
+    }
+
+    handleForgotPassword(e) {
+      this.props.getForgotPassword(this.state.emailOrPhone);
+    }
+
+    onChangeTextEmailOrPhone(text) {
+      // alert(JSON.stringify(this.props.errors));
+      if(!isEmpty(this.props.errors.emailOrPhone)) {
+        let errs = this.props.errors;
+        delete errs.emailOrPhone;
+        this.props.resetErrorGetPassword(errs);
+      }
+      this.setState({ emailOrPhone: text }); 
+    }
+
+    componentWillReceiveProps(nextProps){            
+      if(nextProps.isSendForgotPassword) {
+        // navigate to another page:
+        
+      }
+      if(!isEmpty(nextProps.errors)) this.setState({ errors: nextProps.errors });      
+    }
     
     render() {
       return (
         <View style = {{ flex: 1}}>
           <View style = {{ marginHorizontal: 15  }}>
-            <LoginInput label = {'Email'} />
+            <LoginInput label = {'Email / Phone'} />
             <View style={{ height:height/40}} />
             <Button block style = {{ backgroundColor: '#ff1a1a' }}>
               <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Get the password</Text>
@@ -36,4 +69,11 @@ class ForgotPassword extends Component {
     }
 }
 
-export default ForgotPassword;
+const mapStateToProps = state => ({
+  errors: state.forgotPasswordReducer
+});
+
+export default connect(mapStateToProps, {
+  getForgotPassword,
+  resetErrorGetPassword
+})(ForgotPassword);

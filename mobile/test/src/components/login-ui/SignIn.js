@@ -25,7 +25,7 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: '',
+      emailOrPhone: '',
       password: '',
       errors: '',
     };
@@ -33,20 +33,21 @@ class SignIn extends Component {
 
   handleLogin (e) {
     const data = {
-      username: this.state.username,
-      password: this.state.password
+      emailOrPhone: this.state.emailOrPhone,
+      password: this.state.password,
+      type: 'nothing'
     };
     this.props.loginUser(data);
   }
 
-  onChangeTextUserName(text) {
+  onChangeTextEmailOrPhone(text) {
     // alert(JSON.stringify(this.props.errors));
-    if(!isEmpty(this.props.errors.username)) {
+    if(!isEmpty(this.props.errors.emailOrPhone)) {
       let errs = this.props.errors;
-      delete errs.username;
+      delete errs.emailOrPhone;
       this.props.resetErrorLogin(errs);
     }
-    this.setState({ username: text }); 
+    this.setState({ emailOrPhone: text }); 
   }
 
   onChangeTextPassword(text) {
@@ -80,9 +81,9 @@ class SignIn extends Component {
           <View style={{ height:20}} />
 
           <LoginInput 
-              onChangeText = { (text) => this.onChangeTextUserName(text)}  
-              label = {'Username'} 
-              errorMessage = { errors.username }/>
+              onChangeText = { (text) => this.onChangeTextEmailOrPhone(text)}  
+              label = {'Email / Phone'} 
+              errorMessage = { errors.emailOrPhone }/>
 
           <LoginInput 
               onChangeText = { (text) => this.onChangeTextPassword(text) } 
