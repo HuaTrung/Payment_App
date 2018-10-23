@@ -12,15 +12,31 @@ import { Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
-import { HomeScreen, UserProfileScreen, PromotionScreen, SearchScreen } from '../components/home-ui';
+import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen } from '../components/home-ui';
 
 const { height } = Dimensions.get('window');
 Height = (height / 4);
 
+
+const HomeSearch = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen
+    },
+    Search: SearchScreen
+  },
+  {
+    initialRouteName: "Home",
+    navigationOptions: {
+      header: null
+    }
+  }
+);
+
 const SignedIn = createBottomTabNavigator(
   {
     Home: {
-      screen: HomeScreen,
+      screen: HomeSearch,
       navigationOptions: {
         title: 'Home',
         tabBarIcon: ({ tintColor }) => (
@@ -32,16 +48,10 @@ const SignedIn = createBottomTabNavigator(
         )
       }
     },
-    Search: {
-      screen: SearchScreen,
+    Transaction: {
+      screen: TransactionScreen,
       navigationOptions: {
-        title: 'Search',
-      }
-    },
-    Promotion: {
-      screen: PromotionScreen,
-      navigationOptions: {
-        title: 'Promotion'
+        title: 'Transaction'
       }
     },
     UserProfile: {
@@ -113,11 +123,11 @@ const SignOutStack = createStackNavigator(
 
 const RootNavigator = createSwitchNavigator(
   {
-    SignOutStackNavigator: SignOutStack,
+    SignOutScreen: SignOutStack,
     SignedInScreen: SignedIn
   },
   {
-    initialRouteName: 'SignOutStackNavigator'
+    initialRouteName: 'SignedInScreen'
   }
 );
 

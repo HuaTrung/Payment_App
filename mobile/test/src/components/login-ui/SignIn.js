@@ -29,6 +29,7 @@ class SignIn extends Component {
       password: '',
       errors: '',
     };
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin (e) {
@@ -93,7 +94,7 @@ class SignIn extends Component {
           
           {/* Sign in button */}
           <View style={{ height:height/40}} />
-          <Button onPress = { this.handleLogin.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
+          <Button onPress = { this.handleLogin } block style = {{ backgroundColor: '#ff1a1a' }}>
               <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
           </Button>
           <View style={{ height:height/32}} />

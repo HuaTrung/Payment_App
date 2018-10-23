@@ -1,5 +1,5 @@
 const User = require('../../../the_root/MongoModel/app/user');
-const Verify = require('../../../the_root/MongoModel/app/verify');
+const VerifyPhone = require('the_root/MongoModel/app/verifyPhone');
 const config = require('the_root/config');
 const passwordCrypt =  require('../utils/password.crypt');
 const Nexmo = require('the_root/node_modules/nexmo');
@@ -40,12 +40,11 @@ function verifyToken(data, request_id,callback){
       if(result && result.status == '0') { // check otp success
         let newUser = new User({
           name: data.name,
-          email: data.email,
           phone: data.phone,
           countryCode:'VN',
           password: passwordCrypt.hashPassword(data.password),
           requestId: request_id,
-          verified: false
+          verified: true
         });
         // decrease per in verify later
         newUser
@@ -95,7 +94,7 @@ function beforeSendToken(phone, callback) {
 
 function registerUser(data,country,callback) {
   // get request id from verify database:
-  Verify.findOne({ phone: data.phone }).then( verifyData => {
+  VerifyPhone.findOne({ phone: data.phone }).then( verifyData => {
     if(verifyData) verifyToken(data,verifyData.request_id, callback); 
     else callback('PHONE_NUMBER_NOT_SEND');
   });  

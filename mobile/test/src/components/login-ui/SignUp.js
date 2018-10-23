@@ -26,13 +26,14 @@ class SignUp extends Component {
     super(props);
     this.state = { 
       name: '',
-      email: '',
       phone: '',
       verifyCode: '',
       password: '',
       confirmPassword: '',
       errors: ''
     };
+    this.handleSendOtp = this.handleSendOtp.bind(this);
+    this.handleRegisterUser = this.handleRegisterUser.bind(this);
   } 
 
   componentWillReceiveProps(nextProps){
@@ -43,14 +44,15 @@ class SignUp extends Component {
   }
 
   handleRegisterUser(e) {
-    let { name, email, phone, verifyCode, password, confirmPassword } = this.state;
-    let data = { name, email, phone, verifyCode, password, confirmPassword };
+    let { name, phone, verifyCode, password, confirmPassword } = this.state;
+    let data = { name, phone, verifyCode, password, confirmPassword };
     this.props.registerUser(data);
   }
 
   handleSendOtp(e) {
     this.props.checkPhoneError(this.state.phone);
   }
+
 
   onChangeTextName(text) {
     if(!isEmpty(this.props.errors.name)) {
@@ -59,16 +61,6 @@ class SignUp extends Component {
       this.props.resetErrorRegister(errs);
     }
     this.setState({ name: text }); 
-  }
-
-
-  onChangeTextEmail(text) {
-    if(!isEmpty(this.props.errors.email)) {
-      let errs = this.props.errors;
-      delete errs.email;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ email: text }); 
   }
 
   onChangeTextPhone(text) {
@@ -118,11 +110,6 @@ class SignUp extends Component {
                 onChangeText = { (text) => this.onChangeTextName(text) } 
                 errorMessage = { errors.name }
                 />
-              <LoginInput 
-                label= {"Email"} 
-                onChangeText = { (text) => this.onChangeTextEmail(text) } 
-                errorMessage = { errors.email }
-              />
               <View style = {{  flexDirection: 'row' }}>
                 <View style = {{ flex: 1 }}>
                     <LoginInput   
@@ -132,7 +119,7 @@ class SignUp extends Component {
                     />
                 </View>               
                 <View style = {{ width:3 }} />
-                <TouchableOpacity onPress = { this.handleSendOtp.bind(this) } style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress = { this.handleSendOtp } style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
                   <Text style = {{fontSize: 16, color: 'white'}}>Send</Text>
                 </TouchableOpacity>
               </View>
@@ -155,7 +142,7 @@ class SignUp extends Component {
               />
               <View style={{ height:height/80}} />
               {/* Sign up button */}
-              <Button onPress = { this.handleRegisterUser.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
+              <Button onPress = { this.handleRegisterUser } block style = {{ backgroundColor: '#ff1a1a' }}>
                   <Text style = {{  color: 'white', fontSize: 18, textDecorationLine: 'underline' }}>Register</Text>
               </Button>
               <View style={{ height:height/80}} />

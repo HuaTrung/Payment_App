@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, YellowBox} from 'react-native';
-
+import { Root } from "native-base";
 import {RootNavigator, SignOutStack}  from './src/navigation-config/HomeStack';
 import Splash from './src/components/splash-ui/Splash';
 
@@ -29,7 +29,9 @@ export default class App extends Component {
 
     return (
       <Provider store = { store } >
-        <RootNavigator/>
+        <Root>  
+          <RootNavigator/>          
+        </Root>
       </Provider>
     );
   //   return (<TabBar>

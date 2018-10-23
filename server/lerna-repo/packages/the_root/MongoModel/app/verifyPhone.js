@@ -4,8 +4,8 @@ const VerifySchema = new mongoose.Schema({
     phone: String,
     request_id : String,
     expired: Date
-},{collection: 'verify'});
+},{collection: 'verifyPhone'});
 	
-const User =  mongoose.model('verify',VerifySchema);
+const User =  mongoose.model('verifyPhone',VerifySchema);
 
 module.exports = User;

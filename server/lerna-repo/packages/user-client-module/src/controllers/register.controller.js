@@ -40,17 +40,9 @@ module.exports =  (req,res) => {
   // status: 1 -> found error
 
 	let errors;
-  let { email } = req.body;
+  let { phone } = req.body;
   console.log(req.body);
 	// Check user name / phone is used or not by access database
-  registerService.checkEmailExist(email).then( result => {
-    if(!result) {
-      console.log('Start registering user');
-      registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,res,errors));
-    } else {
-      api.status = 1;
-      api.errors.username = errorNames.EMAIL_EXIST;
-      return res.status(200).json(api);  
-    }
-  });
+    console.log('Start registering user');
+    registerService.registerUser(req.body,'VN', (info, data) => logError(info,data,res,errors));
 }

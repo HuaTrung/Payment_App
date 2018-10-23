@@ -1,11 +1,11 @@
 import HomeScreen from './Home';
 import UserProfileScreen from './UserProfile';
 import SearchScreen from './Search';
-import PromotionScreen from './Promotion';
+import TransactionScreen from './Transaction';
 
 export {
   HomeScreen,
   UserProfileScreen,
   SearchScreen,
-  PromotionScreen
+  TransactionScreen
 };

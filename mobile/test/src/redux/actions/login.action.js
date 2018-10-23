@@ -1,10 +1,21 @@
 import axios from 'axios';
 
 import isEmpty from '../../validations/is-empty.validate';
-import { USERNAME_EMPTY,USERNAME_FIRST_NUMBER, PASSWORD_EMPTY, EMAIL_PHONE_EMPTY, EMAIL_PHONE_INVALID} from '../../validations/errors-name';
+import { 
+  USERNAME_EMPTY,
+  USERNAME_FIRST_NUMBER, 
+  PASSWORD_EMPTY, 
+  EMAIL_PHONE_EMPTY, 
+  EMAIL_PHONE_INVALID
+} from '../../validations/errors-name';
 import isEmail from '../../validations/email.validate';
 
-import { GET_LOGIN_ERRORS, LOGIN_SUCCESS , FORGOT_PASSWORD } from './types';
+import { 
+  GET_LOGIN_ERRORS, 
+  LOGIN_SUCCESS , 
+  FORGOT_PASSWORD, 
+  SEND_FORGOT_PASSWORD_SUCCESS
+} from './types';
 
 /**
  * @description If every thing we all send to server to validate, server will big and not response quickly
@@ -62,7 +73,8 @@ const getForgotPassword = emailOrPhone => dispatch => {
       // if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
       // else 
       alert(JSON.stringify(data));
-      if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setForgotPassword(data.errors)); 
+      if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setForgotPassword(data.errors));
+      else if(data.status == 0 && isEmpty(data.errors)) dispatch(setSuccessForgotPass(data));
     }).catch( err => console.warn(err));
   }
 };
@@ -84,6 +96,13 @@ const setForgotPassword = errors => {
 const setSuccessLogin = data => {
   return {
     type: LOGIN_SUCCESS,
+    payload: data
+  };
+}
+
+const setSuccessForgotPass = data => {
+  return {
+    type: SEND_FORGOT_PASSWORD_SUCCESS,
     payload: data
   };
 }

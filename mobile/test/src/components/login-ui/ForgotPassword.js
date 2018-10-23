@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';    
 import LoginInput from '../custom-ui/login-input/LoginInput';
-import {  Button } from 'native-base';
+import {  Button, Toast } from 'native-base';
 import { getForgotPassword, resetErrorGetPassword }  from '../../redux/actions/login.action';
 import {connect} from "react-redux";
 import isEmpty from "../../validations/is-empty.validate";
@@ -27,10 +27,16 @@ class ForgotPassword extends Component {
         emailOrPhone: '',
         errors: '',
       };
+      this.handleForgotPassword = this.handleForgotPassword.bind(this);
     }
 
     handleForgotPassword(e) {
       this.props.getForgotPassword(this.state.emailOrPhone);
+      Toast.show({
+        text: 'Send password success',
+        buttonText: 'Okay',
+        type: "success"
+      });
     }
 
     onChangeTextEmailOrPhone(text) {
@@ -46,7 +52,7 @@ class ForgotPassword extends Component {
     componentWillReceiveProps(nextProps){            
       if(nextProps.isSendForgotPassword) {
         // navigate to another page:
-        
+       
       }
       if(!isEmpty(nextProps.errors)) this.setState({ errors: nextProps.errors });      
     }
@@ -62,7 +68,7 @@ class ForgotPassword extends Component {
               errorMessage = { errors.emailOrPhone }
               />
             <View style={{ height:height/40}} />
-            <Button onPress = { this.handleForgotPassword.bind(this) } block style = {{ backgroundColor: '#ff1a1a' }}>
+            <Button onPress = { this.handleForgotPassword } block style = {{ backgroundColor: '#ff1a1a' }}>
               <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Get the password</Text>
             </Button>
             <View style={{ height:height/54}} />

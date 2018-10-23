@@ -4,8 +4,6 @@ import isEmpty from '../../validations/is-empty.validate';
 import isEmail from '../../validations/email.validate';
 import { 
   NAME_EMPTY,
-  EMAIL_EMPTY,
-  EMAIL_INVALID,  
   PASSWORD_EMPTY, 
   PASSWORD_NOT_ENOUGH,
   PASSWORD_NOT_UPPER_CHARACTER,
@@ -37,9 +35,6 @@ const registerUser = data => dispatch => {
   let lowerCase = /[a-z]/;
   for(let key in data) data[key] = data[key].trim();        
   
-  if(isEmpty(data.email)) errors.email  = EMAIL_EMPTY;
-  else if(!isEmail(data.email)) errors.email = EMAIL_INVALID;
-
   if(isEmpty(data.name)) errors.name = NAME_EMPTY;
 
   if(isEmpty(data.phone)) errors.phone = PHONE_EMPTY;

@@ -104,7 +104,7 @@ export default class LoginInput extends BaseInput {
             style={{            
               flex: 1,  
               position: 'absolute',
-              bottom: 5,
+              bottom: 0,
               right: 0,
               height: 1,
               width,
@@ -115,14 +115,13 @@ export default class LoginInput extends BaseInput {
         {
           errorMessage && 
           (
-            <View style = {{ height: 10 }}>
+            <View >
               <Text style={[styles.error, errorStyle]}>
                 {errorMessage}
               </Text>
             </View>
           )
         }
-        
       </View>
     );
   }
