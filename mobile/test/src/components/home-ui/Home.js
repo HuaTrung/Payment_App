@@ -14,6 +14,9 @@ import Swiper from "react-native-swiper";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 const { width, height } = Dimensions.get('window');
@@ -78,38 +81,52 @@ class Home extends Component {
             flexDirection: "row"          
             }}
           >
-            {/* Thanh toán */}
             <TouchableOpacity style = {{ 
               width: impHeight -10, 
               height: impHeight -10, 
-              backgroundColor: "#4d79ff", 
+              // backgroundColor: "#4d79ff", 
               marginBottom: 5,
               alignItems :"center",
               justifyContent: "center" 
             }} >
-              <Text>scan QR</Text>
+              <MCIcons 
+                name = "qrcode-scan"      
+                size = {40}          
+                color = "white"
+                />
+              <Text style = {{ color:"white", fontSize: 12 }} >QR Scan</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style = {{ 
               width: impHeight -10, 
               height: impHeight -10, 
-              backgroundColor: "#4d79ff", 
+              // backgroundColor: "#4d79ff", 
               marginBottom: 5,
               alignItems :"center",
               justifyContent: "center" 
             }} >
-              <Text>money</Text>
+              <Entypo 
+                name = "sports-club"      
+                size = {40}          
+                color = "white"
+                />
+              <Text style = {{ color:"white", fontSize: 12 }} >123,456 VND</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style = {{ 
               width: impHeight -10, 
               height: impHeight -10, 
-              backgroundColor: "#4d79ff", 
+              // backgroundColor: "#4d79ff", 
               marginBottom: 5,
               alignItems :"center",
               justifyContent: "center" 
             }} >
-              <Text>connect</Text>
+              <MCIcons 
+                name = "credit-card-scan"      
+                size = {40}          
+                color = "white"
+                />
+              <Text style = {{ color:"white", fontSize: 12 }} >Connect</Text>
             </TouchableOpacity>
 
           </View>
