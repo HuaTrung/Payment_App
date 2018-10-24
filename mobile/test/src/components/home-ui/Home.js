@@ -57,7 +57,7 @@ class Home extends Component {
                 placeholder = "search"
                 placeholderTextColor = "#c2c2a3"
                 selectionColor = "#4d94ff"
-                onFocus = { () => this.props.navigation.push("Search") }
+                onFocus = { () => this.props.navigation.push("Search")}
               />
             </View>
             <TouchableOpacity 
@@ -135,7 +135,7 @@ class Home extends Component {
           </View>      
           <View style = {{ 
             flex:1,
-            backgroundColor: "#1aa3ff", 
+            backgroundColor: "white", 
             }}
           >
             <View style = {{ height: 100, flexDirection: "row" }}>

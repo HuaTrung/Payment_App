@@ -18,25 +18,12 @@ const { height } = Dimensions.get('window');
 Height = (height / 4);
 
 
-const HomeSearch = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen
-    },
-    Search: SearchScreen
-  },
-  {
-    initialRouteName: "Home",
-    navigationOptions: {
-      header: null
-    }
-  }
-);
+
 
 const SignedIn = createBottomTabNavigator(
   {
     Home: {
-      screen: HomeSearch,
+      screen: HomeScreen,
       navigationOptions: {
         title: 'Home',
         tabBarIcon: ({ tintColor }) => (
@@ -80,6 +67,21 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
+const HomeSearch = createStackNavigator(
+  {
+    SignedInScreen: {
+      screen: SignedIn
+    },
+    Search: SearchScreen
+  },
+  {
+    initialRouteName: "SignedInScreen",
+    navigationOptions: {
+      header: null
+    }
+  }
+);
+
 const TabLoginNavigator = createMaterialTopTabNavigator(
   {
     SignIn: SignInScreen,
@@ -111,7 +113,7 @@ const SignOutStack = createStackNavigator(
   {
     LoginScreen: TabLoginNavigator,
     TermStack: TermsScreen,
-    ForgotPassStack: ForgotPasswordScreen,
+    ForgotPassStack: ForgotPasswordScreen
   },
   {
     initialRouteName: 'LoginScreen',
@@ -124,7 +126,7 @@ const SignOutStack = createStackNavigator(
 const RootNavigator = createSwitchNavigator(
   {
     SignOutScreen: SignOutStack,
-    SignedInScreen: SignedIn
+    SignedInScreen: HomeSearch
   },
   {
     initialRouteName: 'SignedInScreen'
