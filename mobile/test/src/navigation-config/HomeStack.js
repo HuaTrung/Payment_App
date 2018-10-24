@@ -129,7 +129,7 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: HomeSearch
   },
   {
-    initialRouteName: 'SignedInScreen'
+    initialRouteName: 'SignOutScreen'
   }
 );
 
