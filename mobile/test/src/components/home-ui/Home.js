@@ -59,7 +59,7 @@ class Home extends Component {
                 placeholder = "search"
                 placeholderTextColor = "#c2c2a3"
                 selectionColor = "#4d94ff"
-                onFocus = { () => this.props.navigation.push("Search")}
+                onFocus = { () => this.props.navigation.push("SearchScreen")}
               />
             </View>
             <TouchableOpacity 
@@ -81,38 +81,41 @@ class Home extends Component {
             }}
           >
             <TouchableOpacity style = {{ 
-              width: impHeight -10, 
+              width: impHeight, 
               height: impHeight -10, 
               // backgroundColor: "#4d79ff", 
               marginBottom: 5,
               alignItems :"center",
               justifyContent: "center" 
-            }} >
+            }} 
+              onPress = { () => this.props.navigation.push('PayScanScreen') }
+            >
               <MCIcons 
                 name = "qrcode-scan"      
                 size = {40}          
                 color = "white"
                 />
-              <Text style = {{ color:"white", fontSize: 12 }} >QR Scan</Text>
+              <Text style = {{ color:"white", fontSize: 12 }} >QR Pay</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style = {{ 
-              width: impHeight -10, 
+              width: impHeight + 10, 
               height: impHeight -10, 
               // backgroundColor: "#4d79ff", 
               marginBottom: 5,
               alignItems :"center",
-              justifyContent: "center" 
+              justifyContent: "center",
+              // borderWidth: 2 
             }} >
               <FontAwesome5 
                 name = "teamspeak"      
                 size = {40}          
                 color = "white"/>
-              <Text style = {{ color:"white", fontSize: 12 }} >123,456 VND</Text>
+              <Text style = {{ color:"white", fontSize: 12, textAlign: "center" }} >123,456 VND</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style = {{ 
-              width: impHeight -10, 
+              width: impHeight, 
               height: impHeight -10, 
               // backgroundColor: "#4d79ff", 
               marginBottom: 5,

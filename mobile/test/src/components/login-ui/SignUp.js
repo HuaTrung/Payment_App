@@ -149,7 +149,7 @@ class SignUp extends Component {
               {/* Read license */}
               <View style = {{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                   <Text>Registered you have accepted </Text>
-                  <TouchableOpacity onPress = { () => this.props.navigation.push('TermStack') }>
+                  <TouchableOpacity onPress = { () => this.props.navigation.push('TermsScreen') }>
                       <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>the terms of use</Text>
                   </TouchableOpacity>
               </View>  

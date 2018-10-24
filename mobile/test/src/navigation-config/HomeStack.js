@@ -14,13 +14,18 @@ import { Icon } from 'react-native-elements'
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
 import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen } from '../components/home-ui';
 
+import PayScan from "../components/QR-pay-ui/PayScan";
+import BarCodeScreen from "../components/QR-pay-ui/BarCode-pay";
+import QRCodeScreen from "../components/QR-pay-ui/QRCode-pay";
+
+import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 const { height } = Dimensions.get('window');
 Height = (height / 4);
 
 
-
-
-const SignedIn = createBottomTabNavigator(
+const SignedInTabNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -67,12 +72,43 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
-const HomeSearch = createStackNavigator(
+const PayScanStack = createBottomTabNavigator (
+{ 
+  QRCodeScreen : {
+    screen: QRCodeScreen,
+    navigationOptions: {
+      title: 'QR Scan',
+      tabBarIcon: ({ tintColor }) => (
+        <MCIcons 
+          name = "qrcode-scan"      
+          size={20}      
+          color = "#517fa4"
+        />
+      )
+    }
+  },
+  BarCodeScreen : {
+    screen: BarCodeScreen,
+    navigationOptions: {
+      title: 'Bar Scan',
+      tabBarIcon: ({ tintColor }) => (
+        <Ionicons
+          name="md-barcode"
+          color='#517fa4'
+          size={20}
+        />
+      )
+    }
+  }
+}
+
+);
+
+const SignInStack = createStackNavigator(
   {
-    SignedInScreen: {
-      screen: SignedIn
-    },
-    Search: SearchScreen
+    SignedInScreen: SignedInTabNavigator,
+    SearchScreen,
+    PayScanScreen:PayScan
   },
   {
     initialRouteName: "SignedInScreen",
@@ -82,13 +118,17 @@ const HomeSearch = createStackNavigator(
   }
 );
 
-const TabLoginNavigator = createMaterialTopTabNavigator(
+ /**
+   * @param SignInScreen : user start login
+   * @param SignUpScreen : user start register
+   */
+const LoginTabNavigator = createMaterialTopTabNavigator(
   {
-    SignIn: SignInScreen,
-    SignUp: SignUpScreen
+    SignInScreen,
+    SignUpScreen
   },
   {
-    initialRouteName: 'SignIn',
+    initialRouteName: 'SignInScreen',
     tabBarOptions: {
       labelStyle: {
         fontSize: 13,
@@ -109,11 +149,16 @@ const TabLoginNavigator = createMaterialTopTabNavigator(
   }
 );
 
+ /**
+   * @param LoginScreen : user start login/register
+   * @param TermStack : user read license
+   * @param ForgotPassStack : user get new password
+   */
 const SignOutStack = createStackNavigator(
   {
-    LoginScreen: TabLoginNavigator,
-    TermStack: TermsScreen,
-    ForgotPassStack: ForgotPasswordScreen
+    LoginScreen: LoginTabNavigator,
+    TermsScreen,
+    ForgotPasswordScreen
   },
   {
     initialRouteName: 'LoginScreen',
@@ -123,19 +168,25 @@ const SignOutStack = createStackNavigator(
     }
   });
 
+
+  /**
+   * @param SignOutScreen : Sign out to login/ register
+   * @param SignedInScreen : user signed in 
+   */
 const RootNavigator = createSwitchNavigator(
   {
     SignOutScreen: SignOutStack,
-    SignedInScreen: HomeSearch
+    SignedInScreen: SignInStack
   },
   {
-    initialRouteName: 'SignOutScreen'
+    initialRouteName: 'SignedInScreen'
   }
 );
 
 
 export {
-  TabLoginNavigator,
+  LoginTabNavigator,
   SignOutStack,
-  RootNavigator
+  RootNavigator,
+  PayScanStack
 };

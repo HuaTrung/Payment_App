@@ -100,7 +100,7 @@ class SignIn extends Component {
           <View style={{ height:height/32}} />
 
           {/* Forgot password text */}
-          <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPassStack") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPasswordScreen") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
               <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>Forgot password ?</Text>
           </TouchableOpacity>
           <View style={{ height:height/32 }} />

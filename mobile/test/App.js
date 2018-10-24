@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, YellowBox} from 'react-native';
+import { StyleSheet, View, YellowBox, TouchableOpacity, Text} from 'react-native';
 import { Root } from "native-base";
 import {RootNavigator, SignOutStack}  from './src/navigation-config/HomeStack';
 import Splash from './src/components/splash-ui/Splash';
@@ -22,6 +22,14 @@ export default class App extends Component {
       this.setState({ splashScreen:false});
     },3000);
   }
+
+  takePicture = async function() {
+    if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options)
+      console.log(data.uri);
+    }
+  };
 
   render() {
     const { splashScreen } = this.state;

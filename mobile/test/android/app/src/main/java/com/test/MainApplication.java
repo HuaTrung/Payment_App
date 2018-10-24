@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import com.test.QRCodePackage;
+import com.test.BarcodeScannerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 public class MainApplication extends Application implements ReactApplication {
@@ -30,7 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
           new SvgPackage(),
           new VectorIconsPackage(),
           new LinearGradientPackage(),
-          new QRCodePackage()
+          new QRCodePackage(),
+          new BarcodeScannerPackage()
       );
     }
 
