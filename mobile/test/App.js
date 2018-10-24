@@ -9,7 +9,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 import { Provider } from  "react-redux";
 import store from './src/redux/store';
 
-import TabBar from './src/components/custom-ui/tabbar-interaction/TabBar';
+import QR from "./src/components/custom-ui/qr-ui/QR";
 
 export default class App extends Component {
 
@@ -31,46 +31,30 @@ export default class App extends Component {
       <Provider store = { store } >
         <Root>  
           <RootNavigator/>          
+          {/* <View style={styles.container}>
+            <QR text="Welcome to React Native!"
+              format="QR_CODE"
+              style={styles.barcode} />
+          </View> */}
         </Root>
       </Provider>
     );
-  //   return (<TabBar>
-  //     <TabBar.Item
-  //     // icon={require('./tab1.png')}
-  //     // selectedIcon={require('./tab1_sel.png')}
-  //      title="Tab1"
-  //      screenBackgroundColor={{ backgroundColor: '#008080' }}
-  //  >
-  //     <View>
-
-  //     </View>
-  //     </TabBar.Item>
-  //     <TabBar.Item
-  //     // icon={require('./tab2.png')}
-  //      // selectedIcon={require('./tab2_sel.png')}
-  //      title="Tab2"
-  //      screenBackgroundColor={{ backgroundColor: '#F08080' }}
-  //  >
-  //     <View>
-
-  //     </View>
-  //     </TabBar.Item>
-  //     <TabBar.Item
-  //      //icon={require('./tab3.png')}
-  //      //selectedIcon={require('./tab3_sel.png')}
-  //      title="Tab3"
-  //      screenBackgroundColor={{ backgroundColor: '#485d72' }}
-  //  >
-  //      <View>
-
-  //      </View>
-  //      </TabBar.Item>
-  //      </TabBar>);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  barcode: {
+    height: 300,
+    width: 300,
+    alignSelf: 'center' 
   }
 });
