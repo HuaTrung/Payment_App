@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, YellowBox, TouchableOpacity, Text} from 'react-native';
+import { StyleSheet, View, YellowBox, TouchableOpacity, Text,StatusBar} from 'react-native';
 import { Root } from "native-base";
 import {RootNavigator, SignOutStack}  from './src/navigation-config/Route';
 import Splash from './src/components/splash-ui/Splash';
@@ -38,6 +38,7 @@ export default class App extends Component {
     return (
       <Provider store = { store } >
         <Root>  
+          <StatusBar backgroundColor = "#1aa3ff" />
           <RootNavigator/>          
           {/* <View style={styles.container}>
             <QR text="Welcome to React Native!"

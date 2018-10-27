@@ -39,7 +39,7 @@ class Home extends Component {
     return (
       <ScrollView >
         <View style = {{ flex:1 }}>
-          <StatusBar backgroundColor = "#1aa3ff" />
+          
           {/*  */}
           <HomeSearchBar/>
           {/*  */}
