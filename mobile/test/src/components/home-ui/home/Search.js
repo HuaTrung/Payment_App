@@ -8,12 +8,11 @@ const searchHeight = height / 13;
 
 class Search extends Component {
 
-  
   render() {
     return (
       <View>
         <View style = {{ 
-          height:searchHeight, 
+          height:searchHeight + 10, 
           backgroundColor: "#1aa3ff", 
           justifyContent: "center", 
           alignItems: "center" ,
@@ -25,12 +24,14 @@ class Search extends Component {
             >
             <Ionicons              
               name = "ios-arrow-back" 
-              size = {35}
+              size = {38}
               color = "white"
             />
           </TouchableOpacity>
           <View style = {{ 
-            marginVertical: 8, 
+            marginTop:8,
+            marginBottom:8,
+            // marginVertical: 8, 
             marginHorizontal: 15,
             borderRadius: 5, 
             backgroundColor: 'white', 
@@ -46,12 +47,14 @@ class Search extends Component {
               size = {32}
               color = "#c2c2a3"
             />
-            <TextInput style = {{ flex: 1, paddingHorizontal: 3}}
-              placeholder = "search"
-              placeholderTextColor = "#c2c2a3"
-              selectionColor = "#4d94ff"
-              autoFocus = {true}
-            />
+            <TextInput style = {{ flex: 1, paddingHorizontal: 3, backgroundColor: "red"}}
+                placeholder = "search"
+                placeholderTextColor = "#c2c2a3"
+                selectionColor = "#4d94ff"
+                // onFocus = { () => this.props.navigation.push("SearchScreen")}
+                underlineColorAndroid = 'rgba(0,0,0,0)'
+                multiline = {false}
+              />
           </View>
         </View>  
         <View style = {{ 

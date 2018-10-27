@@ -14,6 +14,8 @@ import { Icon } from 'react-native-elements'
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
 import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen } from '../components/home-ui';
 
+import HomeSearchBar from "../components/home-ui/home/HomeSearchBar";
+
 import PayScan from "../components/QR-pay-ui/PayScan";
 import BarCodeScreen from "../components/QR-pay-ui/BarCode-pay";
 import QRCodeScreen from "../components/QR-pay-ui/QRCode-pay";
@@ -23,7 +25,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 const { height } = Dimensions.get('window');
 Height = (height / 4);
-
 
 const SignedInTabNavigator = createBottomTabNavigator(
   {
@@ -107,8 +108,8 @@ const PayScanStack = createBottomTabNavigator (
 const SignInStack = createStackNavigator(
   {
     SignedInScreen: SignedInTabNavigator,
-    SearchScreen,
-    PayScanScreen:PayScan
+    PayScanScreen:PayScan,
+    SearchScreen
   },
   {
     initialRouteName: "SignedInScreen",
@@ -172,6 +173,8 @@ const SignOutStack = createStackNavigator(
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 
+   * using switch navigator because we just only ever show one screen at a time
+   *  it does not handle back actions and it resets routes to their default state when you switch away
    */
 const RootNavigator = createSwitchNavigator(
   {
@@ -188,5 +191,5 @@ export {
   LoginTabNavigator,
   SignOutStack,
   RootNavigator,
-  PayScanStack
+  PayScanStack,
 };

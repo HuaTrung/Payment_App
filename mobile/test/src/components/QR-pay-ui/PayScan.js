@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { PayScanStack } from "../../navigation-config/HomeStack";
+import { PayScanStack } from "../../navigation-config/Route";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -27,7 +27,7 @@ class PayScan extends Component {
   render() {
     return (
       <View style = {{ flex:1}}>
-        {/* Top bar */}
+        {/* Top bar */} 
         <View style = {{ 
           height:50, 
           backgroundColor: "#1aa3ff", 

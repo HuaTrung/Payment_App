@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, YellowBox, TouchableOpacity, Text} from 'react-native';
 import { Root } from "native-base";
-import {RootNavigator, SignOutStack}  from './src/navigation-config/HomeStack';
+import {RootNavigator, SignOutStack}  from './src/navigation-config/Route';
 import Splash from './src/components/splash-ui/Splash';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
