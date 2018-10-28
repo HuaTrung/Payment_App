@@ -1,7 +1,7 @@
 # Our Service :steam_locomotive::train::train::train::train::train:
 
 ## Table of Contents
-
+- [Server Git](#server-git)
 - [Introduction](#introduction)
 - [Technology](#technology)
 - [Tool](#tool)
@@ -12,9 +12,11 @@
 - [Preferences](#preferences)
 - [Contributors](#contributors)
 
+## server git
+https://github.com/lexuantien1997/Online_Payment_Server
 ## Introduction
 
-The server handle request from payment app and manage transactions
+An online payment app (client) using React native
 
 ## Technology
 
