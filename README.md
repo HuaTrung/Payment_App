@@ -19,7 +19,11 @@ https://github.com/lexuantien1997/Online_Payment_Server
 An online payment app (client) using React native
 
 ## Technology
-
+- __[React native](https://facebook.github.io/react-native/)__ : a JavaScript framework for writing real, natively rendering mobile applications for iOS and Android.
+- __[React navigation](https://reactnavigation.org/)__ :  provides an easy to use navigation solution, with the ability to present common stack navigation and tabbed navigation patterns on both iOS and Android.
+- __[Redux](https://redux.js.org/)__ : a predictable state container for JavaScript apps. Redux makes it easy to manage the state of your application.
+- __[React native camera](https://github.com/react-native-community/react-native-camera)__ : the comprehensive camera module for React Native. In this app, it will handle scan QR code to pay money.
+- __[Axios](https://github.com/axios/axios)__ :  a Javascript library used to make HTTP requests from node.js or XMLHttpRequests. It is an upgraded version of fecth because it provides more options that fetch doesn't have
 - __[Nodejs](https://nodejs.org/en/) :__ Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
 - __[Reactjs](https://reactjs.org/) :__  In computing, React is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications.
 - __[React Native](https://facebook.github.io/react-native/) :__ React Native lets you build mobile apps using only JavaScript. It uses the same design as React, letting you compose a rich mobile UI from declarative components.
