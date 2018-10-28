@@ -1,6 +1,0 @@
-{
-  "name": "UserToUser",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./UserToUser.js"
-}

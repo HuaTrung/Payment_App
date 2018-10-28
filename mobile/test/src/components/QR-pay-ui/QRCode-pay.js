@@ -19,10 +19,10 @@ export default class QrPay extends Component {
   render() {
     return (
       <View style = {{ flex: 1 }}> 
-        {/* <RNCamera
+         <RNCamera
             style = {{height: 200, width: 200}}
             type={RNCamera.Constants.Type.front}
-        /> */}
+        /> 
       </View>
     )
   }
