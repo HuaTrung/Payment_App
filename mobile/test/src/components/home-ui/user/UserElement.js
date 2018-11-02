@@ -3,8 +3,11 @@ import { View, Text,StyleSheet, Dimensions, TouchableOpacity } from 'react-nativ
 import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const { width, height } = Dimensions.get('window');
 
 class UserElement extends Component {
@@ -20,6 +23,14 @@ class UserElement extends Component {
         return <MCIcons name = { iconName } size = { iconSize } color = { iconColor }/>
       case "FontAwesome5":
         return <FontAwesome5 name = { iconName } size = { iconSize } color = { iconColor }/>
+      case "Ionicons":
+        return <Ionicons name = { iconName } size = { iconSize } color = { iconColor }/>
+      case "Entypo":
+        return <Entypo name = { iconName } size = { iconSize } color = { iconColor }/>
+      case "FontAwesome":
+        return <FontAwesome name = { iconName } size = { iconSize } color = { iconColor }/>
+      case "MaterialIcons":
+        return <MaterialIcons name = { iconName } size = { iconSize } color = { iconColor }/>
     }
   }
 
@@ -71,7 +82,7 @@ UserElement.propTypes = {
 UserElement.defaultProps = {
   h: 50,
   iconSize: 30,
-  iconColor: "white",
+  iconColor: "#3b5998",
   allowBotBorder: false,
   botBorderWidth: width/1.2
 };

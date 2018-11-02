@@ -22,7 +22,7 @@ import QRCodeScreen from "../components/QR-pay-ui/QRCode-pay";
 
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 const { height } = Dimensions.get('window');
 Height = (height / 4);
 
@@ -50,7 +50,14 @@ const SignedInTabNavigator = createBottomTabNavigator(
     UserProfile: {
       screen: UserProfileScreen,
       navigationOptions: {
-        title: 'User'
+        title: 'User',
+        tabBarIcon: ({ tintColor }) => (
+          <FontAwesome5
+            name='user-shield'
+            color='#517fa4'
+            size= {24}
+          />
+        )
       }
     }
   },
