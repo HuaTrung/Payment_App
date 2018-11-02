@@ -17,6 +17,8 @@ const { width, height } = Dimensions.get('window');
 const searchHeight = height / 13;
 const impHeight = height / 8;
 const promoHeight = height / 4;
+import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import HomeTop from "./HomeTop";
 
@@ -60,7 +62,7 @@ class Home extends Component {
 
             <HomeTop 
               _onPress = { this.navigatePayScan.bind(this) }
-              iconType = "MCIcons"
+              iconType = "  "
               iconName = "credit-card-scan"
               text = "Connect"
             />
@@ -81,14 +83,26 @@ class Home extends Component {
           {/* flat list => split new class */}
             <View style = {{ height: 100, flexDirection: "row" }}>
               <TouchableOpacity style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
-                  <Text>send gift</Text>
+                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
+                <MCIcons
+                name='cellphone-arrow-down'
+                color='#3b5998'
+                style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                size={45}
+                />
+                  <Text style = {{ color:"black"}}>Recharge</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity style = {{flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
-                  <Text>transfer</Text>
+                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
+                <Ionicons
+                  name='ios-repeat'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={50}/>
+                  <Text style = {{ color:"black"}}>Transfer</Text>
                 </View>
               </TouchableOpacity>
 
