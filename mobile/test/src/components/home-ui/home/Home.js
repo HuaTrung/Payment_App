@@ -62,7 +62,7 @@ class Home extends Component {
 
             <HomeTop 
               _onPress = { this.navigatePayScan.bind(this) }
-              iconType = "  "
+              iconType = "MCIcons"
               iconName = "credit-card-scan"
               text = "Connect"
             />
