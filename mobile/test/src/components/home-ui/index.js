@@ -1,7 +1,8 @@
 import HomeScreen from './home/Home';
-import UserProfileScreen from './user/UserProfile';
+import TransactionScreen from './user/UserProfile';
+import UserProfileScreen from './user/ProfileChange';
 import SearchScreen from './home/Search';
-import TransactionScreen from './Transaction';
+// import TransactionScreen from './Transaction';
 
 export {
   HomeScreen,

@@ -6,8 +6,8 @@ import UserElement from "./UserElement";
 const { width, height } = Dimensions.get('window');
 
 const w1 = width / 4.5;
+const w11 = width / 7;
 const w3 = width / 10;
-
 const h1 = height / 7;
 
 class UserProfile extends Component {
@@ -22,21 +22,21 @@ class UserProfile extends Component {
         <ScrollView>
         <View style = {{ height:10 }} />
         {/* change user information */}
-        <ProfileElement w1 = {width / 4.5} w3 = {width / 10} h = {height / 7} />
+        <ProfileElement w1 = {w1} w3 = {w3} h = {h1} />
         <View style = {{ height:10 }} />
 
         <UserElement  
           iconType = "Ionicons"
           iconName = "md-settings" 
-          w1 = {width / 7} w3 = {width / 10}
-          textValue = "Protect Account"
+          w1 = {w11} w3 = {w3}
+          textValue = "High Protect Account"
           allowBotBorder = {true}
         />
         {/* Link account to social */}
         <UserElement  
           iconType = "Entypo"
           iconName = "globe" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "Connect Social"
           iconColor = "green"
         />
@@ -46,7 +46,7 @@ class UserProfile extends Component {
         <UserElement  
           iconType = "FontAwesome5"
           iconName = "paypal" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "Pay Account"
           rightValue = "123,456 vnđ"
           allowBotBorder = {true}
@@ -55,28 +55,28 @@ class UserProfile extends Component {
         <UserElement  
           iconType = "FontAwesome5"
           iconName = "gift" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "Gifts List"
         />
         <View style = {{ height:10 }} />
         <UserElement  
           iconType = "FontAwesome"
           iconName = "support" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "Support"
           allowBotBorder = {true}
         />
         <UserElement  
           iconType = "MaterialIcons"
           iconName = "feedback" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "Quick Feedback"
           allowBotBorder = {true}
         />
         <UserElement  
           iconType = "Entypo"
           iconName = "info" 
-          w1 = {width / 7} w3 = {width / 10}
+          w1 = {w11} w3 = {w3}
           textValue = "About App"
         />
         <View style = {{ height:10 }} />
