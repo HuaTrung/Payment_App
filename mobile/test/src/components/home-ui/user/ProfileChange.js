@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet, Dimensions, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View ,ScrollView, Text,StyleSheet, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Radio, DatePicker } from "native-base";
+import { Radio, DatePicker, CheckBox } from "native-base";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Input from "./Input";
 
 const { width, height } = Dimensions.get('window');
@@ -19,9 +20,11 @@ class ProfileChange extends Component {
     super(props);
     this.state = {
       isGenderSelected: false,
-      chosenDate: new Date()
+      isOpenPass: false,
+      chosenDate: new Date(2018,1,1)
     }
     this._onGenderPress = this._onGenderPress.bind(this);
+    this._onChangePassPress = this._onChangePassPress.bind(this);
     this._setDate = this._setDate.bind(this);
   }
 
@@ -33,8 +36,12 @@ class ProfileChange extends Component {
     this.setState({ chosenDate: newDate });
   }
 
+  _onChangePassPress() {
+    this.setState({ isOpenPass: !this.state.isOpenPass});
+  }
+
   render() {
-    const { isGenderSelected } = this.state;
+    const { isGenderSelected, isOpenPass } = this.state;
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -83,32 +90,63 @@ class ProfileChange extends Component {
             iconName = "address" 
             placeholder = "your address"
           />
-
-          <View style = {{ flexDirection: "row" , justifyContent: "space-evenly", marginTop: 5}} >
-            <View style = {{ flexDirection: "row" }} >
-              <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == true} />
-              <Text> male</Text>
+          <View>
+            <View style = {{ flexDirection: "row" , justifyContent: "space-evenly", marginVertical: 5}} >
+              <View style = {{ flexDirection: "row" }} >
+                <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == true} />
+                <Text> male</Text>
+              </View>
+              <View style = {{ flexDirection: "row" }} >
+                <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == false} />
+                <Text> female</Text>
+              </View>
             </View>
-            <View style = {{ flexDirection: "row" }} >
-              <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == false} />
-              <Text> female</Text>
-            </View>
+            <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
           </View>
+          
 
-          <View style = {{ flexDirection: "row", marginHorizontal: 5}} >
-            <View>
-              <FontAwesome 
-                name = "birthday-cake"
+          <View>
+            <View style = {{ flexDirection: "row",alignItems: "center"}}>
+              <MCIcons 
+                name = "cupcake"
                 size = {30}
                 color = "#3b5998"
               />
-            </View>
-            <DatePicker 
+              <DatePicker 
+              placeHolderTextStyle={{ color: "#C7C7CD" }}
+              placeHolderText="select birthdate"
               onDateChange={this._setDate}  
               animationType={"fade"}
               androidMode={"default"}/>
+            </View>
+            <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
           </View>
-
+            {
+              isOpenPass == false ? (
+                <View style = {{ flexDirection: "row", justifyContent: "center" ,alignItems: "center", marginVertical: 5}}>
+                  <CheckBox color="#3b5998" onPress = { this._onChangePassPress }  checked = { isOpenPass } />
+                  <Text style = {{ marginHorizontal: 10 }}> change password</Text>
+                </View>
+              ) : (
+                <View>
+                  <Input  
+                    iconType = "FontAwesome"
+                    iconName = "unlock-alt" 
+                    placeholder = "current password"
+                  />
+                  <Input  
+                    iconType = "Entypo"
+                    iconName = "lock" 
+                    placeholder = "new password"
+                  />
+                  <Input  
+                    iconType = "Entypo"
+                    iconName = "lock" 
+                    placeholder = "confirm password"
+                  />
+                </View>
+              )
+            }
         </ScrollView>
 
       </View>
