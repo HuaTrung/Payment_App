@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
 import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen } from '../components/home-ui';
-
+import ProfileChangeScreen from "../components/home-ui/user/ProfileChange";
 import HomeSearchBar from "../components/home-ui/home/HomeSearchBar";
 
 import PayScan from "../components/QR-pay-ui/PayScan";
@@ -117,7 +117,8 @@ const SignInStack = createStackNavigator(
   {
     SignedInScreen: SignedInTabNavigator,
     PayScanScreen:PayScan,
-    SearchScreen
+    SearchScreen,
+    ProfileChangeScreen
   },
   {
     initialRouteName: "SignedInScreen",

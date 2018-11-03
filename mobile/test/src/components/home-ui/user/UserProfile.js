@@ -12,6 +12,16 @@ const h1 = height / 7;
 
 class UserProfile extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this._navigateProfileChange = this._navigateProfileChange.bind(this);
+  }
+
+  _navigateProfileChange() {
+    this.props.navigation.push('ProfileChangeScreen')
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -22,7 +32,12 @@ class UserProfile extends Component {
         <ScrollView>
         <View style = {{ height:10 }} />
         {/* change user information */}
-        <ProfileElement w1 = {w1} w3 = {w3} h = {h1} />
+        <ProfileElement 
+          name = "Lê Xuân Tiến"
+          phone = "0932-311-434"
+          startMemberAt = "Starting member: 01/01/2018"
+          onPress = { this._navigateProfileChange } 
+          w1 = {w1} w3 = {w3} h = {h1} />
         <View style = {{ height:10 }} />
 
         <UserElement  

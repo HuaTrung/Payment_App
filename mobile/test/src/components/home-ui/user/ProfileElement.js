@@ -13,16 +13,16 @@ class ProfileElement extends Component {
   }
 
   render() {
-    const { w1, w2, w3, h } = this.props;
+    const { w1, w2, w3, h, onPress, name, phone, startMemberAt } = this.props;
     return (
-      <TouchableOpacity style = {{ flexDirection: "row", height: h, backgroundColor: "white"}}>       
+      <TouchableOpacity onPress= {onPress} style = {{ flexDirection: "row", height: h, backgroundColor: "white"}}>       
         <View style = {{ width: w1 , justifyContent: "center", alignItems:"center"}}>                    
           <FontAwesome5 name = "user-astronaut" color = "#3b5998" size = {h-h/3} />
         </View>
         <View style = {{ flex:1 , flexDirection: "column", justifyContent: "center", marginHorizontal:5 }}>
-          <Text style = {{ fontWeight:"bold", fontSize:16 }} >Lê Xuân Tiến</Text>
-          <Text>0932-311-434</Text>
-          <Text>Starting member: 01/01/2018</Text>
+          <Text style = {{ fontWeight:"bold", fontSize:16 }} >{name}</Text>
+          <Text>{phone}</Text>
+          <Text>{startMemberAt}</Text>
         </View>
         <View style = {{ width: w3  ,justifyContent: "center", alignItems:"center" }}>
           <Entypo name = "chevron-thin-right" color = "#3b5998" size = {h-h/2-h/8} />
@@ -35,7 +35,11 @@ class ProfileElement extends Component {
 ProfileElement.propTypes = {
   w1: PropTypes.number.isRequired,
   w3: PropTypes.number.isRequired,
-  h:PropTypes.number.isRequired
+  h:PropTypes.number.isRequired,
+  onPress : PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired, 
+  phone: PropTypes.string.isRequired, 
+  startMemberAt: PropTypes.string.isRequired
 };
 
 ProfileElement.defaultProps = {

@@ -46,7 +46,7 @@ class ProfileChange extends Component {
       <View style={styles.container}>
         {/* Top bar */}
         <View style = {styles.wrapper}>
-          <TouchableOpacity style = {{ marginLeft: 10 }} >
+          <TouchableOpacity onPress = { ()=> this.props.navigation.goBack() } style = {{ marginLeft: 10 }} >
             <Ionicons              
               name = "ios-arrow-back" 
               size = {40}
@@ -91,15 +91,15 @@ class ProfileChange extends Component {
             placeholder = "your address"
           />
           <View>
-            <View style = {{ flexDirection: "row" , justifyContent: "space-evenly", marginVertical: 5}} >
-              <View style = {{ flexDirection: "row" }} >
-                <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == true} />
+            <View style = {{ flexDirection: "row" , justifyContent: "flex-start", marginVertical: 5}} >
+              <TouchableOpacity  onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10}} >
+                <Radio selected={isGenderSelected == true} onPress = { this._onGenderPress } />
                 <Text> male</Text>
-              </View>
-              <View style = {{ flexDirection: "row" }} >
-                <Radio  onPress = { this._onGenderPress } selected={isGenderSelected == false} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10 }} >
+                <Radio onPress = { this._onGenderPress } selected={isGenderSelected == false} />
                 <Text> female</Text>
-              </View>
+              </TouchableOpacity>
             </View>
             <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
           </View>
@@ -123,7 +123,7 @@ class ProfileChange extends Component {
           </View>
             {
               isOpenPass == false ? (
-                <View style = {{ flexDirection: "row", justifyContent: "center" ,alignItems: "center", marginVertical: 5}}>
+                <View style = {{ flexDirection: "row",justifyContent: "center", marginTop: 5}}>
                   <CheckBox color="#3b5998" onPress = { this._onChangePassPress }  checked = { isOpenPass } />
                   <Text style = {{ marginHorizontal: 10 }}> change password</Text>
                 </View>
