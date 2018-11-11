@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text,StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
@@ -18,11 +19,19 @@ class UserProfile extends Component {
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
   }
 
-  _navigateProfileChange() {
-    this.props.navigation.push('ProfileChangeScreen')
+  _navigateProfileChange(_user) {
+    this.props.navigation.push('ProfileChangeScreen', {
+      user: _user
+    })
   }
 
   render() {
+
+    const { user } = this.props.auth;
+    
+    alert(JSON.stringify(user));
+    console.log(user);
+
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -33,10 +42,10 @@ class UserProfile extends Component {
         <View style = {{ height:10 }} />
         {/* change user information */}
         <ProfileElement 
-          name = "Lê Xuân Tiến"
-          phone = "0932-311-434"
+          name = { user.name }
+          phone = { user.phone.toString() }
           startMemberAt = "Starting member: 01/01/2018"
-          onPress = { this._navigateProfileChange } 
+          onPress = { () => this._navigateProfileChange(user) } 
           w1 = {w1} w3 = {w3} h = {h1} />
         <View style = {{ height:10 }} />
 
@@ -110,4 +119,10 @@ const styles = StyleSheet.create({
     flex:1,
   }
 });
-export default UserProfile;
+// export default UserProfile;
+
+const mapStateToProps = state => ({
+  auth: state.authLoginReducer
+});
+
+export default connect(mapStateToProps, null)(UserProfile);

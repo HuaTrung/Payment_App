@@ -41,7 +41,10 @@ class ProfileChange extends Component {
   }
 
   render() {
+    
     const { isGenderSelected, isOpenPass } = this.state;
+    const user =  this.props.navigation.getParam('user');
+
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -70,19 +73,19 @@ class ProfileChange extends Component {
             iconType = "MCIcons"
             iconName = "human-greeting" 
             placeholder = "name"
-            value = "Lê Xuân Tiến"
+            value = { user.name }
           />
           <Input  
             iconType = "Entypo"
             iconName = "phone" 
             placeholder = "phone number"
-            value = "0932-311-434"
+            value = { user.phone.toString() }
           />
           <Input  
             iconType = "MCIcons"
             iconName = "email-check" 
             placeholder = "email"
-            value = "tienlx97@gmail.com"
+            value = { user.email }
             rightValue = "send"
           />
           <Input  

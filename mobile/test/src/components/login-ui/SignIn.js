@@ -38,7 +38,7 @@ class SignIn extends Component {
       password: this.state.password,
       type: 'nothing'
     };
-    this.props.loginUser(data);
+    this.props.loginUser(data); // dispath to loginUser action
   }
 
   onChangeTextEmailOrPhone(text) {
@@ -82,7 +82,7 @@ class SignIn extends Component {
           <View style={{ height:20}} />
 
           <LoginInput 
-              onChangeText = { (text) => this.onChangeTextEmailOrPhone(text)}  
+              onChangeText = { (text) => this.onChangeTextEmailOrPhone(text) }  
               label = {'Email / Phone'} 
               errorMessage = { errors.emailOrPhone }/>
 
