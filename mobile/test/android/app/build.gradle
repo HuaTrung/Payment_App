@@ -149,7 +149,7 @@ dependencies {
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-vector-icons')
     implementation group: 'com.google.zxing', name: 'core', version: '3.3.0'
-    
+
 }
 
 // Run this once to be able to run the application with BUCK

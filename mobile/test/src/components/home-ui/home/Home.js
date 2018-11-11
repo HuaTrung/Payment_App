@@ -82,7 +82,7 @@ class Home extends Component {
           >
           {/* flat list => split new class */}
             <View style = {{ height: 100, flexDirection: "row" }}>
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
+              <TouchableOpacity onPress = { () => this.props.navigation.push('RechargeScreen') } style = {{ flex: 1, margin: 10}}>
                 <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
                 <MCIcons
                 name='cellphone-arrow-down'
@@ -106,7 +106,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 , margin: 10}}>
+              <TouchableOpacity style = {{ flex: 1 , margin: 10}}  >
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
                   <Text>receive</Text>
                 </View>
