@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, StatusBar, TextInput, TouchableOpacity, Modal, TouchableHighlight, Alert } from 'react-native';
+import { Keyboard,View, Text, StyleSheet, Dimensions, StatusBar, TextInput, TouchableOpacity, Modal, TouchableHighlight, Alert } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 const { width, height } = Dimensions.get('window');
 import { Container, Header, Content, Form, Item, Input, Label, Button, Icon } from 'native-base';
@@ -64,7 +64,7 @@ class Recharge extends Component {
           }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
-              <Input keyboardType={'none'} value={this.state.money} />
+              <Input editable={false} value={this.state.money} />
             </Item>
           </Form>
           <Button style={{
