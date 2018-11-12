@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import GLOBAL from "../../config";
 import isEmpty from '../../validations/is-empty.validate';
 import { 
   USERNAME_EMPTY,
@@ -39,7 +39,7 @@ const loginUser = data => dispatch => {
     dispatch(setErrorLogin(errors));
   } else {    
     data.type = type;
-    axios.post('http://192.168.1.108:5000/app/user/login',data)
+    axios.post("http://" + GLOBAL.IPv4 +":5000/app/user/login",data)
     .then( response => {
       let { data } = response;
       if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
@@ -67,7 +67,7 @@ const getForgotPassword = emailOrPhone => dispatch => {
   if(!isEmpty(errors)) {
     dispatch(setForgotPassword(errors));
   } else {
-    axios.post('http://192.168.1.108:5000/app/user/forgot-password',{emailOrPhone, type})
+    axios.post("http://" + GLOBAL.IPv4 + ":5000/app/user/forgot-password",{emailOrPhone, type})
     .then( response => {
       let { data } = response;
       // if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
