@@ -14,14 +14,13 @@ class UserProfile extends Component {
 
   constructor(props) {
     super(props);
-
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
   }
 
   _navigateProfileChange() {
     this.props.navigation.push('ProfileChangeScreen')
   }
-
+  
   render() {
     return (
       <View style={styles.container}>

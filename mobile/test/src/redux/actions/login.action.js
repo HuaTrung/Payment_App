@@ -17,6 +17,11 @@ import {
   SEND_FORGOT_PASSWORD_SUCCESS
 } from './types';
 
+import Realm,{ insertUserLogin, checkUserExist,queryUserLoginData , deleteUserLogout} from "../../realm/schema";
+
+function callback(data){
+  alert(data);
+}
 /**
  * @description If every thing we all send to server to validate, server will big and not response quickly
  * => make app not good 
@@ -42,7 +47,12 @@ const loginUser = data => dispatch => {
     axios.post("http://" + GLOBAL.IPv4 +":5000/app/user/login",data)
     .then( response => {
       let { data } = response;
-      if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
+      if(data.status == 0 && !isEmpty(data.user)) { 
+        // alert(JSON.stringify(data.user));
+        insertUserLogin(data.user)
+          .then( () => dispatch(setSuccessLogin()))
+          .catch((err)=> alert(err));
+      } 
       else if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setErrorLogin(data.errors)); 
     }).catch( err => console.warn(err));
   }
@@ -93,10 +103,9 @@ const setForgotPassword = errors => {
   };
 }
 
-const setSuccessLogin = data => {
+const setSuccessLogin = () => {
   return {
-    type: LOGIN_SUCCESS,
-    payload: data
+    type: LOGIN_SUCCESS
   };
 }
 

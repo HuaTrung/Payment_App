@@ -178,7 +178,7 @@ const SignOutStack = createStackNavigator(
     }
   });
 
-
+  import Realm,{ checkUserExist } from "../realm/schema";
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 
@@ -191,14 +191,18 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: SignInStack
   },
   { 
-    initialRouteName: 'SignedInScreen'
+    initialRouteName: JSON.stringify(Realm.objects("user")) ? 'SignedInScreen' : 'SignOutScreen'
   }
 );
+
+
+
 
 
 export {
   LoginTabNavigator,
   SignOutStack,
   RootNavigator,
-  PayScanStack,
+  PayScanStack
 };
+
