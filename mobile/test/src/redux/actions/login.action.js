@@ -17,7 +17,7 @@ import {
   SEND_FORGOT_PASSWORD_SUCCESS
 } from './types';
 
-import Realm,{ insertUserLogin, checkUserExist,queryUserLoginData , deleteUserLogout} from "../../realm/schema";
+import { insertUserLogin , queryUserLoginData, deleteUserLogout} from "../../realm/userQueries";
 
 function callback(data){
   alert(data);
@@ -27,7 +27,10 @@ function callback(data){
  * => make app not good 
  */
 const loginUser = data => dispatch => {
-
+  // queryUserLoginData().then(data=> {
+  //   alert(data);
+  // })
+  // deleteUserLogout();
   let errors = {}, type = '';
   //alert(data);
   for(let key in data) data[key] = data[key].trim();        

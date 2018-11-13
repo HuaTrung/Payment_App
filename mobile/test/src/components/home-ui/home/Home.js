@@ -24,6 +24,8 @@ import HomeTop from "./HomeTop";
 
 import {HomSearch} from "../../../navigation-config/Route";
 
+import { queryUSerMoney, isEmptyUserLogin } from "../../../realm/userQueries";
+
 class Home extends Component {
 
   constructor(props) {
@@ -35,6 +37,12 @@ class Home extends Component {
 
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
+  }
+
+  componentWillMount() {
+    let data = queryUSerMoney();
+    alert(JSON.stringify(data)); 
+    // alert(isEmptyUserLogin());
   }
 
   render() {

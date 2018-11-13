@@ -178,7 +178,7 @@ const SignOutStack = createStackNavigator(
     }
   });
 
-  import Realm,{ checkUserExist } from "../realm/schema";
+  import { isEmptyUserLogin } from "../realm/userQueries.js";
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 
@@ -191,7 +191,7 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: SignInStack
   },
   { 
-    initialRouteName: JSON.stringify(Realm.objects("user")) ? 'SignedInScreen' : 'SignOutScreen'
+    initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
   }
 );
 
