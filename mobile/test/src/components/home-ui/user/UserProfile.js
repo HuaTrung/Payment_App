@@ -25,11 +25,16 @@ class UserProfile extends Component {
     })
   }
 
+  // componentDidMount = async () => {
+  //   // const user = await AsyncStorage.getItem('USERINFO');
+  //   //  alert(JSON.stringify(user));
+  // }
+
   render() {
 
     const { user } = this.props.auth;
     
-    alert(JSON.stringify(user));
+    // alert(JSON.stringify(user));
     console.log(user);
 
     return (
