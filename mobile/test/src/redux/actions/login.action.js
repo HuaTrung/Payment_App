@@ -47,11 +47,11 @@ const loginUser = data => dispatch => {
     dispatch(setErrorLogin(errors));
   } else {    
     data.type = type;
-    axios.post("http://" + GLOBAL.IPv4 +":5000/app/user/login",data)
+    axios.post(GLOBAL.IPv4 +"/app/user/login",data)
     .then( response => {
       let { data } = response;
       if(data.status == 0 && !isEmpty(data.user)) { 
-        // alert(JSON.stringify(data.user));
+        alert(JSON.stringify(data.user));
         insertUserLogin(data.user)
           .then( () => dispatch(setSuccessLogin()))
           .catch((err)=> alert(err));
@@ -60,7 +60,7 @@ const loginUser = data => dispatch => {
     }).catch( err => console.warn(err));
   }
 }
-
+ 
 const resetErrorLogin = data => dispatch => {
   dispatch(setErrorLogin(data));        
 }
@@ -80,7 +80,7 @@ const getForgotPassword = emailOrPhone => dispatch => {
   if(!isEmpty(errors)) {
     dispatch(setForgotPassword(errors));
   } else {
-    axios.post("http://" + GLOBAL.IPv4 + ":5000/app/user/forgot-password",{emailOrPhone, type})
+    axios.post(GLOBAL.IPv4 + "/app/user/forgot-password",{emailOrPhone, type})
     .then( response => {
       let { data } = response;
       // if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  

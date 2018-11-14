@@ -3,6 +3,7 @@ import Realm from "realm";
 const USER_SCHEMA = "user";
 const UserSchema = {
   name: USER_SCHEMA,
+  primaryKey: 'id',
   properties: {
     id : "string",
     name: "string",

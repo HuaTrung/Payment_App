@@ -1,5 +1,5 @@
 const GLOBAL = {
-  IPv4: "192.168.1.108" // just for debug
+  IPv4: "http://13.250.5.116:8081" // just for debug
 };
 
 export default GLOBAL;

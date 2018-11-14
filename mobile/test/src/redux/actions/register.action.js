@@ -61,7 +61,7 @@ const registerUser = data => dispatch => {
   if(!isEmpty(errors)) {
     dispatch(setErrorRegister(errors));
   } else {
-    axios.post("http://" + GLOBAL.IPv4 +"5000/app/user/register",data)
+    axios.post(GLOBAL.IPv4 +"/app/user/register",data)
     .then(response => response.json())
     .then( response => {
       let {data} = response;
@@ -85,7 +85,7 @@ const checkPhoneError = phone => dispatch => {
     errors.phone = PHONE_INVALID;
     dispatch(setErrorRegister(errors));
   } else {
-    axios.post("http://" + GLOBAL.IPv4 +":5000/app/user/send-verify", {phone})
+    axios.post(GLOBAL.IPv4 +"/app/user/send-verify", {phone})
     .then(response => response.json())
     .catch( err => console.warn(err))
   } 

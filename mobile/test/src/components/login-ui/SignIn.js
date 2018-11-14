@@ -64,7 +64,7 @@ class SignIn extends Component {
 
     // Navigate to home page
     if(nextProps.auth.isAuthenticated) {
-      // alert(JSON.stringify(nextProps.auth.user));
+      alert(JSON.stringify(nextProps.auth.user));
       this.props.navigation.navigate("SignedInScreen");
     }
     
