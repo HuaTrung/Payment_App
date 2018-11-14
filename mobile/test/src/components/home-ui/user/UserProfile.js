@@ -31,19 +31,6 @@ class UserProfile extends Component {
   }
 
   async componentDidMount() {
-    // try {
-    //   AsyncStorage.getItem('USERINFO')
-    //   .then((responseJson) => JSON.parse(responseJson))
-    //   .then((response) => {
-    //     this.setState(
-    //       {user : response}
-    //     )
-    //   })
-    //   .then( () => alert(JSON.stringify(user)))
-    // } catch(error) {
-    //     console.error("Error get data-user" + error);
-    // }
-
     try {
       const value = await AsyncStorage.getItem('USERINFO');
       
@@ -51,17 +38,13 @@ class UserProfile extends Component {
         {user : JSON.parse(value)}
       )
 
-      alert(JSON.stringify(this.state.user));
-      // alert(JSON.stringify(typeof this.state.user.phone));
-
     } catch(error) {
-        console.error("Error get data-user" + error);
+        console.error("Error get data-user by AsyncStorage" + error);
     }
   }
 
   render() {
 
-    // const { user } = this.props.auth;
     const { user } = this.state;
     
     return (
@@ -75,8 +58,7 @@ class UserProfile extends Component {
         {/* change user information */}
         <ProfileElement 
           name = { user.name }
-          // phone = { Number(user.phone) }
-          phone = { user.phone.toString() }
+          phone = { user.phone }
           startMemberAt = "Starting member: 01/01/2018"
           onPress = { () => this._navigateProfileChange(user) } 
           w1 = {w1} w3 = {w3} h = {h1} />
@@ -152,10 +134,4 @@ const styles = StyleSheet.create({
     flex:1,
   }
 });
-// export default UserProfile;
-
-const mapStateToProps = state => ({
-  auth: state.authLoginReducer
-});
-
-export default connect(mapStateToProps, null)(UserProfile);
+export default UserProfile;
