@@ -19,7 +19,7 @@
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.18.0",
     "react-redux": "^5.0.7",
-    "realm": "^2.2.4",
+    "realm": "^2.19.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },

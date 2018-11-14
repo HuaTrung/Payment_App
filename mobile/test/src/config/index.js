@@ -1,5 +1,5 @@
 const GLOBAL = {
-  IPv4: "http://13.250.5.116:8081" // just for debug
+  HostName: "http://54.169.3.218:8081" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
 };
 
 export default GLOBAL;

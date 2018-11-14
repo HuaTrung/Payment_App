@@ -1,13 +1,12 @@
 
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Dimensions,ScrollView } from 'react-native';
-import { Content,Container,Form,Input, Item, Label, Button, Icon, Radio } from 'native-base';
+import { Content,Container,Form,Input, Item, Label, Button, Icon, Radio, Toast } from 'native-base';
 import { SocialIcon } from 'react-native-elements';
 
 import LoginInput from '../custom-ui/login-input/LoginInput';
 
-import { connect } from 'react-redux';
-import { registerUser, resetErrorRegister, checkPhoneError }  from '../../redux/actions/register.action';
+import { registerUser, resetErrorRegister, checkPhoneError }  from '../../no-redux/register';
 
 import isEmpty from '../../validations/is-empty.validate';
 
@@ -36,68 +35,63 @@ class SignUp extends Component {
     this.handleRegisterUser = this.handleRegisterUser.bind(this);
   } 
 
-  componentWillReceiveProps(nextProps){
-
-    if(!isEmpty(nextProps.errors)) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
   handleRegisterUser(e) {
     let { name, phone, verifyCode, password, confirmPassword } = this.state;
     let data = { name, phone, verifyCode, password, confirmPassword };
-    this.props.registerUser(data);
+    registerUser(data).then ( api => {
+      if(api.type == false) this.setState({errors: api.errors});
+      else {
+        Toast.show({ text: 'Register success', buttonText: 'Okay', type: "success" });
+        // clear data and navigate login later
+      }
+    })
   }
 
   handleSendOtp(e) {
-    this.props.checkPhoneError(this.state.phone);
+    checkPhoneError(this.state.phone).then( api => {
+      alert(JSON.stringify(api));
+      if(api.type == false) this.setState({errors: api.errors});
+    });
   }
 
-
   onChangeTextName(text) {
-    if(!isEmpty(this.props.errors.name)) {
-      let errs = this.props.errors;
-      delete errs.name;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ name: text }); 
+    if(!isEmpty(this.state.errors.name)) {
+      let {errors} = this.state;
+      delete errors.name;
+      this.setState({ name: text, errors }); 
+    } else this.setState({ name: text }); 
   }
 
   onChangeTextPhone(text) {
-    // alert(JSON.stringify(this.props.errors));
-    if(!isEmpty(this.props.errors.phone)) {
-      let errs = this.props.errors;
-      delete errs.phone;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ phone: text }); 
+    if(!isEmpty(this.state.errors.phone)) {
+      let {errors} = this.state;
+      delete errors.phone;
+      this.setState({ phone: text, errors }); 
+    } else this.setState({ phone: text }); 
   }
 
   onChangeTextVerifyCode(text) {
-    if(!isEmpty(this.props.errors.verifyCode)) {
-      let errs = this.props.errors;
-      delete errs.verifyCode;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ verifyCode: text }); 
+    if(!isEmpty(this.state.errors.verifyCode)) {
+      let {errors} = this.state;
+      delete errors.verifyCode;
+      this.setState({ verifyCode: text, errors }); 
+    } else this.setState({ verifyCode: text }); 
   }
 
   onChangeTextPassword(text) {
-    if(!isEmpty(this.props.errors.password)) {
-      let errs = this.props.errors;
-      delete errs.password;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ password: text }); 
+    if(!isEmpty(this.state.errors.password)) {
+      let {errors} = this.state;
+      delete errors.password;
+      this.setState({ password: text, errors }); 
+    } else this.setState({ password: text }); 
   }
 
   onChangeTextConfirmPassword(text) {
-    if(!isEmpty(this.props.errors.confirmPassword)) {
-      let errs = this.props.errors;
-      delete errs.confirmPassword;
-      this.props.resetErrorRegister(errs);
-    }
-    this.setState({ confirmPassword: text }); 
+    if(!isEmpty(this.state.errors.confirmPassword)) {
+      let {errors} = this.state;
+      delete errors.confirmPassword;
+      this.setState({ confirmPassword: text, errors }); 
+    } else this.setState({ confirmPassword: text }); 
   }
 
   render() {
@@ -159,12 +153,4 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  errors: state.erorrsRegisterReducer,
-});
-  
-export default connect(mapStateToProps, {
-  registerUser,
-  resetErrorRegister,
-  checkPhoneError
-})(SignUp);
+export default SignUp;

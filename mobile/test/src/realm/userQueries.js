@@ -3,7 +3,6 @@ import Realm from "realm";
 
 import isEmpty from "../validations/is-empty.validate";
 
-
 export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
@@ -17,12 +16,8 @@ export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
 
 export const queryUserLoginData = () => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
-    realm.write(() => {
-      try {
-        let currentUser = realm.objects(USER_SCHEMA);
-        resolve(currentUser);
-      } catch (error) { }
-    });
+    let currentUser = realm.objects(USER_SCHEMA);
+    resolve(currentUser);
   }).catch((err) => reject(err));
 });
 
@@ -37,6 +32,6 @@ export const deleteUserLogout = () => new Promise((resolve,reject)=> {
   }).catch((err) => reject(err));
 });
 
-export const isEmptyUserLogin = () =>  isEmpty(Schema.objects(USER_SCHEMA));
+export const isEmptyUserLogin = () =>  Schema.objects(USER_SCHEMA).length == 0;
 
-export const queryUSerMoney = () =>  Schema.objects(USER_SCHEMA)[0];
+export const queryUSerMoney = () =>  Schema.objects(USER_SCHEMA);
