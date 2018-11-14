@@ -1,4 +1,7 @@
 import axios from 'axios';
+import {
+  AsyncStorage
+} from 'react-native';
 
 import isEmpty from '../../validations/is-empty.validate';
 import { 
@@ -45,12 +48,12 @@ const loginUser = data => dispatch => {
     dispatch(setErrorLogin(errors));
   } else {    
     data.type = type;
-    axios.post('http://192.168.0.104:5000/app/user/login', data)
+    axios.post('http://192.168.0.100:5000/app/user/login', data)
     .then( response => {
       let { data } = response;
       if(data.status == 0 && !isEmpty(data.user)) 
       {
-        //saveUserToAsyncStorage(data.user);
+        saveUserToAsyncStorage(data.user);
         dispatch(setSuccessLogin(data.user));  
       }
       else if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setErrorLogin(data.errors)); 

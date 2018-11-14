@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text,StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import { 
+  View, Text,StyleSheet, Dimensions, 
+  TouchableOpacity, ScrollView, AsyncStorage
+} from 'react-native';
 import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
 import UserElement from "./UserElement";
@@ -15,7 +18,9 @@ class UserProfile extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state = { 
+      user: {} 
+    };
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
   }
 
@@ -25,18 +30,40 @@ class UserProfile extends Component {
     })
   }
 
-  // componentDidMount = async () => {
-  //   // const user = await AsyncStorage.getItem('USERINFO');
-  //   //  alert(JSON.stringify(user));
-  // }
+  async componentDidMount() {
+    // try {
+    //   AsyncStorage.getItem('USERINFO')
+    //   .then((responseJson) => JSON.parse(responseJson))
+    //   .then((response) => {
+    //     this.setState(
+    //       {user : response}
+    //     )
+    //   })
+    //   .then( () => alert(JSON.stringify(user)))
+    // } catch(error) {
+    //     console.error("Error get data-user" + error);
+    // }
+
+    try {
+      const value = await AsyncStorage.getItem('USERINFO');
+      
+      this.setState(
+        {user : JSON.parse(value)}
+      )
+
+      alert(JSON.stringify(this.state.user));
+      // alert(JSON.stringify(typeof this.state.user.phone));
+
+    } catch(error) {
+        console.error("Error get data-user" + error);
+    }
+  }
 
   render() {
 
-    const { user } = this.props.auth;
+    // const { user } = this.props.auth;
+    const { user } = this.state;
     
-    // alert(JSON.stringify(user));
-    console.log(user);
-
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -48,6 +75,7 @@ class UserProfile extends Component {
         {/* change user information */}
         <ProfileElement 
           name = { user.name }
+          // phone = { Number(user.phone) }
           phone = { user.phone.toString() }
           startMemberAt = "Starting member: 01/01/2018"
           onPress = { () => this._navigateProfileChange(user) } 
