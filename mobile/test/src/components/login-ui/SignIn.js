@@ -25,8 +25,8 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      emailOrPhone: '',
-      password: '',
+      emailOrPhone: '0932311434',
+      password: 'Lexuantien1997',
       errors: '',
     };
     this.handleLogin = this.handleLogin.bind(this);
@@ -84,13 +84,17 @@ class SignIn extends Component {
           <LoginInput 
               onChangeText = { (text) => this.onChangeTextEmailOrPhone(text) }  
               label = {'Email / Phone'} 
-              errorMessage = { errors.emailOrPhone }/>
+              errorMessage = { errors.emailOrPhone }
+              value = "0932311434"
+              />
 
           <LoginInput 
               onChangeText = { (text) => this.onChangeTextPassword(text) } 
               securePassword = {true} 
               label = {'Password'} 
-              errorMessage = { errors.password } />
+              errorMessage = { errors.password } 
+              value = "Lexuantien1997"
+              />
           
           {/* Sign in button */}
           <View style={{ height:height/40}} />

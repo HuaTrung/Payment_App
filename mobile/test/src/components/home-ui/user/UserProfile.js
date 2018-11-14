@@ -18,9 +18,11 @@ class UserProfile extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = { 
       user: {} 
     };
+
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
   }
 
@@ -42,7 +44,7 @@ class UserProfile extends Component {
         console.error("Error get data-user by AsyncStorage" + error);
     }
   }
-
+  
   render() {
 
     const { user } = this.state;

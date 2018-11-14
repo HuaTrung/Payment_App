@@ -1,8 +1,12 @@
 import axios from 'axios';
+<<<<<<< HEAD
 import {
   AsyncStorage
 } from 'react-native';
 
+=======
+import GLOBAL from "../../config";
+>>>>>>> master
 import isEmpty from '../../validations/is-empty.validate';
 import { 
   USERNAME_EMPTY,
@@ -20,17 +24,21 @@ import {
   SEND_FORGOT_PASSWORD_SUCCESS
 } from './types';
 
+import { insertUserLogin , queryUserLoginData, deleteUserLogout} from "../../realm/userQueries";
+
+function callback(data){
+  alert(data);
+}
 /**
  * @description If every thing we all send to server to validate, server will big and not response quickly
  * => make app not good 
  */
 const loginUser = data => dispatch => {
 
-  data = {
-    "emailOrPhone" : "15520884@gm.uit.edu.vn",
-    "password" : "Lexuantien1997",
-    "type" : "email"
-  };
+  // queryUserLoginData().then(data=> {
+  //   alert(data);
+  // })
+  // deleteUserLogout();
 
   let errors = {}, type = '';
   //alert(data);
@@ -48,14 +56,17 @@ const loginUser = data => dispatch => {
     dispatch(setErrorLogin(errors));
   } else {    
     data.type = type;
-    axios.post('http://192.168.0.100:5000/app/user/login', data)
+
+    axios.post("http://" + GLOBAL.IPv4 +":5000/app/user/login",data)
     .then( response => {
       let { data } = response;
-      if(data.status == 0 && !isEmpty(data.user)) 
-      {
-        saveUserToAsyncStorage(data.user);
-        dispatch(setSuccessLogin(data.user));  
-      }
+      if(data.status == 0 && !isEmpty(data.user)) { 
+        // alert(JSON.stringify(data.user));
+        insertUserLogin(data.user)
+          .then( ()=> saveUserToAsyncStorage(data.user))
+          .then( () => dispatch(setSuccessLogin()))
+          .catch((err)=> alert(err));
+      } 
       else if(data.status == 1 &&  !isEmpty(data.errors)) dispatch(setErrorLogin(data.errors)); 
     }).catch( err => console.warn(err));
   }
@@ -80,7 +91,7 @@ const getForgotPassword = emailOrPhone => dispatch => {
   if(!isEmpty(errors)) {
     dispatch(setForgotPassword(errors));
   } else {
-    axios.post('http://192.168.1.108:5000/app/user/forgot-password',{emailOrPhone, type})
+    axios.post("http://" + GLOBAL.IPv4 + ":5000/app/user/forgot-password",{emailOrPhone, type})
     .then( response => {
       let { data } = response;
       // if(data.status == 0 && !isEmpty(data.user)) dispatch(setSuccessLogin(data.user));  
@@ -106,10 +117,9 @@ const setForgotPassword = errors => {
   };
 }
 
-const setSuccessLogin = data => {
+const setSuccessLogin = () => {
   return {
-    type: LOGIN_SUCCESS,
-    payload: data
+    type: LOGIN_SUCCESS
   };
 }
 

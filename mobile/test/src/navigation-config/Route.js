@@ -2,7 +2,6 @@ import {
   createStackNavigator,
   createMaterialTopTabNavigator,
   createBottomTabNavigator,
-  createTabNavigator,
   createSwitchNavigator,
 } from 'react-navigation';
 import React from 'react';
@@ -12,7 +11,7 @@ import { Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
-import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen } from '../components/home-ui';
+import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen,RechargeScreen } from '../components/home-ui';
 import ProfileChangeScreen from "../components/home-ui/user/ProfileChange";
 import HomeSearchBar from "../components/home-ui/home/HomeSearchBar";
 
@@ -62,7 +61,7 @@ const SignedInTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "UserProfile",
+    initialRouteName: "Home",
     tabBarOptions: {
       showIcon: true,
       activeTintColor: "#6200EE",
@@ -118,7 +117,8 @@ const SignInStack = createStackNavigator(
     SignedInScreen: SignedInTabNavigator,
     PayScanScreen:PayScan,
     SearchScreen,
-    ProfileChangeScreen
+    ProfileChangeScreen,
+    RechargeScreen
   },
   {
     initialRouteName: "SignedInScreen",
@@ -178,7 +178,7 @@ const SignOutStack = createStackNavigator(
     }
   });
 
-
+  import { isEmptyUserLogin } from "../realm/userQueries.js";
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 
@@ -191,14 +191,18 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: SignInStack
   },
   { 
-    initialRouteName: 'SignOutScreen'
+    initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
   }
 );
+
+
+
 
 
 export {
   LoginTabNavigator,
   SignOutStack,
   RootNavigator,
-  PayScanStack,
+  PayScanStack
 };
+

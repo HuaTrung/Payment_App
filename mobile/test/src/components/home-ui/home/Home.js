@@ -24,6 +24,8 @@ import HomeTop from "./HomeTop";
 
 import {HomSearch} from "../../../navigation-config/Route";
 
+import { queryUSerMoney, isEmptyUserLogin } from "../../../realm/userQueries";
+
 class Home extends Component {
 
   constructor(props) {
@@ -35,6 +37,12 @@ class Home extends Component {
 
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
+  }
+
+  componentWillMount() {
+    let data = queryUSerMoney();
+    alert(JSON.stringify(data)); 
+    // alert(isEmptyUserLogin());
   }
 
   render() {
@@ -82,7 +90,7 @@ class Home extends Component {
           >
           {/* flat list => split new class */}
             <View style = {{ height: 100, flexDirection: "row" }}>
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
+              <TouchableOpacity onPress = { () => this.props.navigation.push('RechargeScreen') } style = {{ flex: 1, margin: 10}}>
                 <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
                 <MCIcons
                 name='cellphone-arrow-down'
@@ -106,7 +114,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 , margin: 10}}>
+              <TouchableOpacity style = {{ flex: 1 , margin: 10}}  >
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
                   <Text>receive</Text>
                 </View>

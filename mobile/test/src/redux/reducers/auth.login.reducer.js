@@ -1,7 +1,6 @@
 import { LOGIN_SUCCESS } from '../actions/types';
 const initialState = {
-  isAuthenticated: false,
-  user: { }
+  isAuthenticated: false
  };
 
 const authReducer = (state = initialState , action) => {
@@ -9,9 +8,8 @@ const authReducer = (state = initialState , action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isAuthenticated: action.payload ? true : false,
-        user: action.payload
-      }
+        isAuthenticated: true
+      }   
     default: return state;
   }
 };

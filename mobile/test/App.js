@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, YellowBox, TouchableOpacity, Text,StatusBar} from 'react-native';
 import { Root } from "native-base";
-import {RootNavigator, SignOutStack}  from './src/navigation-config/Route';
+import {RootNavigator, SignOutStack, Roots}  from './src/navigation-config/Route';
 import Splash from './src/components/splash-ui/Splash';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -32,21 +32,20 @@ export default class App extends Component {
   };
 
   render() {
-    const { splashScreen } = this.state;
-    let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;
-
+  //  const { splashScreen } = this.state;
+  //  let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;
     return (
       <Provider store = { store } >
         <Root>  
           <StatusBar backgroundColor = "#1aa3ff" />
-          <RootNavigator/>          
+          <RootNavigator/>           
           {/* <View style={styles.container}>
             <QR text="Welcome to React Native!"
               format="QR_CODE"
               style={styles.barcode} />
           </View> */}
         </Root>
-      </Provider>
+      </Provider> 
     );
   }
 }
