@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Text,StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
+import { Toast } from 'native-base';
 import UserElement from "./UserElement";
+import { deleteUserLogout } from "../../../realm/userQueries";
 const { width, height } = Dimensions.get('window');
 
 const w1 = width / 4.5;
@@ -15,10 +17,18 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
+    this._handleLogOut = this._handleLogOut.bind(this);
   }
 
   _navigateProfileChange() {
-    this.props.navigation.push('ProfileChangeScreen')
+    this.props.navigation.push('ProfileChangeScreen');
+  }
+
+  _handleLogOut() {
+    deleteUserLogout().then(() => {
+      this.props.navigation.navigate("SignOutScreen");
+      Toast.show({ text: 'Log out successfully', buttonText: 'Okay', type: "success" });
+    });
   }
   
   render() {
@@ -94,7 +104,7 @@ class UserProfile extends Component {
           textValue = "About App"
         />
         <View style = {{ height:10 }} />
-        <TouchableOpacity style = {{ height:50, backgroundColor: "#1aa3ff", justifyContent: "center", alignItems: "center" }}>       
+        <TouchableOpacity onPress = { this._handleLogOut } style = {{ height:50, backgroundColor: "#1aa3ff", justifyContent: "center", alignItems: "center" }}>       
           <Text style = {{ color: "white", fontWeight:"500", fontSize: 20 }} >Sign out</Text>
         </TouchableOpacity>
         <View style = {{ height:10 }} />
