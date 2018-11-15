@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Keyboard,View, Text, StyleSheet, Dimensions, StatusBar, TextInput, TouchableOpacity, Modal, TouchableHighlight, Alert } from 'react-native';
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, Alert } from 'react-native';
+import { Entypo } from 'react-native-vector-icons/Entypo'
 const { width, height } = Dimensions.get('window');
-import { Container, Header, Content, Form, Item, Input, Label, Button, Icon } from 'native-base';
-import { MyKeyboard } from "./MyKeyboard"
-const searchHeight = height / 13;
+import { Form, Item, Input, Label, Button, Icon } from 'native-base';
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -16,7 +14,10 @@ class Recharge extends Component {
     };
   }
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+    this.setState({ 
+      modalVisible: visible,
+      passWord:""
+     });
   }
 
   setPassword(value) {
@@ -141,12 +142,12 @@ class Recharge extends Component {
               <Text>Nhập mật khẩu để nạp tiền</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
-              <View style={this.state.passWord.length >0 ? styles.circleRounded : styles.circle} />
-              <View style={this.state.passWord.length >1 ? styles.circleRounded : styles.circle} />
-              <View style={this.state.passWord.length >2 ? styles.circleRounded : styles.circle} />
-              <View style={this.state.passWord.length >3 ? styles.circleRounded : styles.circle} />
-              <View style={this.state.passWord.length >4 ? styles.circleRounded : styles.circle} />
-              <View style={this.state.passWord.length >5 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 0 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 1 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 2 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 3 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 4 ? styles.circleRounded : styles.circle} />
+              <View style={this.state.passWord.length > 5 ? styles.circleRounded : styles.circle} />
             </View>
             <View style={{
               flex: 1,
@@ -162,8 +163,8 @@ class Recharge extends Component {
                       this.setState({ passWord: this.state.passWord + "1" })
                     }}
                   ><Text style={{ color: "black" }}>1</Text></TouchableOpacity>
-                  <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "2" })}><Text style={{ color: "black" }}>2</Text></TouchableOpacity>
+                  <Button style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
+                    onPress={() => this.setState({ passWord: this.state.passWord + "2" })}><Text style={{ color: "black" }}>2</Text></Button>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => this.setState({ passWord: this.state.passWord + "3" })}><Text style={{ color: "black" }}>3</Text></TouchableOpacity>
                 </View>
@@ -185,7 +186,8 @@ class Recharge extends Component {
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#e0e0e0" }}
-                  onPress={() => alert(this.state.passWord.length)}>
+                    onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                    <Icon type='Entypo' name='cross' style={{ color: "black" }} />
                   </TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => this.setState({ passWord: this.state.passWord + "0" })}><Text style={{ color: "black" }}>0</Text></TouchableOpacity>
