@@ -48,11 +48,11 @@ An online payment app (client) using React native
 ## Features
 
 1. Handle request from mobile app
-- Trasnfer money from 2 users
-- Pay an order from QR code
+  - Trasnfer money from 2 users
+  - Pay an order from QR code
 2. Manage transactions
-- User
-- Agent
+  - User
+  - Agent
 
 ## Entity
 
