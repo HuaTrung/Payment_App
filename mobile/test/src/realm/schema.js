@@ -9,6 +9,7 @@ const UserSchema = {
     phone: "int",
     money: "double",
     gender: "bool", // true: male - false: female
+    isFirstTime: "bool",
     memberAt: "string",
     address: "string?",
     email: "string?",

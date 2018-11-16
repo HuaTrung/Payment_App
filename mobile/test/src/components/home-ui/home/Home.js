@@ -7,7 +7,8 @@ import {
   StatusBar, 
   TextInput, 
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Modal
 } from 'react-native';
 
 import Swiper from "react-native-swiper";
@@ -25,28 +26,29 @@ import HomeTop from "./HomeTop";
 import {HomSearch} from "../../../navigation-config/Route";
 
 import { queryUSerMoney, isEmptyUserLogin } from "../../../realm/userQueries";
-
 class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"]
+      data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
     }
+    this._renderHome = this._renderHome.bind(this);
   }
 
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
   }
 
+  
   componentWillMount() {
-    let data = queryUSerMoney();
-    alert(JSON.stringify(data)); 
+    // let data = queryUSerMoney();
+    // alert(JSON.stringify(data)); 
     // alert(isEmptyUserLogin());
   }
 
-  render() {
-    return (
+  _renderHome() {
+    return(
       <ScrollView >
         <View style = {{ flex:1 }}>
           
@@ -139,7 +141,6 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-
             <View style = {{ height: 100, flexDirection: "row" }}>
               <TouchableOpacity style = {{ flex: 1, margin: 10}}>
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
@@ -159,10 +160,19 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-
           </View>
         </View>
       </ScrollView>
+    )
+  }
+
+  render() {
+    return (
+      <View style = {{ flex:1 }}>
+        {
+          this._renderHome()
+        }
+      </View>
     );
   }
 }

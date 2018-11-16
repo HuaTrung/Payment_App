@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, YellowBox, TouchableOpacity, Text,StatusBar} from 'react-native';
+import { StyleSheet, View, YellowBox, StatusBar} from 'react-native';
+import Security from "./src/components/home-ui/security-pass-ui/SecurityPass";
 import { Root } from "native-base";
-import {RootNavigator, SignOutStack, Roots}  from './src/navigation-config/Route';
+import {RootNavigator}  from './src/navigation-config/Route';
 import Splash from './src/components/splash-ui/Splash';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -18,18 +19,10 @@ export default class App extends Component {
     super(props);
     this.state = { splashScreen: true};
 
-    setTimeout(()=>{
-      this.setState({ splashScreen:false});
-    },3000);
+    // setTimeout(()=>{
+    //   this.setState({ splashScreen:false});
+    // },3000);
   }
-
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options)
-      console.log(data.uri);
-    }
-  };
 
   render() {
   //  const { splashScreen } = this.state;
@@ -38,7 +31,8 @@ export default class App extends Component {
       <Provider store = { store } >
         <Root>  
           <StatusBar backgroundColor = "#1aa3ff" />
-          <RootNavigator/>           
+          <Security />
+          {/* <RootNavigator/>            */}
           {/* <View style={styles.container}>
             <QR text="Welcome to React Native!"
               format="QR_CODE"
