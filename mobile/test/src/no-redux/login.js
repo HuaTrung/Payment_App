@@ -13,14 +13,18 @@ import isEmail from '../validations/email.validate';
 import { insertUserLogin } from "../realm/userQueries";
 
 function checkErrorBeforeLogin(data) {
-  let errors = {}
+  let errors = {}, type = '';
   if(isEmpty(data.emailOrPhone)) errors.emailOrPhone = EMAIL_PHONE_EMPTY;
   else
     (isEmail(data.emailOrPhone) == false )
       ? ((isNaN(data.emailOrPhone) == true) ? errors.emailOrPhone = EMAIL_PHONE_INVALID : type = 'phone') 
       : type = 'email';
   if(isEmpty(data.password)) errors.password = PASSWORD_EMPTY;
-  return errors;
+  
+  return {
+    errors : errors,
+    type : type
+  };
 }
 
 /**
@@ -28,12 +32,13 @@ function checkErrorBeforeLogin(data) {
  * => make app not good 
  */
 const loginUser = data  => new Promise((resolve, reject) => {
-  let errors = {}, type = '';
+
+  let resultCheckErrorBeforeLogin = {};
   for(let key in data) data[key] = data[key].trim();        
-  errors = checkErrorBeforeLogin(data); // check the error like empty pass, name
-  if(!isEmpty(errors)) resolve({type: false, errors}); // send errors to user
+  resultCheckErrorBeforeLogin = checkErrorBeforeLogin(data); // check the error like empty pass, name and detect type login
+  if(!isEmpty(resultCheckErrorBeforeLogin.errors)) resolve({type: false, errors}); // send errors to user
   else {    
-    data.type = type; // check user login with email or phone
+    data.type = resultCheckErrorBeforeLogin.type; // check user login with email or phone
     // send data to server
     axios.post(GLOBAL.HostName +"/app/user/login",data)
     .then( response => {

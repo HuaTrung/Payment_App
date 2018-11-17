@@ -9,7 +9,7 @@ export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
       try {
         realm.create(USER_SCHEMA,newUserLogin);
         resolve();
-      } catch (error) { }
+      } catch (error) { throw error }
     });
   }).catch((err) => reject(err));
 });
