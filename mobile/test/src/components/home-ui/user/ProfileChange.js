@@ -19,7 +19,8 @@ class ProfileChange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGenderSelected: false,
+      // isGenderSelected: false,
+      user: this.props.navigation.getParam('user'),
       isOpenPass: false,
       chosenDate: new Date(2018,1,1)
     }
@@ -29,7 +30,7 @@ class ProfileChange extends Component {
   }
 
   _onGenderPress = () => {
-    this.setState({isGenderSelected: !this.state.isGenderSelected})
+    // this.setState({isGenderSelected: !this.state.isGenderSelected})
   }
 
   _setDate(newDate) {
@@ -41,7 +42,9 @@ class ProfileChange extends Component {
   }
 
   render() {
-    const { isGenderSelected, isOpenPass } = this.state;
+    // const { isGenderSelected, isOpenPass } = this.state;
+    const { user, isOpenPass } = this.state;
+    
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -70,34 +73,34 @@ class ProfileChange extends Component {
             iconType = "MCIcons"
             iconName = "human-greeting" 
             placeholder = "name"
-            value = "Lê Xuân Tiến"
+            value = { user.name }
           />
           <Input  
             iconType = "Entypo"
             iconName = "phone" 
             placeholder = "phone number"
-            value = "0932-311-434"
+            value = { String(user.phone) }
           />
           <Input  
             iconType = "MCIcons"
             iconName = "email-check" 
             placeholder = "email"
-            value = "tienlx97@gmail.com"
+            value = { user.email }
             rightValue = "send"
           />
           <Input  
             iconType = "Entypo"
             iconName = "address" 
-            placeholder = "your address"
+            placeholder = { user.address }
           />
           <View>
             <View style = {{ flexDirection: "row" , justifyContent: "flex-start", marginVertical: 5}} >
               <TouchableOpacity  onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10}} >
-                <Radio selected={isGenderSelected == true} onPress = { this._onGenderPress } />
+                <Radio selected={user.gender} onPress = { this._onGenderPress } />
                 <Text> male</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10 }} >
-                <Radio onPress = { this._onGenderPress } selected={isGenderSelected == false} />
+                <Radio onPress = { this._onGenderPress } selected={!user.gender} />
                 <Text> female</Text>
               </TouchableOpacity>
             </View>

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
 import { Toast } from 'native-base';
 import UserElement from "./UserElement";
-import { deleteUserLogout } from "../../../realm/userQueries";
+import { deleteUserLogout, queryUserLoginData} from "../../../realm/userQueries";
 const { width, height } = Dimensions.get('window');
 
 const w1 = width / 4.5;
@@ -18,10 +18,21 @@ class UserProfile extends Component {
     super(props);
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
     this._handleLogOut = this._handleLogOut.bind(this);
+
+    this.state = { 
+      user: {
+        name: '',
+        phone: '',
+        memberAt: '',
+      } 
+    };
+
   }
 
-  _navigateProfileChange() {
-    this.props.navigation.push('ProfileChangeScreen');
+  _navigateProfileChange(_user) {
+    this.props.navigation.push('ProfileChangeScreen', {
+      user: _user
+    })
   }
 
   _handleLogOut() {
@@ -31,7 +42,14 @@ class UserProfile extends Component {
     });
   }
   
+  componentDidMount() {
+    queryUserLoginData().then((listUsers) => this.setState({user: listUsers}));
+  }
+
   render() {
+    
+    const { user } = this.state;
+
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -42,10 +60,10 @@ class UserProfile extends Component {
         <View style = {{ height:10 }} />
         {/* change user information */}
         <ProfileElement 
-          name = "Lê Xuân Tiến"
-          phone = "0932-311-434"
-          startMemberAt = "Starting member: 01/01/2018"
-          onPress = { this._navigateProfileChange } 
+          name = { user.name }
+          phone = { String(user.phone) }
+          startMemberAt = { user.memberAt }
+          onPress = { () => this._navigateProfileChange(user) } 
           w1 = {w1} w3 = {w3} h = {h1} />
         <View style = {{ height:10 }} />
 

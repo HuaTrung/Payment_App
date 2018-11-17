@@ -32,11 +32,11 @@ function checkErrorBeforeLogin(data) {
  * => make app not good 
  */
 const loginUser = data  => new Promise((resolve, reject) => {
-
+ 
   let resultCheckErrorBeforeLogin = {};
   for(let key in data) data[key] = data[key].trim();        
   resultCheckErrorBeforeLogin = checkErrorBeforeLogin(data); // check the error like empty pass, name and detect type login
-  if(!isEmpty(resultCheckErrorBeforeLogin.errors)) resolve({type: false, errors}); // send errors to user
+  if(!isEmpty(resultCheckErrorBeforeLogin.errors)) resolve({type: false, errors: resultCheckErrorBeforeLogin.errors}); // send errors to user
   else {    
     data.type = resultCheckErrorBeforeLogin.type; // check user login with email or phone
     // send data to server
@@ -46,7 +46,7 @@ const loginUser = data  => new Promise((resolve, reject) => {
       if(data.status == 0 && !isEmpty(data.user)) // Insert user login to realm database
         insertUserLogin(data.user).then(() => resolve({type: true})).catch((err)=> alert(err));      
       else if(data.status == 1 &&  !isEmpty(data.errors)) resolve({type: false, errors: data.errors}); // send errors to user
-    }).catch( err => console.warn(err));
+    }).catch( err => console.error(err));
   }
 });
 
