@@ -191,8 +191,8 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: SignInStack
   },
   { 
-//    initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
-    initialRouteName: "SignedInScreen" 
+    initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
+   // initialRouteName: "SignedInScreen" 
   }
 );
 

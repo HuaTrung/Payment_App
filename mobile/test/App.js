@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, YellowBox, StatusBar} from 'react-native';
-import Security from "./src/components/home-ui/security-pass-ui/SecurityPass";
 import { Root } from "native-base";
 import {RootNavigator}  from './src/navigation-config/Route';
 import Splash from './src/components/splash-ui/Splash';
@@ -31,32 +30,10 @@ export default class App extends Component {
       <Provider store = { store } >
         <Root>  
           <StatusBar backgroundColor = "#1aa3ff" />
-          <Security />
-          {/* <RootNavigator/>            */}
-          {/* <View style={styles.container}>
-            <QR text="Welcome to React Native!"
-              format="QR_CODE"
-              style={styles.barcode} />
-          </View> */}
+          <RootNavigator/>           
         </Root>
       </Provider> 
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  barcode: {
-    height: 300,
-    width: 300,
-    alignSelf: 'center' 
-  }
-});
