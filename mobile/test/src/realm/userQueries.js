@@ -7,16 +7,16 @@ export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
       try {
-        realm.create(USER_SCHEMA,newUserLogin);
+        realm.create(USER_SCHEMA, newUserLogin, true);
         resolve();
-      } catch (error) { }
+      } catch (error) { throw error }
     });
   }).catch((err) => reject(err));
 });
 
 export const queryUserLoginData = () => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
-    let currentUser = realm.objects(USER_SCHEMA);
+    let currentUser = realm.objects(USER_SCHEMA)[0]; // get first user
     resolve(currentUser);
   }).catch((err) => reject(err));
 });
