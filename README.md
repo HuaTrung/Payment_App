@@ -9,6 +9,7 @@
 - [Tool](#tool)
 - [Features](#features)
 - [Entity](#entity)
+- [How To Use Amazon Server](#how-to-use-amazon-server)
 - [Sequence Diagram](#sequence-diagram)
 - [Task](#task)
 - [Preferences](#preferences)
@@ -63,6 +64,12 @@ An online payment app (client) using React native
 | Agent    |Represent for an agent|
 | Transaction | Represent for a transaction ( such as: user - user, user - agent )     |
 
+## How To Use Amazon Server
+
+1. Login into Amazon cloud 9
+2. Go to enviroment and run **npm run dev**
+    - Remarkable: server **only** run at port 8080, client **only** run at port 8081.
+    
 ## Task
 
 - [ ] Adapt with nodejs enviroments along with tools. ( Make a branch and test it :+1:)
