@@ -102,7 +102,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{flex: 1, margin: 10}}>
+              <TouchableOpacity onPress = { () => this.props.navigation.push('TransferScreen') } style = {{flex: 1, margin: 10}}>
                 <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
                 <Ionicons
                   name='ios-repeat'

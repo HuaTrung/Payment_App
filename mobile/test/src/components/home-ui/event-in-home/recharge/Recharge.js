@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, Alert } from 'react-native';
-import { Entypo } from 'react-native-vector-icons/Entypo'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon } from 'native-base';
+import Modal from "react-native-modal";
+
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -11,17 +13,37 @@ class Recharge extends Component {
       money: "",
       modalVisible: false,
       passWord: "",
+      sucessOrNot: null
     };
+    this.setModalVisible = this.setModalVisible.bind(this);
+    this.setPassword = this.setPassword.bind(this);
+
   }
   setModalVisible(visible) {
-    this.setState({ 
+    this.setState({
       modalVisible: visible,
-      passWord:""
-     });
+      passWord: ""
+    });
   }
 
   setPassword(value) {
-    this.setState({ passWord: value });
+    if (this.state.passWord.length >= 5) {
+      if (this.state.passWord.length == 5) {
+        this.setState({ passWord: this.state.passWord + value })
+        rechargeMoney(932311434, this.state.money).then(status => {
+          this.setState({
+            modalVisible: !this.state.modalVisible,
+            passWord: "",
+            sucessOrNot: true
+          });
+          // Toast.show({ text: 'Recharge success', buttonText: 'Okay', type: "success",position:"center" });
+
+        });
+      }
+    }
+    else {
+      this.setState({ passWord: this.state.passWord + value })
+    }
   }
   render() {
     const { money } = this.state;
@@ -75,7 +97,8 @@ class Recharge extends Component {
             marginRight: 10
           }} block bordered iconRight textStyle="#1aa3ff"
             onPress={() => {
-              this.setModalVisible(!this.state.modalVisible);
+              if(this.state.money.length>0)
+                this.setModalVisible(!this.state.modalVisible);
             }}>
             <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
             <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
@@ -127,15 +150,12 @@ class Recharge extends Component {
           </View>
         </View>
         <Modal
-          animationType="slide"
+          aanimationIn="slideInUp"
+          animationOut="slideOutDown"
           transparent={true}
-          visible={this.state.modalVisible}
-          style={{ marginTop: 100 }}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
+          isVisible={this.state.modalVisible}
+          style={{ margin: 0, flex: 1 }}>
           <View style={{ height: "50%", backgroundColor: 'rgba(0,0,0,0.5)' }}>
-
           </View>
           <View backgroundColor="#ffffff" style={{ height: "50%" }}>
             <View style={{ marginTop: 10, flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
@@ -160,29 +180,29 @@ class Recharge extends Component {
                 <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row', }}>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => {
-                      this.setState({ passWord: this.state.passWord + "1" })
+                      this.setPassword(1)
                     }}
                   ><Text style={{ color: "black" }}>1</Text></TouchableOpacity>
-                  <Button style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "2" })}><Text style={{ color: "black" }}>2</Text></Button>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "3" })}><Text style={{ color: "black" }}>3</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(2)}><Text style={{ color: "black" }}>2</Text></TouchableOpacity>
+                  <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
+                    onPress={() => this.setPassword(3)}><Text style={{ color: "black" }}>3</Text></TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "4" })}><Text style={{ color: "black" }}>4</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(4)}><Text style={{ color: "black" }}>4</Text></TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "5" })}><Text style={{ color: "black" }}>5</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(5)}><Text style={{ color: "black" }}>5</Text></TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "6" })}><Text style={{ color: "black" }}>6</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(6)}><Text style={{ color: "black" }}>6</Text></TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "7" })}><Text style={{ color: "black" }}>7</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(7)}><Text style={{ color: "black" }}>7</Text></TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "8" })}><Text style={{ color: "black" }}>8</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(8)}><Text style={{ color: "black" }}>8</Text></TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "9" })}><Text style={{ color: "black" }}>9</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(9)}><Text style={{ color: "black" }}>9</Text></TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#e0e0e0" }}
@@ -190,14 +210,93 @@ class Recharge extends Component {
                     <Icon type='Entypo' name='cross' style={{ color: "black" }} />
                   </TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                    onPress={() => this.setState({ passWord: this.state.passWord + "0" })}><Text style={{ color: "black" }}>0</Text></TouchableOpacity>
+                    onPress={() => this.setPassword(0)}><Text style={{ color: "black" }}>0</Text></TouchableOpacity>
                   <TouchableOpacity style={{ width: '33%', alignItems: 'center', backgroundColor: "#e0e0e0", justifyContent: 'center' }}
                     onPress={() => this.setState({ passWord: this.state.passWord.substring(0, (this.state.passWord.length - 1)) })}>
                     <Icon type='Ionicons' name='ios-backspace' style={{ color: "black" }} /></TouchableOpacity>
                 </View>
               </View>
             </View>
+          </View>
+        </Modal>
 
+        <Modal
+          isVisible={this.state.sucessOrNot === true}>
+          <View style={styles.modalContent}>
+            <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
+              <Icon type='MaterialCommunityIcons' name='check-circle' style={{ color: "#0EB709" ,marginRight:10}} />
+              <Text style={{ color: "#0EB709", fontSize: 20 }}>GIAO DỊCH THÀNH CÔNG </Text>
+            </View>
+            <View style={{alignItems: "center",paddingBottom:10}}>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
+              </View>
+            </View>
+            <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Nạp tiền </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Phí giao dịch </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Miễn phí </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Thời gian </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>19:30 11/19/2018 </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>DET12S8DAS912 </Text>
+             </View>
+            </View>
+            <View style={styles.buttonSuccess}>
+              <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
+                <View style={{padding:5}}>
+                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+          <Modal
+          isVisible={this.state.sucessOrNot === false}>
+          <View style={styles.modalContent}>
+            <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
+              <Icon type='FontAwesome' name='times-circle' style={{ color: "#CE3C3E" ,marginRight:10}} />
+              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>GIAO DỊCH THẤT BẠI </Text>
+            </View>
+            <View style={{alignItems: "center",paddingBottom:10}}>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
+              </View>
+            </View>
+            <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Nạp tiền </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Phí giao dịch </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Miễn phí </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Thời gian </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>19:30 11/19/2018 </Text>
+             </View>
+            </View>
+            <View style={styles.buttonFail}>
+              <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
+                <View style={{padding:5}}>
+                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
 
@@ -228,6 +327,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#0d47a1',
     borderWidth: 1.5,
     borderColor: '#0d47a1',
-  }
+  },
+  buttonFail: {
+    backgroundColor: "#CE3C3E",
+    padding: 3,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  buttonSuccess: {
+    backgroundColor: "#0EB709",
+    padding: 3,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  modalContent: {
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
 })
 export default Recharge;

@@ -11,7 +11,7 @@ import { Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
-import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen,RechargeScreen } from '../components/home-ui';
+import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen,RechargeScreen,TransferScreen } from '../components/home-ui';
 import ProfileChangeScreen from "../components/home-ui/user/ProfileChange";
 import HomeSearchBar from "../components/home-ui/home/HomeSearchBar";
 
@@ -118,7 +118,8 @@ const SignInStack = createStackNavigator(
     PayScanScreen:PayScan,
     SearchScreen,
     ProfileChangeScreen,
-    RechargeScreen
+    RechargeScreen,
+    TransferScreen
   },
   {
     initialRouteName: "SignedInScreen",
@@ -191,7 +192,7 @@ const RootNavigator = createSwitchNavigator(
     SignedInScreen: SignInStack
   },
   { 
-//    initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
+  //  initialRouteName: isEmptyUserLogin() ? 'SignOutScreen' : 'SignedInScreen' 
     initialRouteName: "SignedInScreen" 
   }
 );
