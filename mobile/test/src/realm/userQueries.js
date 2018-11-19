@@ -7,17 +7,31 @@ export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
       try {
-        realm.create(USER_SCHEMA,newUserLogin);
+        realm.create(USER_SCHEMA, newUserLogin, true);
         resolve();
-      } catch (error) { }
+      } catch (error) { throw error }
     });
   }).catch((err) => reject(err));
 });
 
 export const queryUserLoginData = () => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
-    let currentUser = realm.objects(USER_SCHEMA);
+    let currentUser = realm.objects(USER_SCHEMA)[0]; // get first user
     resolve(currentUser);
+  }).catch((err) => reject(err));
+});
+
+export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
+  // alert(1);
+  Realm.open(databaseOptions).then(realm => {
+    realm.write(() => {
+    // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
+      let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
+    
+      user.isFirstTime = false;
+      // alert(JSON.stringify(user));
+      resolve();
+   })
   }).catch((err) => reject(err));
 });
 
@@ -34,4 +48,8 @@ export const deleteUserLogout = () => new Promise((resolve,reject)=> {
 
 export const isEmptyUserLogin = () =>  Schema.objects(USER_SCHEMA).length == 0;
 
-export const queryUSerMoney = () =>  Schema.objects(USER_SCHEMA);
+export const isFirstTimeUsing = () =>  Schema.objects(USER_SCHEMA)[0].isFirstTime;
+
+export const queryUserId = () =>  Schema.objects(USER_SCHEMA)[0].id;
+
+export const queryUser = () =>  Schema.objects(USER_SCHEMA)[0];

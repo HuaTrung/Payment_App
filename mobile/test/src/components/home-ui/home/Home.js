@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from 'react-native';
-
+import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
 import HomeSearchBar from "./HomeSearchBar";
 import HomePromotionSwiper from "./HomePromotionSwiper"
@@ -17,36 +17,104 @@ const { width, height } = Dimensions.get('window');
 const searchHeight = height / 13;
 const impHeight = height / 8;
 const promoHeight = height / 4;
+import PIN from "../security-pass-ui/PIN";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Toast } from "native-base";
 
 import HomeTop from "./HomeTop";
 
 import {HomSearch} from "../../../navigation-config/Route";
 
-import { queryUSerMoney, isEmptyUserLogin } from "../../../realm/userQueries";
-
+import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser} from "../../../realm/userQueries";
+import {register_PIN} from "../../../no-redux/securityPIN";
 class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"]
+      data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
+      isModalVisible: false
     }
+    this._renderHome = this._renderHome.bind(this);
+    this._renderPinCode = this._renderPinCode.bind(this);
+    this._toggleModal = this._toggleModal.bind(this);
+    this._onFulfill = this._onFulfill.bind(this);
+
   }
 
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
   }
 
-  componentWillMount() {
-    let data = queryUSerMoney();
-    alert(JSON.stringify(data)); 
-    // alert(isEmptyUserLogin());
+  _toggleModal() {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  }
+  
+
+  componentDidMount() {
+    if(isFirstTimeUsing()) this._toggleModal();
   }
 
-  render() {
+  _onFulfill (code) {
+    register_PIN(code).then( data => {
+     // alert(JSON.stringify(data));
+      if(data.status == 0) {
+        // update database offline:
+        updateIsFirstTime(data.id).then( () => {
+          // alert(JSON.stringify(queryUser()));
+          this._toggleModal();
+          Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "top",duration:2000 });  
+        }).catch(err => alert(err));
+      }
+      
+    });    
+  }
+  _renderPinCode() {
     return (
+      <Modal isVisible={this.state.isModalVisible}  
+        // animationIn="slideInLeft"
+        // animationOut="slideOutRight"
+        // onSwipe={() => this.setState({ isModalVisible: null })}
+        swipeDirection="down"
+        scrollTo={this.handleScrollTo}
+        scrollOffset={this.state.scrollOffset}
+        scrollOffsetMax={400 - 300} // content height - ScrollView height
+        style={styles.bottomModal}
+        >
+        <View style={{  
+          // paddingVertical: 50,
+          // paddingHorizontal: 20,
+          backgroundColor: '#E0F8F1',
+          // backgroundColor: "white",
+          height:"35%" ,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 4,
+          borderColor: "rgba(0, 0, 0, 0.1)" }}
+        >
+          <PIN
+            type = "create"
+            ref="codeInputRef1"
+            secureTextEntry
+            activeColor='rgba(49, 180, 4, 1)'
+            inactiveColor='rgba(49, 180, 4, 1.3)'
+            autoFocus={true}
+            size={50}
+            onFulfill={(code) => this._onFulfill(code)}
+            containerStyle={{ marginTop: 30 }}
+            codeInputStyle={{ borderWidth: 1.5 }}
+          />          
+          {/* <TouchableOpacity onPress={this._toggleModal}>
+            <Text>Hide me!</Text>
+          </TouchableOpacity> */}
+        </View>
+      </Modal>
+    );
+  };
+
+  _renderHome() {
+    return(
       <ScrollView >
         <View style = {{ flex:1 }}>
           
@@ -139,7 +207,6 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-
             <View style = {{ height: 100, flexDirection: "row" }}>
               <TouchableOpacity style = {{ flex: 1, margin: 10}}>
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
@@ -159,10 +226,18 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-
           </View>
         </View>
       </ScrollView>
+    )
+  }
+
+  render() {
+    return (
+      <View style = {{ flex:1 }}>
+        {  this._renderHome() }
+        { this._renderPinCode() }
+      </View>
     );
   }
 }
@@ -178,6 +253,10 @@ const styles = StyleSheet.create({
   promotionwrapper: {
     height:promoHeight, 
     backgroundColor: "green"     
+  },
+  bottomModal: {
+    justifyContent: "flex-end",
+    margin: 0
   }
 })
 
