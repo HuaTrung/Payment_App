@@ -11,7 +11,7 @@
   - Run: *react-native run-android*.
 - [If false] Uninstall your app in emulator/device, then run: *react-native run-android*.
 
-## Error: `this._constructor is not a function realm`
+## Error: *this._constructor is not a function realm*
 
 Description
 
