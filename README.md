@@ -97,6 +97,6 @@ An online payment app (client) using React native
 - Open in Chrome: `http://localhost:8081/debugger-ui/`
 - Open menu setting in emulator/device (Ctrl + D)
   - *Enable Debug JS Remotely*.
-  - *Dev Settings* -> *Debug server host & port for device*, type: ip & port of emulator/machine (*10.0.3.2:8081*)
-  - Run: *react-native run-android*
-- [If false] Uninstall your app in emulator/device, then run: *react-native run-android*
+  - *Dev Settings* -> *Debug server host & port for device*, type: ip & port of emulator/machine (*10.0.3.2:8081*).
+  - Run: *react-native run-android*.
+- [If false] Uninstall your app in emulator/device, then run: *react-native run-android*.
