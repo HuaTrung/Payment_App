@@ -13,6 +13,7 @@
 - [Sequence Diagram](#sequence-diagram)
 - [Task](#task)
 - [Preferences](#preferences)
+- [Development](#development)
 - [Contributors](#contributors)
 
 ## Trello
@@ -84,12 +85,6 @@ An online payment app (client) using React native
 
 - [Quy trình xử lí của zalopay](https://developers.zalopay.vn/docs/webtoapp/index.html#t-ng-quan)
 
-## Contributors
-
-- **Hứa Vĩ Trung : 15520940**
-- **Lê Xuân Tiến : 15520884**
-- **Huỳnh Minh Tân : 15520763**
-
 ## Development
 
 ### System Description Document
@@ -103,3 +98,9 @@ Detail: [system-description-document.md](./development/system-description-docume
 *Take note of the issues encountered during application development, and how to solve problems.*
 
 Detail: [pro-tips.md](./development/pro-tips.md)
+
+## Contributors
+
+- **Hứa Vĩ Trung : 15520940**
+- **Lê Xuân Tiến : 15520884**
+- **Huỳnh Minh Tân : 15520763**
