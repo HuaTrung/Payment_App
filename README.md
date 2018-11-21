@@ -90,13 +90,16 @@ An online payment app (client) using React native
 - **Lê Xuân Tiến : 15520884**
 - **Huỳnh Minh Tân : 15520763**
 
-## Pro Tips
+## Development
 
-1. How to debug react native app in Chrome?
+### System Description Document
 
-- Open in Chrome: `http://localhost:8081/debugger-ui/`
-- Open menu setting in emulator/device (Ctrl + D)
-  - *Enable Debug JS Remotely*.
-  - *Dev Settings* -> *Debug server host & port for device*, type: ip & port of emulator/machine (*10.0.3.2:8081*).
-  - Run: *react-native run-android*.
-- [If false] Uninstall your app in emulator/device, then run: *react-native run-android*.
+*System specification document (simple) such as data flow diagrams of components or screens, relationship of entities, contracts API, etc.*
+
+Detail: [system-description-document.md](./development/system-description-document.md)
+
+### Pro tips
+
+*Take note of the issues encountered during application development, and how to solve problems.*
+
+Detail: [pro-tips.md](./development/pro-tips.md)
