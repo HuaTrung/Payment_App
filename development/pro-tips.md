@@ -30,6 +30,7 @@ executeApplicationScript	@	debuggerWorker.js:40
 Resolve
 
 - Commented out the line 80 from "*node_modules\realm\lib\browser\index.js*"
+- Temporary solution, [more](https://github.com/realm/realm-js/issues/2088).
 
 ```javascript
 [80] //config = this._constructor(config);
