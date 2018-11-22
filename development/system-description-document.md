@@ -33,20 +33,20 @@ OR
 Reponse
 
 ```json
-"data": {
-    "errors": {},
+{
     "status": 0,
+    "errors": {},
     "user": {
-        "address": "Tp HCM",
-        "birthday": "25/10/2018",
-        "email": "mihoang97@gmail.com",
-        "gender": true,
         "id": "5bbe0940a83388153cad97ee",
-       "isFirstTime": false,
-        "memberAt": "01/01/2018",
-        "money": 1000000,
         "name": "Nguyen Hoang Mi",
-        "phone": 932311434
+        "phone": 981311224,
+        "money": 1000000,
+        "gender": true,
+        "memberAt": "01/01/2018",
+        "address": "Tp HCM",
+        "email": "mihoang97@gmail.com",
+        "birthday": "1/11/2018",
+        "isFirstTime": false
     }
 }
 ```
