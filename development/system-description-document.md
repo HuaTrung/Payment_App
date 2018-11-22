@@ -34,7 +34,7 @@ OR
 
 ## Sequence Diagrams
 
-### 1. Sequence diagram for change information user
+### 1. Sequence diagram for Change information user
 
 If user is not authenticated, user can change:
 
