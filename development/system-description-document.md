@@ -6,7 +6,7 @@
 
 *For more information, see [RESTful Contracts API Guide](https://www.signom.com/api/rest/docs/).*
 
-1. Get infomation user when login (`loginUser`)
+### Get infomation user when login (`loginUser`)
 
 Http request: `localhost:8080/app/user/login`
 
@@ -30,4 +30,27 @@ OR
 }
 ```
 
-2. ex
+### etc
+
+## Sequence Diagram
+
+### Sequence diagram for change information user
+
+If user is not authenticated, user can change:
+
+- Name
+- Mail
+- Phone
+- Address
+- Birthday
+- Gender
+
+Else user only change:
+
+- Address
+
+<image src="./../assets/change-information-user.png" height="300" />
+
+### Sequence diagram for Authentication information of user
+
+<image src="./../assets/authentication-infomation-of-user.png" width="700" />

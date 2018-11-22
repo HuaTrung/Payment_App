@@ -79,7 +79,7 @@ An online payment app (client) using React native
 
 ## Sequence Diagram
 
-![Image description](assests/Websequencediagram.png)
+![Image description](assets/Websequencediagram.png)
 
 ## Preferences
 
