@@ -51,7 +51,55 @@ Reponse
 }
 ```
 
-### 2. etc
+### 2. Change information user
+
+Http request: `localhost:8080/app/user/update-information-user`
+
+```json
+POST /app/user/update-information-user HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost
+
+{
+  "name": "Hoang Mi Nguyen",
+  "phone": 934363423,
+  "gender": false,
+  "address": "Ha Noi",
+  "email": "hoangmi97@gmail.com",
+  "birthday": "12/1/2019"
+}
+```
+
+Reponse
+
+```json
+// success
+{
+    "status": 0,
+    "errors": {},
+    "user": {
+        "id": "5bbe0940a83388153cad97ee",
+        "name": "FFFFFnsdsdg long Hoasdsdsssdngh",
+        "phone": 932311434,
+        "money": 1000000,
+        "gender": false,
+        "memberAt": "01/01/2018",
+        "address": "Hóc Môn, Hồ Chí Minh",
+        "email": "81113tienlx97@gmail.com",
+        "birthday": "12/1/2019",
+        "isFirstTime": false
+    }
+}
+
+// false
+{
+    "status": 1,
+    "errors": {
+        "phone": "update information user error because phone not exist "
+    },
+    "user": {}
+}
+```
 
 ## Sequence Diagrams
 
