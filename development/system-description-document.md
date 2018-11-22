@@ -30,6 +30,27 @@ OR
 }
 ```
 
+Reponse
+
+```json
+"data": {
+    "errors": {},
+    "status": 0,
+    "user": {
+        "address": "Tp HCM",
+        "birthday": "25/10/2018",
+        "email": "mihoang97@gmail.com",
+        "gender": true,
+        "id": "5bbe0940a83388153cad97ee",
+       "isFirstTime": false,
+        "memberAt": "01/01/2018",
+        "money": 1000000,
+        "name": "Nguyen Hoang Mi",
+        "phone": 932311434
+    }
+}
+```
+
 ### 2. etc
 
 ## Sequence Diagrams
