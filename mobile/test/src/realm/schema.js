@@ -21,7 +21,7 @@ const UserSchema = {
 const databaseOptions = {
   path: "OPApp.realm",
   schema: [UserSchema],
-  schemaVersion: 0
+  schemaVersion: 1
 }
 
 export {

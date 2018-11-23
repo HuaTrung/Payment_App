@@ -1,193 +1,90 @@
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { rechargeMoney } from '../../../../no-redux/recharge'
+const { width, height } = Dimensions.get('window');
+import { Form, Item, Input, Label, Button, Icon } from 'native-base';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import RNEventSource from 'react-native-event-source'
 
-import React, { Component } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
-import Modal from "react-native-modal";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Transfer extends Component {
-  state = {
-    visibleModal: null
-  };
-
-  renderButton = (text, onPress) => (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
-        <Text>{text}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  renderModalContent = () => (
-    <View style={styles.modalContent}>
-      <Text>Hello!</Text>
-      {this.renderButton("Close", () => this.setState({ visibleModal: null }))}
-    </View>
-  );
-
-  handleOnScroll = event => {
-    this.setState({
-      scrollOffset: event.nativeEvent.contentOffset.y
+  constructor(props) {
+    super(props);
+    this.state = {
+      money: "",
+      modalVisible: false,
+      passWord: "",
+      sucessOrNot: null
+    };
+  }
+    componentDidMount() {
+      this.eventSource = new RNEventSource('http://192.168.226.1:8080/updates');
+  
+      this.eventSource.addEventListener('connected', (e) => {
+          console.log('Connection is established');
+      });
+      
+      // listens to all the messages. The only way to catch unnamed events (with no `event` name set)
+      this.eventSource.addEventListener('message', (e) => {
+        console.log(e.data);
+        this.setState({ 
+          money: e.data.money
+        });
     });
-  };
-
-  handleScrollTo = p => {
-    if (this.scrollViewRef) {
-      this.scrollViewRef.scrollTo(p);
     }
-  };
-
+    componentWillUnmount() {
+      this.eventSource.removeAllListeners();
+      this.eventSource.close();
+    }
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderButton("Default modal", () =>
-          this.setState({ visibleModal: 1 })
-        )}
-        {this.renderButton("Sliding from the sides", () =>
-          this.setState({ visibleModal: 2 })
-        )}
-        {this.renderButton("A slower modal", () =>
-          this.setState({ visibleModal: 3 })
-        )}
-        {this.renderButton("Fancy modal!", () =>
-          this.setState({ visibleModal: 4 })
-        )}
-        {this.renderButton("Bottom half modal", () =>
-          this.setState({ visibleModal: 5 })
-        )}
-        {this.renderButton("Modal that can be closed on backdrop press", () =>
-          this.setState({ visibleModal: 6 })
-        )}
-        {this.renderButton("Swipeable modal", () =>
-          this.setState({ visibleModal: 7 })
-        )}
-        {this.renderButton("Scrollable modal", () =>
-          this.setState({ visibleModal: 8 })
-        )}
-        <Modal isVisible={this.state.visibleModal === 1}>
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 2}
-          animationIn="slideInLeft"
-          animationOut="slideOutRight"
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 3}
-          animationInTiming={2000}
-          animationOutTiming={2000}
-          backdropTransitionInTiming={2000}
-          backdropTransitionOutTiming={2000}
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 4}
-          backdropColor={"red"}
-          backdropOpacity={1}
-          animationIn="zoomInDown"
-          animationOut="zoomOutUp"
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          backdropTransitionInTiming={1000}
-          backdropTransitionOutTiming={1000}
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 5}
-          style={styles.bottomModal}
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 6}
-          onBackdropPress={() => this.setState({ visibleModal: null })}
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 7}
-          onSwipe={() => this.setState({ visibleModal: null })}
-          swipeDirection="left"
-        >
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 8}
-          onSwipe={() => this.setState({ visibleModal: null })}
-          swipeDirection="down"
-          scrollTo={this.handleScrollTo}
-          scrollOffset={this.state.scrollOffset}
-          scrollOffsetMax={400 - 300} // content height - ScrollView height
-          style={styles.bottomModal}
-        >
-          <View style={styles.scrollableModal}>
-            <ScrollView
-              ref={ref => (this.scrollViewRef = ref)}
-              onScroll={this.handleOnScroll}
-              scrollEventThrottle={16}
-            >
-              <View style={styles.scrollableModalContent1}>
-                <Text>Scroll me up</Text>
-              </View>
-              <View style={styles.scrollableModalContent1}>
-                <Text>Scroll me up</Text>
-              </View>
-            </ScrollView>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={{
+          height: 50,
+          backgroundColor: "#1aa3ff",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row"
+        }}>
+          <TouchableOpacity style={{ marginLeft: 7 }} onPress={() => this.props.navigation.goBack()} >
+            <Icon type='Ionicons' name='ios-arrow-back' style={{ color: "#fafafa" }} fontSize={35} />
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <Text style={{ textAlign: "center", color: "white", fontWeight: "500", fontSize: 18 }} >Transfer</Text>
           </View>
-        </Modal>
+        </View>
+
+        <View style={{ marginTop: 5 }}>
+          <TouchableOpacity onPress = { () => this.props.navigation.push('TransferFriendScreen')}>
+            <View style={{ flexDirection: "row", borderColor: "#e0e0e0", borderBottomWidth: 1, width: "100%", padding: 15 }}>
+              <View style={{ width: "10%", alignItems: 'center', justifyContent: 'center' }}><FontAwesome5 name="user-friends" size={30} color="#20A8D8" /></View>
+              <View style={{width:"80%"}}>
+                <Text style={{ fontSize: 15, marginLeft: 15 }}>Chuyển tiền đến bạn bè</Text>
+                <Text style={{ fontSize: 12, marginLeft: 15 }}>Số điện thoại, danh bạ</Text>
+              </View>
+              <View style={{width:"10%",alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+              <Ionicons name="ios-arrow-forward" size={20} color="#20A8D8" />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={{ flexDirection: "row", borderColor: "#e0e0e0", borderBottomWidth: 1, width: "100%", padding: 15 }}>
+              <View style={{ width: "10%", alignItems: 'center', justifyContent: 'center' }}><FontAwesome5 name="university" size={30} color="#20A8D8" /></View>
+              <View style={{width:"80%"}}>
+                <Text style={{ fontSize: 15, marginLeft: 15 }}>Chuyển tiền đến ngân hàng</Text>
+                <Text style={{ fontSize: 12, marginLeft: 15 }}>Tài khoản của 41 ngân hàng nội địa  </Text>
+              </View>
+              <View style={{width:"10%",alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+                <Ionicons name="ios-arrow-forward" size={20} color="#20A8D8" />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <Text style={{ fontSize: 12, margin: 15 }}>GIAO DỊCH GẦN ĐÂY</Text>
+
+        </View>
       </View>
+
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  button: {
-    backgroundColor: "lightblue",
-    padding: 12,
-    margin: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)"
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 22,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)"
-  },
-  bottomModal: {
-    justifyContent: "flex-end",
-    margin: 0
-  },
-  scrollableModal: {
-    height: 300
-  },
-  scrollableModalContent1: {
-    height: 200,
-    backgroundColor: "orange",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  scrollableModalContent2: {
-    height: 200,
-    backgroundColor: "lightgreen",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

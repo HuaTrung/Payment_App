@@ -4,13 +4,16 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon } from 'native-base';
 import Modal from "react-native-modal";
+import RNEventSource from 'react-native-event-source'
+import isEmpty from '../../../../validations/is-empty.validate'
+import GLOBAL from "../../../../config";
 
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: "",
+      money: "10000",
       modalVisible: false,
       passWord: "",
       sucessOrNot: null
@@ -18,6 +21,23 @@ class Recharge extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
 
+  }
+  componentDidMount() {
+    this.eventSource = new RNEventSource(GLOBAL.HostName +'/updates');
+
+    this.eventSource.addEventListener('connected', (e) => {
+        console.log('Connection is established');
+    });
+    
+    // listens to all the messages. The only way to catch unnamed events (with no `event` name set)
+    this.eventSource.addEventListener('message', (e) => {
+      console.log("thaydoi"+e.data);
+   
+  });
+  }
+  componentWillUnmount() {
+    this.eventSource.removeAllListeners();
+    this.eventSource.close();
   }
   setModalVisible(visible) {
     this.setState({
@@ -76,7 +96,7 @@ class Recharge extends Component {
           backgroundColor: "#EDEDED"
         }}>
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "300", fontSize: 15, color: "#616161" }} >Số dư hiện tại</Text>
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >74.500</Text>
+          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{this.state.money}</Text>
         </View>
         <View style={{
           flex: 1,

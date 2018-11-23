@@ -53,3 +53,5 @@ export const isFirstTimeUsing = () =>  Schema.objects(USER_SCHEMA)[0].isFirstTim
 export const queryUserId = () =>  Schema.objects(USER_SCHEMA)[0].id;
 
 export const queryUser = () =>  Schema.objects(USER_SCHEMA)[0];
+
+export const queryUserMoney = () =>  Schema.objects(USER_SCHEMA)[0].money;
