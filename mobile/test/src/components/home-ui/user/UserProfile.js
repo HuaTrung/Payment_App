@@ -31,8 +31,13 @@ class UserProfile extends Component {
 
   _navigateProfileChange(_user) {
     this.props.navigation.push('ProfileChangeScreen', {
-      user: _user
+      user: _user,
+      refresh: this._refreshScreen
     })
+  }
+
+  _refreshScreen  = () =>  {
+    queryUserLoginData().then((listUsers) => this.setState({user: listUsers}));
   }
 
   _handleLogOut() {
