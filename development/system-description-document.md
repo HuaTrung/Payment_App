@@ -123,3 +123,21 @@ Else user only change:
 ### 2. Sequence diagram for Authentication information of user
 
 <image src="./../assets/authentication-infomation-of-user.png" width="900" />
+
+### References
+
+- PropTypes in React Native: [https://hackernoon.com/are-you-using-proptypes-in-react-native-6067e2e5b526](https://hackernoon.com/are-you-using-proptypes-in-react-native-6067e2e5b526)
+
+- React Binding Patterns: [https://medium.freecodecamp.org/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56](https://medium.freecodecamp.org/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56)
+
+    What is line code doing?
+
+    ```javascript
+    <Input  
+        iconType = "MCIcons"
+        iconName = "human-greeting" 
+        placeholder = "name"
+        onChangeText={this.setUsername.bind(this)} // << here doing?
+        value = { user.name }
+    />
+    ```
