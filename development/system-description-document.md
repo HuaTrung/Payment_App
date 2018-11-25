@@ -109,7 +109,7 @@ If user is not authenticated, user can change:
 
 - Name
 - Mail
-- Phone
+- ~~Phone~~  // Cannot change
 - Address
 - Birthday
 - Gender
