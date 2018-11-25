@@ -26,7 +26,7 @@ import HomeTop from "./HomeTop";
 
 import {HomSearch} from "../../../navigation-config/Route";
 
-import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser} from "../../../realm/userQueries";
+import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney} from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 class Home extends Component {
 
@@ -40,7 +40,6 @@ class Home extends Component {
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
     this._onFulfill = this._onFulfill.bind(this);
-
   }
 
   navigatePayScan() {
@@ -119,7 +118,7 @@ class Home extends Component {
         <View style = {{ flex:1 }}>
           
           {/*  */}
-          <HomeSearchBar/>
+          {/* <HomeSearchBar/> */}
           {/*  */}
           <View style = { styles.mainTopWrapper }>
             <HomeTop 
@@ -133,7 +132,7 @@ class Home extends Component {
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "FontAwesome5"
               iconName = "teamspeak"
-              text = "123,456 VND"
+              text = {queryUserMoney()}
             />
 
             <HomeTop 
