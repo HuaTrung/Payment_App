@@ -124,6 +124,8 @@ Else user only change:
 
 <image src="./../assets/authentication-infomation-of-user.png" width="900" />
 
+Material: [https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1#G1MBi9HPVI7zTOSxH1wMBqzi65jDiWHE1t](https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1#G1MBi9HPVI7zTOSxH1wMBqzi65jDiWHE1t)
+
 ### References
 
 - PropTypes in React Native: [https://hackernoon.com/are-you-using-proptypes-in-react-native-6067e2e5b526](https://hackernoon.com/are-you-using-proptypes-in-react-native-6067e2e5b526)
