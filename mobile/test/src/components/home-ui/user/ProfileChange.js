@@ -23,19 +23,34 @@ class ProfileChange extends Component {
 
   constructor(props) {
     super(props);
+
+    const { name, phone, address, gender, email, birthday } = this.props.navigation.getParam('user');
+
     this.state = {
       // isGenderSelected: false,
-      user: this.props.navigation.getParam('user'),
+      name: name,
+      phone: phone,
+      address: address,
+      gender: gender,
+      email: email,
       isOpenPass: false,
-      chosenDate: new Date(2018,1,1)
+      birthday: birthday,
     }
     this._onGenderPress = this._onGenderPress.bind(this);
     this._onChangePassPress = this._onChangePassPress.bind(this);
     this._setDate = this._setDate.bind(this);
   }
 
+  _converStringToDate(stringDate) {
+    const arrDate = stringDate.split("/");
+    return new Date(arrDate[2], arrDate[1], arrDate[0]);
+  }
   _onGenderPress = () => {
-    // this.setState({isGenderSelected: !this.state.isGenderSelected})
+    console.log(this.state.gender);
+    console.log("gender change");
+    this.setState({gender: !this.state.gender})
+    console.log("gender after");
+    console.log(this.state.gender);
   }
 
   _goBackScreen() {
@@ -44,7 +59,9 @@ class ProfileChange extends Component {
   }
 
   _setDate(newDate) {
-    this.setState({ chosenDate: newDate });
+    console.log(newDate);
+    console.log(newDate.toString().substr(4, 12));
+    this.setState({ birthday: newDate.toString().substr(4, 12) });
   }
 
   _onChangePassPress() {
@@ -53,12 +70,17 @@ class ProfileChange extends Component {
 
   _saveInformationUser() {
 
+      console.log("get State Name");
+
+      console.log(this.state);
+    const {name, phone, gender, address, email, birthday} = this.state;
+
     data = {
-      "name": "Le Xuan Tien AAAAAC ",
+      "name": name,
       "phone": 932311434,
-      "gender": true,
-      "address": "Hóc Môn, Hồ Chí Minh",
-      "email": "tienlx97@gmail.com",
+      "gender": gender,
+      "address": address,
+      "email": email,
       "birthday": "1/11/2018"
     }
     
@@ -84,7 +106,7 @@ class ProfileChange extends Component {
 
   render() {
     // const { isGenderSelected, isOpenPass } = this.state;
-    const { user, isOpenPass } = this.state;
+    const { name, phone, email, gender, address, isOpenPass } = this.state;
     
     return (
       <View style={styles.container}>
@@ -106,52 +128,64 @@ class ProfileChange extends Component {
           </TouchableOpacity>
         </View>
         {/* main */}
+
         <ScrollView style = {{ flex:1 }}>
+        
           {/* user image */}
           <View style = {{ height: h2 , justifyContent: "center", alignItems:"center"}}>                    
             <FontAwesome5 name = "user-astronaut" color = "#3b5998" size = {h2-h2/3} />
             <Text>Change</Text>
           </View>
+
           {/* <View style = {{ height:10 }} /> */}
+
           <Input  
             iconType = "MCIcons"
             iconName = "human-greeting" 
             placeholder = "name"
-            value = { user.name }
+            onChangeText={ (text) => {this.setState({name: text})} }
+            value = { name }
           />
+
           <Input  
             iconType = "Entypo"
             iconName = "phone" 
             placeholder = "phone number"
-            value = { String(user.phone) }
+            value = { String(phone) }
+            // onChangeText={ (text) => {this.setState({phone: text})} }
           />
+
           <Input  
             iconType = "MCIcons"
             iconName = "email-check" 
             placeholder = "email"
-            value = { user.email }
+            value = { email }
+            onChangeText={ (text) => {this.setState({email: text})} }
             rightValue = "send"
           />
+
           <Input  
             iconType = "Entypo"
             iconName = "address" 
-            placeholder = { user.address }
+            onChangeText={ (text) => {this.setState({address: text})} }
+            placeholder = "address"
+            value = { address }
           />
+
           <View>
             <View style = {{ flexDirection: "row" , justifyContent: "flex-start", marginVertical: 5}} >
               <TouchableOpacity  onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10}} >
-                <Radio selected={user.gender} onPress = { this._onGenderPress } />
+                <Radio selected={gender == true} onPress = { this._onGenderPress } />
                 <Text> male</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress = { this._onGenderPress } style = {{ flexDirection: "row" , marginHorizontal: 10 }} >
-                <Radio onPress = { this._onGenderPress } selected={!user.gender} />
+                <Radio onPress = { this._onGenderPress } selected={gender == false} />
                 <Text> female</Text>
               </TouchableOpacity>
             </View>
             <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
           </View>
           
-
           <View>
             <View style = {{ flexDirection: "row",alignItems: "center"}}>
               <MCIcons 
@@ -164,36 +198,39 @@ class ProfileChange extends Component {
               placeHolderText="select birthdate"
               onDateChange={this._setDate}  
               animationType={"fade"}
+              defaultDate={new Date(2018, 4, 4)}
               androidMode={"default"}/>
             </View>
             <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
           </View>
-            {
-              isOpenPass == false ? (
-                <View style = {{ flexDirection: "row",justifyContent: "center", marginTop: 5}}>
-                  <CheckBox color="#3b5998" onPress = { this._onChangePassPress }  checked = { isOpenPass } />
-                  <Text style = {{ marginHorizontal: 10 }}> change password</Text>
-                </View>
-              ) : (
-                <View>
-                  <Input  
-                    iconType = "FontAwesome"
-                    iconName = "unlock-alt" 
-                    placeholder = "current password"
-                  />
-                  <Input  
-                    iconType = "Entypo"
-                    iconName = "lock" 
-                    placeholder = "new password"
-                  />
-                  <Input  
-                    iconType = "Entypo"
-                    iconName = "lock" 
-                    placeholder = "confirm password"
-                  />
-                </View>
-              )
-            }
+
+          {
+            isOpenPass == false ? (
+              <View style = {{ flexDirection: "row",justifyContent: "center", marginTop: 5}}>
+                <CheckBox color="#3b5998" onPress = { this._onChangePassPress }  checked = { isOpenPass } />
+                <Text style = {{ marginHorizontal: 10 }}> change password</Text>
+              </View>
+            ) : (
+              <View>
+                <Input  
+                  iconType = "FontAwesome"
+                  iconName = "unlock-alt" 
+                  placeholder = "current password"
+                />
+                <Input  
+                  iconType = "Entypo"
+                  iconName = "lock" 
+                  placeholder = "new password"
+                />
+                <Input  
+                  iconType = "Entypo"
+                  iconName = "lock" 
+                  placeholder = "confirm password"
+                />
+              </View>
+            )
+          }
+
         </ScrollView>
 
       </View>

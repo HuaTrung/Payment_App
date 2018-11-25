@@ -141,3 +141,23 @@ Else user only change:
         value = { user.name }
     />
     ```
+
+- Updating an object with setState in React
+
+    [https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react](https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react)
+
+    ```javascript
+    this.state = {
+        jasper: {
+            name: 'jasper',
+            age: 28
+        },
+    }
+    //...
+    this.setState(prevState => ({
+        jasper: {
+            ...prevState.jasper,
+            name: 'something'
+        }
+    }))
+    ```

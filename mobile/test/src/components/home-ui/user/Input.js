@@ -39,8 +39,15 @@ class Input extends Component {
     }
   }
 
+  isEditAble() {
+    if (this.props.iconName == "phone") {
+      return false;
+    }
+    return true;
+  }
+
   render() {
-    const { w1, w2, w3, h, botBorderWidth,placeholder, rightValue, value } = this.props;
+    const { w1, w2, w3, h, botBorderWidth,placeholder, rightValue, value, onChangeText } = this.props;
     return (
     <View style = {{ height: h, backgroundColor: "white"}}>    
       <View style = {{ flexDirection: "row", flex:1 }}>       
@@ -48,8 +55,10 @@ class Input extends Component {
           { this.renderIcon() } 
         </View>
         <TextInput 
-          style = {{ flex: 1,  padding: 0, justifyContent: "center", marginHorizontal:5  }} 
+          style = {{ flex: 1,  padding: 0, justifyContent: "center", marginHorizontal:5  }}
+          onChangeText={onChangeText} 
           placeholder = {placeholder} 
+          editable = { this.isEditAble() }
           underlineColorAndroid="rgba(0,0,0,0)"
           >{value}</TextInput>
         <View style = {{ width: w3 ,justifyContent: "center", alignItems:"center" }}>
@@ -80,7 +89,7 @@ Input.propTypes = {
   iconName: PropTypes.string.isRequired,
   iconSize: PropTypes.number.isRequired,
   iconColor: PropTypes.string.isRequired,
-
+  onChangeText: PropTypes.func,
   botBorderWidth: PropTypes.number
 };
 
