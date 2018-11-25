@@ -7,8 +7,12 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Input from "./Input";
-import { queryUserLoginData} from "../../../realm/userQueries";
-
+import { queryUserLoginData } from "../../../realm/userQueries";
+import isEmpty from '../../../validations/is-empty.validate';
+import isEmail from '../../../validations/email.validate';
+import { 
+  EMAIL_INVALID, EMAIL_EMPTY, NAME_EMPTY
+} from '../../../validations/errors-name';
 
 import { updateInformationUser } from "../../../no-redux/updateInformationUser"
 
@@ -27,7 +31,6 @@ class ProfileChange extends Component {
     const { name, phone, address, gender, email, birthday } = this.props.navigation.getParam('user');
 
     this.state = {
-      // isGenderSelected: false,
       name: name,
       phone: phone,
       address: address,
@@ -41,16 +44,8 @@ class ProfileChange extends Component {
     this._setDate = this._setDate.bind(this);
   }
 
-  _converStringToDate(stringDate) {
-    const arrDate = stringDate.split("/");
-    return new Date(arrDate[2], arrDate[1], arrDate[0]);
-  }
   _onGenderPress = () => {
-    console.log(this.state.gender);
-    console.log("gender change");
     this.setState({gender: !this.state.gender})
-    console.log("gender after");
-    console.log(this.state.gender);
   }
 
   _goBackScreen() {
@@ -59,8 +54,6 @@ class ProfileChange extends Component {
   }
 
   _setDate(newDate) {
-    console.log(newDate);
-    console.log(newDate.toString().substr(4, 12));
     this.setState({ birthday: newDate.toString().substr(4, 12) });
   }
 
@@ -68,30 +61,62 @@ class ProfileChange extends Component {
     this.setState({ isOpenPass: !this.state.isOpenPass});
   }
 
+  _checkErrorBeforeSave(data) {
+    let errors = {};
+
+    if(isEmpty(data.name)) 
+      errors.name = NAME_EMPTY;
+
+    if(isEmpty(data.email)) 
+      errors.email = EMAIL_EMPTY;
+    else if(isEmail(data.email) == false )
+      errors.email = EMAIL_INVALID;
+
+    return errors;
+  }
+
   _saveInformationUser() {
 
-      console.log("get State Name");
-
-      console.log(this.state);
     const {name, phone, gender, address, email, birthday} = this.state;
-
+    
     data = {
       "name": name,
-      "phone": 932311434,
+      "phone": phone,
       "gender": gender,
       "address": address,
       "email": email,
-      "birthday": "1/11/2018"
+      "birthday": birthday
+    }
+
+    let resultCheckErrorBeforeSave = this._checkErrorBeforeSave(data);
+    if(!isEmpty(resultCheckErrorBeforeSave)) {
+     
+      let messagesError = "";
+      Object.keys(resultCheckErrorBeforeSave).forEach(function(key) {
+        messagesError = messagesError + (key + ": " + resultCheckErrorBeforeSave[key] + "\n");
+      });
+
+      Alert.alert("Incorrect data", messagesError);
+      return;
     }
     
     updateInformationUser(data).then( result  => {
-      // if(api.type == false) this.setState({errors: api.errors});
-      // else this.props.navigation.navigate("SignedInScreen");
+
       if(result.type) {
         queryUserLoginData().then((listUsers) => {
-          this.setState({user: listUsers})
+ 
+          const {name, phone, gender, address, email, birthday} = listUsers;
+          this.setState({
+            name: name,
+            phone: phone,
+            address: address,
+            gender: gender,
+            email: email,
+            isOpenPass: false,
+            birthday: birthday,
+          })
+
           alert("Saved Successfully!");
-          
         });
         
       }
@@ -105,8 +130,7 @@ class ProfileChange extends Component {
   }
 
   render() {
-    // const { isGenderSelected, isOpenPass } = this.state;
-    const { name, phone, email, gender, address, isOpenPass } = this.state;
+    const { name, phone, email, gender, address, isOpenPass, birthday } = this.state;
     
     return (
       <View style={styles.container}>
@@ -195,10 +219,9 @@ class ProfileChange extends Component {
               />
               <DatePicker 
               placeHolderTextStyle={{ color: "#C7C7CD" }}
-              placeHolderText="select birthdate"
-              onDateChange={this._setDate}  
+              onDateChange={this._setDate}
               animationType={"fade"}
-              defaultDate={new Date(2018, 4, 4)}
+              defaultDate={ new Date(birthday) }
               androidMode={"default"}/>
             </View>
             <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />

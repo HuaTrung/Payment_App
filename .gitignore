@@ -9,3 +9,4 @@ server/lerna-repo/packages/admin-project/node_modules/
 server/lerna-repo/packages/server/node_modules/
 server/lerna-repo/packages/user-client-module/node_modules/
 server/lerna-repo/packages/the_root/node_modules/
+mobile/test/package-lock.json

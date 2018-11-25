@@ -45,7 +45,7 @@ Reponse
         "memberAt": "01/01/2018",
         "address": "Tp HCM",
         "email": "mihoang97@gmail.com",
-        "birthday": "1/11/2018",
+        "birthday": "Apr 24 1997",
         "isFirstTime": false
     }
 }
@@ -66,7 +66,7 @@ Host: localhost
   "gender": false,
   "address": "Ha Noi",
   "email": "hoangmi97@gmail.com",
-  "birthday": "12/1/2019"
+  "birthday": "Apr 24 1997"
 }
 ```
 
@@ -86,7 +86,7 @@ Reponse
         "memberAt": "01/01/2018",
         "address": "Hóc Môn, Hồ Chí Minh",
         "email": "81113tienlx97@gmail.com",
-        "birthday": "12/1/2019",
+        "birthday": "Apr 24 1997",
         "isFirstTime": false
     }
 }
@@ -161,3 +161,19 @@ Else user only change:
         }
     }))
     ```
+
+- DatePicker: show default date instead of "Select Date"
+
+    ```javascript
+    <DatePicker
+    //placeHolderText = "Select Date" // << not set if show default date
+    placeHolderTextStyle={{ color: "#C7C7CD" }}
+    onDateChange={this._setDate}
+    animationType={"fade"}
+    defaultDate={ new Date(birthday) }
+    androidMode={"default"}/>
+    ```
+
+    Resole: `Show default date if placeHolderText prop is not defined.`
+
+    More: [https://github.com/GeekyAnts/NativeBase/releases/tag/v2.7.1](https://github.com/GeekyAnts/NativeBase/releases/tag/v2.7.1)
