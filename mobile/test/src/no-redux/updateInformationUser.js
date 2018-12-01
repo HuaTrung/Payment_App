@@ -11,12 +11,7 @@ const updateInformationUser = dataInput  => new Promise((resolve, reject) => {
     axios.post(GLOBAL.HostName +"/app/user/update-information-user", dataInput)
     .then( response => {
         const { data } = response;
-        console.log("Ket qua Tra ve", data);
-
         if(data.status == 0 && !isEmpty(data.user)) {
-            console.log("statuts =0");
-            console.log("Start Insert realm");
-            console.log("Start Insert realm", data.user);
 
             // update in local with realm
             insertUserLogin(data.user).then(() => {
@@ -32,6 +27,8 @@ const updateInformationUser = dataInput  => new Promise((resolve, reject) => {
     .catch((err) => { reject(err) });
 
 });
+
+
 
 
 export { updateInformationUser };

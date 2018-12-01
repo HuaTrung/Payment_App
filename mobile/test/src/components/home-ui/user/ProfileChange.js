@@ -11,7 +11,7 @@ import { queryUserLoginData } from "../../../realm/userQueries";
 import isEmpty from '../../../validations/is-empty.validate';
 import isEmail from '../../../validations/email.validate';
 import { 
-  EMAIL_INVALID, EMAIL_EMPTY, NAME_EMPTY, ADDRESS_EMPTY, BIRTHDAY_LESS_CURRENT_DATE, BIRTHDAY_GREATER_FIFTEEN
+  EMAIL_EMPTY, NAME_EMPTY, ADDRESS_EMPTY, BIRTHDAY_LESS_CURRENT_DATE, BIRTHDAY_GREATER_FIFTEEN, EMAIL_EXIST
 } from '../../../validations/errors-name';
 
 import { updateInformationUser } from "../../../no-redux/updateInformationUser"
@@ -89,7 +89,7 @@ class ProfileChange extends Component {
     if(isEmpty(data.email)) 
       errors.email = EMAIL_EMPTY;
     else if(isEmail(data.email) == false )
-      errors.email = EMAIL_INVALID;
+      errors.email = EMAIL_EXIST;
 
     return errors;
   }
@@ -117,7 +117,6 @@ class ProfileChange extends Component {
       this.setState({ address: text, errors }); 
     } else this.setState({ address: text }); 
   }
-
 
   _saveInformationUser() {
 
@@ -159,7 +158,10 @@ class ProfileChange extends Component {
         
       }
       else {
-        Alert.alert("Failed to save data", result.errors.phone);
+        this.setState({ errors: {
+            email: result.errors.email 
+          }
+        })
       } 
     })
     .catch((error) => {
