@@ -47,7 +47,7 @@ class Input extends Component {
   }
 
   render() {
-    const { w1, w2, w3, h, botBorderWidth,placeholder, rightValue, value, onChangeText } = this.props;
+    const { w1, w2, w3, h, botBorderWidth, placeholder, rightValue, value, onChangeText, errorMessage, widthMessError } = this.props;
     return (
     <View style = {{ height: h, backgroundColor: "white"}}>    
       <View style = {{ flexDirection: "row", flex:1 }}>       
@@ -55,7 +55,9 @@ class Input extends Component {
           { this.renderIcon() } 
         </View>
         <TextInput 
-          style = {{ flex: 1,  padding: 0, justifyContent: "center", marginHorizontal:5  }}
+          style = {[
+            { flex: 1,  padding: 0, justifyContent: "center", marginHorizontal:5 }
+          ]}
           onChangeText={onChangeText} 
           placeholder = {placeholder} 
           editable = { this.isEditAble() }
@@ -70,12 +72,40 @@ class Input extends Component {
             )
           }
         </View>
+        
       </View>
-      <View style = {{ width: botBorderWidth, borderBottomWidth:1, alignSelf: "center" }} />
+
+      <View style = {[
+                      { width: botBorderWidth, borderBottomWidth:1, alignSelf: "center" }
+                    ]} />
+      {
+      errorMessage && 
+        (
+          <View >
+            <Text style={[stylesInput.textinvalid, {alignSelf: "center", width: widthMessError}]}>
+              { errorMessage }
+            </Text>
+          </View>
+        )
+      }
+      
     </View>
     );
   }
 }
+
+
+
+const stylesInput = StyleSheet.create({
+  textinvalid: {
+    color: '#FF2D00',
+    fontSize: 12
+  },
+  textvalid: {
+    // color: 'red',
+    // borderColor: 'red'
+  },
+});
 
 Input.propTypes = {
 
@@ -90,6 +120,8 @@ Input.propTypes = {
   iconSize: PropTypes.number.isRequired,
   iconColor: PropTypes.string.isRequired,
   onChangeText: PropTypes.func,
+  errorMessage: PropTypes.string,
+  widthMessError: PropTypes.number,
   botBorderWidth: PropTypes.number
 };
 

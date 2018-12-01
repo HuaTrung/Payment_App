@@ -1,8 +1,12 @@
 const NAME_EMPTY = 'name is required';
 
+const ADDRESS_EMPTY = 'address is required';
+
 const EMAIL_EMPTY = 'email is required';
 const EMAIL_INVALID = 'email is invalid';
 
+const BIRTHDAY_LESS_CURRENT_DATE = 'birthday must less than current day'
+const BIRTHDAY_GREATER_FIFTEEN = 'birthday must greater than fifteen year old'
 const PASSWORD_EMPTY = 'password is required';
 const PASSWORD_NOT_ENOUGH = 'at least 8 character';
 const PASSWORD_NOT_UPPER_CHARACTER = 'must contain upper character';
@@ -69,6 +73,10 @@ export {
     TOKEN_ERROR,
 
     NOT_VERIFY,
-    PASSWORD_NOTCORRECT
-    
+    PASSWORD_NOTCORRECT,
+
+    ADDRESS_EMPTY,
+
+    BIRTHDAY_LESS_CURRENT_DATE,
+    BIRTHDAY_GREATER_FIFTEEN
 };

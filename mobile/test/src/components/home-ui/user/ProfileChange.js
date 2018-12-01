@@ -11,7 +11,7 @@ import { queryUserLoginData } from "../../../realm/userQueries";
 import isEmpty from '../../../validations/is-empty.validate';
 import isEmail from '../../../validations/email.validate';
 import { 
-  EMAIL_INVALID, EMAIL_EMPTY, NAME_EMPTY
+  EMAIL_INVALID, EMAIL_EMPTY, NAME_EMPTY, ADDRESS_EMPTY, BIRTHDAY_LESS_CURRENT_DATE, BIRTHDAY_GREATER_FIFTEEN
 } from '../../../validations/errors-name';
 
 import { updateInformationUser } from "../../../no-redux/updateInformationUser"
@@ -38,10 +38,11 @@ class ProfileChange extends Component {
       email: email,
       isOpenPass: false,
       birthday: birthday,
+      errors: ''
     }
     this._onGenderPress = this._onGenderPress.bind(this);
     this._onChangePassPress = this._onChangePassPress.bind(this);
-    this._setDate = this._setDate.bind(this);
+    this._onChangeDate = this._onChangeDate.bind(this);
   }
 
   _onGenderPress = () => {
@@ -53,8 +54,14 @@ class ProfileChange extends Component {
     this.props.navigation.goBack();
   }
 
-  _setDate(newDate) {
-    this.setState({ birthday: newDate.toString().substr(4, 12) });
+  _onChangeDate(newDate) {
+    
+    if(!isEmpty(this.state.errors.birthday)) {
+      let { errors } = this.state;
+      delete errors.birthday;
+      this.setState({ birthday: newDate.toString().substr(4, 12), errors }); 
+    } else this.setState({ birthday: newDate.toString().substr(4, 12) }); 
+
   }
 
   _onChangePassPress() {
@@ -67,6 +74,18 @@ class ProfileChange extends Component {
     if(isEmpty(data.name)) 
       errors.name = NAME_EMPTY;
 
+    if(isEmpty(data.address)) 
+      errors.address = ADDRESS_EMPTY;
+
+    let today = new Date();
+    let dateUser = new Date(data.birthday);
+    let age = calcAge(data.birthday);
+
+    if(dateUser.getTime() > today.getTime() )
+      errors.birthday = BIRTHDAY_LESS_CURRENT_DATE;
+    else if (age < 15)
+      errors.birthday = BIRTHDAY_GREATER_FIFTEEN;
+      
     if(isEmpty(data.email)) 
       errors.email = EMAIL_EMPTY;
     else if(isEmail(data.email) == false )
@@ -74,6 +93,31 @@ class ProfileChange extends Component {
 
     return errors;
   }
+
+  onChangeTextName(text) {
+    if(!isEmpty(this.state.errors.name)) {
+      let { errors } = this.state;
+      delete errors.name;
+      this.setState({ name: text, errors }); 
+    } else this.setState({ name: text }); 
+  }
+
+  onChangeTextEmail(text) {
+    if(!isEmpty(this.state.errors.email)) {
+      let { errors } = this.state;
+      delete errors.email;
+      this.setState({ email: text, errors }); 
+    } else this.setState({ email: text }); 
+  }
+
+  onChangeTextAddress(text) {
+    if(!isEmpty(this.state.errors.address)) {
+      let { errors } = this.state;
+      delete errors.address;
+      this.setState({ address: text, errors }); 
+    } else this.setState({ address: text }); 
+  }
+
 
   _saveInformationUser() {
 
@@ -90,16 +134,10 @@ class ProfileChange extends Component {
 
     let resultCheckErrorBeforeSave = this._checkErrorBeforeSave(data);
     if(!isEmpty(resultCheckErrorBeforeSave)) {
-     
-      let messagesError = "";
-      Object.keys(resultCheckErrorBeforeSave).forEach(function(key) {
-        messagesError = messagesError + (key + ": " + resultCheckErrorBeforeSave[key] + "\n");
-      });
-
-      Alert.alert("Incorrect data", messagesError);
+      this.setState({errors: resultCheckErrorBeforeSave})
       return;
     }
-    
+
     updateInformationUser(data).then( result  => {
 
       if(result.type) {
@@ -130,7 +168,7 @@ class ProfileChange extends Component {
   }
 
   render() {
-    const { name, phone, email, gender, address, isOpenPass, birthday } = this.state;
+    const { name, phone, email, gender, address, isOpenPass, birthday, errors } = this.state;
     
     return (
       <View style={styles.container}>
@@ -167,8 +205,11 @@ class ProfileChange extends Component {
             iconType = "MCIcons"
             iconName = "human-greeting" 
             placeholder = "name"
-            onChangeText={ (text) => {this.setState({name: text})} }
+            onChangeText={ (text) => {this.onChangeTextName(text)} }
             value = { name }
+            errorMessage = { errors.name }
+            widthMessError = {width/1.2}
+            style = {{color:'#ff0000'}}
           />
 
           <Input  
@@ -184,14 +225,18 @@ class ProfileChange extends Component {
             iconName = "email-check" 
             placeholder = "email"
             value = { email }
-            onChangeText={ (text) => {this.setState({email: text})} }
+            errorMessage = { errors.email }
+            widthMessError = {width/1.2}
+            onChangeText={ (text) => {this.onChangeTextEmail(text)} }
             rightValue = "send"
           />
 
           <Input  
             iconType = "Entypo"
             iconName = "address" 
-            onChangeText={ (text) => {this.setState({address: text})} }
+            errorMessage = { errors.address }
+            widthMessError = {width/1.2}
+            onChangeText={ (text) => {this.onChangeTextAddress(text)} }
             placeholder = "address"
             value = { address }
           />
@@ -219,12 +264,23 @@ class ProfileChange extends Component {
               />
               <DatePicker 
               placeHolderTextStyle={{ color: "#C7C7CD" }}
-              onDateChange={this._setDate}
+              onDateChange={this._onChangeDate}
+              maximumDate = {new Date()}
               animationType={"fade"}
               defaultDate={ new Date(birthday) }
               androidMode={"default"}/>
             </View>
             <View style = {{ width: width/1.2, borderBottomWidth:1, alignSelf: "center" }} />
+            {
+            errors.birthday && 
+              (
+                <View >
+                  <Text style={[styles.textinvalid, {alignSelf: "center", width: width/1.2}]}>
+                    { errors.birthday }
+                  </Text>
+                </View>
+              )
+            }
           </View>
 
           {
@@ -277,6 +333,15 @@ const styles = StyleSheet.create({
     color: "white", 
     fontWeight:"500", 
     fontSize: 18
+  },
+  textinvalid: {
+    color: '#FF2D00',
+    fontSize: 12
   }
 });
+
+function calcAge(dateString) {
+    var birthday = +new Date(dateString);
+    return~~ ((Date.now() - birthday) / (31557600000));
+}
 export default ProfileChange;
