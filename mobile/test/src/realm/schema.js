@@ -7,7 +7,7 @@ const UserSchema = {
   properties: {
     id : "string",
     name: "string",
-    phone: "int",
+    phone: "string",
     money: "double",
     gender: "bool", // true: male - false: female
     isFirstTime: "bool",
