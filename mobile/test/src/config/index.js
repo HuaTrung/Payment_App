@@ -10,10 +10,21 @@ const firebaseConfig = {
   databaseURL: "https://online-payment-ac4b8.firebaseio.com",
   storageBucket: "online-payment-ac4b8.appspot.com",
 };
-
-firebase.initializeApp(config);
-export const database = firebase.database();
-export const auth = firebase.auth();
-export const provider = new firebase.auth.FacebookAuthProvider();
-export const storage = firebase.storage();
+let instance = null
+class FirebaseService {
+  
+  constructor() {
+    if (!instance) {
+      this.app = firebase.initializeApp(firebaseConfig);
+      instance = this;
+    }
+    return instance
+  }
+}
+ 
+const firebaseService = new FirebaseService().app
+export default firebaseService;
+export const database = firebaseService.database();
+export const auth = firebaseService.auth();
+export const storage = firebaseService.storage();
 export default {GLOBAL};
