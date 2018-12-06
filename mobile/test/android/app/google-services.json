@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "260665800407",
+    "firebase_url": "https://online-payment-ac4b8.firebaseio.com",
+    "project_id": "online-payment-ac4b8",
+    "storage_bucket": "online-payment-ac4b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260665800407:android:645513aecbf91738",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260665800407-ve2r2a2591slu2ice10i5n8k03q52ee3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeZ7PXl_izJt0Q1AlN75mcAzXCu5KciDg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
