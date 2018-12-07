@@ -11,18 +11,19 @@ const UserSchema = {
     money: "double",
     gender: "bool", // true: male - false: female
     isFirstTime: "bool",
-    memberAt: "string",
+    memberAt: "double",
     address: "string?",
     email: "string?",
-    birthday: "string?",
-    avatar:"string"
+    birthday: "double?",
+    avatar:"string",
+    typeMoney:"string"
   }
 }
 
 const databaseOptions = {
   path: "OPApp.realm",
   schema: [UserSchema],
-  schemaVersion: 1
+  schemaVersion: 2
 }
 
 export {

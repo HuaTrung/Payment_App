@@ -57,7 +57,7 @@ class Home extends Component {
 
   _onFulfill (code) {
     register_PIN(code).then( data => {
-     // alert(JSON.stringify(data));
+     alert(JSON.stringify(data));
       if(data.status == 0) {
         // update database offline:
         updateIsFirstTime(data.id).then( () => {

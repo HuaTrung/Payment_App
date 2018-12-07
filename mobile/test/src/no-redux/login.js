@@ -40,6 +40,8 @@ const loginUser = data  => new Promise((resolve, reject) => {
   else {    
     data.type = resultCheckErrorBeforeLogin.type; // check user login with email or phone
     // send data to server
+
+
     axios.post(GLOBAL.HostName +"/app/user/login",data)
     .then( response => {
       let { data } = response; // get the response from server send to

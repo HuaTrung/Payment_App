@@ -142,7 +142,7 @@ android {
 }
 
 dependencies {
-    
+    implementation project(':react-native-background-timer')
     implementation project(':react-native-firebase')
     implementation project(':realm')
     implementation project(':react-native-camera')
@@ -154,8 +154,8 @@ dependencies {
     implementation group: 'com.google.zxing', name: 'core', version: '3.3.0'
     // firebase for android
     implementation "com.google.android.gms:play-services-base:16.0.1"
-    implementation "com.google.firebase:firebase-core:16.0.4"
-
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-database:16.0.4"
 }
 
 // Run this once to be able to run the application with BUCK

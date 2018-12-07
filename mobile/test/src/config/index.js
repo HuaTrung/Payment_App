@@ -1,7 +1,7 @@
 //import * as firebase from 'firebase';
 
 const GLOBAL = {
-  HostName: "http://192.168.1.2:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
+  HostName: "http://192.168.1.9:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
 
 };
 // const firebaseConfig = {
@@ -27,4 +27,4 @@ const GLOBAL = {
 // export const database = firebaseService.database();
 // export const auth = firebaseService.auth();
 // export const storage = firebaseService.storage();
-export default {GLOBAL};
+export default GLOBAL;

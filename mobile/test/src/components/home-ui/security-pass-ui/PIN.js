@@ -197,7 +197,7 @@ PIN.propTypes = {
   onFulfill: PropTypes.func,
 };
 PIN.defaultProps = {
-  codeLength: 5,
+  codeLength: 6,
   autoFocus: true,
   size: 40,
   cellBorderWidth: 1,

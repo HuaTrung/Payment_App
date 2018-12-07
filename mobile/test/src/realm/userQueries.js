@@ -1,6 +1,7 @@
 import Schema,{ USER_SCHEMA, databaseOptions } from "./schema";
 import Realm from "realm";
-
+import axios from "axios";
+import GLOBAL from "../config";
 import isEmpty from "../validations/is-empty.validate";
 
 export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
@@ -36,14 +37,25 @@ export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
 });
 
 export const deleteUserLogout = () => new Promise((resolve,reject)=> {
-  Realm.open(databaseOptions).then(realm => {
-    realm.write(() => {
-      try {
-        realm.deleteAll();
-        resolve(); 
-      } catch (error) { }     
-    });
-  }).catch((err) => reject(err));
+  console.log(1);
+  let id = queryUserId();
+  console.log(2);
+  axios.post(GLOBAL.HostName + "/app/user/logout",{id})
+  .then( response => {
+    let { data } = response;
+    console.log(3);
+    if(data.status == 0) {
+      Realm.open(databaseOptions).then(realm => {
+        realm.write(() => {
+          try {
+            realm.deleteAll();
+            resolve(); 
+          } catch (error) { }     
+        });
+      }).catch((err) => reject(err));
+    }
+  }).catch( err => console.warn(err));
+  console.log(4);
 });
 
 export const isEmptyUserLogin = () =>  Schema.objects(USER_SCHEMA).length == 0;
