@@ -8,6 +8,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 import { Provider } from  "react-redux";
 import store from './src/redux/store';
 
+import {offline,online} from "./src/no-redux/logout";
 import firebase from "react-native-firebase";
 
 export default class App extends Component {
@@ -24,8 +25,12 @@ export default class App extends Component {
   _handleBackground = (nextAppState) => {
     console.log("App is running at: " + nextAppState);
     if(nextAppState.match(/background|inactive/)) {
+      offline();
       BackgroundTimer.runBackgroundTimer(() => console.log("background"),2000);
-    } else if(nextAppState =="active") BackgroundTimer.stopBackgroundTimer();  
+    } else if(nextAppState =="active") {      
+      online();
+      BackgroundTimer.stopBackgroundTimer();  
+    }
   }
 
   componentDidMount() {
@@ -37,9 +42,9 @@ export default class App extends Component {
 
   componentWillUnmount() {
     AppState.addEventListener("change", this._handleBackground);
-    firebase.database().ref("online").on("value", snapshot => {
-      console.log(JSON.stringify(snapshot));
-    })
+    // firebase.database().ref("online").on("value", snapshot => {
+    //   console.log(JSON.stringify(snapshot));
+    // })
   }
 
   render() {

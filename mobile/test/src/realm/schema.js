@@ -16,14 +16,15 @@ const UserSchema = {
     email: "string?",
     birthday: "double?",
     avatar:"string",
-    typeMoney:"string"
+    typeMoney:"string",
+    online:"bool?"
   }
 }
 
 const databaseOptions = {
   path: "OPApp.realm",
   schema: [UserSchema],
-  schemaVersion: 2
+  schemaVersion: 4
 }
 
 export {

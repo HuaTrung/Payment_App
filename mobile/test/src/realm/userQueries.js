@@ -1,14 +1,14 @@
 import Schema,{ USER_SCHEMA, databaseOptions } from "./schema";
 import Realm from "realm";
-import axios from "axios";
-import GLOBAL from "../config";
+import logout from "../no-redux/logout";
 import isEmpty from "../validations/is-empty.validate";
 
-export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {
+export const insertUserLogin = newUserLogin => new Promise((resolve,reject) => {  
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
       try {
         realm.create(USER_SCHEMA, newUserLogin, true);
+        alert(JSON.stringify(queryUser()));
         resolve();
       } catch (error) { throw error }
     });
@@ -36,26 +36,32 @@ export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
   }).catch((err) => reject(err));
 });
 
+export const updateUserOnline = (id, data) => new Promise((resolve,reject) => {
+  // alert(1);
+  Realm.open(databaseOptions).then(realm => {
+    realm.write(() => {
+    // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
+      let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
+    
+      user.online = data;
+      console.log(JSON.stringify(queryUser()));
+      // alert(JSON.stringify(user));
+      resolve();
+   })
+  }).catch((err) => reject(err));
+});
+
 export const deleteUserLogout = () => new Promise((resolve,reject)=> {
-  console.log(1);
-  let id = queryUserId();
-  console.log(2);
-  axios.post(GLOBAL.HostName + "/app/user/logout",{id})
-  .then( response => {
-    let { data } = response;
-    console.log(3);
-    if(data.status == 0) {
-      Realm.open(databaseOptions).then(realm => {
-        realm.write(() => {
-          try {
-            realm.deleteAll();
-            resolve(); 
-          } catch (error) { }     
-        });
-      }).catch((err) => reject(err));
-    }
-  }).catch( err => console.warn(err));
-  console.log(4);
+  logout().then( () => {
+    Realm.open(databaseOptions).then(realm => {
+      realm.write(() => {
+        try {
+          realm.deleteAll();
+          resolve(); 
+        } catch (error) { }     
+      });
+    }).catch((err) => reject(err));
+  });
 });
 
 export const isEmptyUserLogin = () =>  Schema.objects(USER_SCHEMA).length == 0;
@@ -64,6 +70,8 @@ export const isFirstTimeUsing = () =>  Schema.objects(USER_SCHEMA)[0].isFirstTim
 
 export const queryUserId = () =>  Schema.objects(USER_SCHEMA)[0].id;
 
+export const queryUserPhone = () =>  Schema.objects(USER_SCHEMA)[0].phone;
+export const queryUserOnline = () =>  Schema.objects(USER_SCHEMA)[0].online;
 export const queryUser = () =>  Schema.objects(USER_SCHEMA)[0];
 
 export const queryUserMoney = () =>  Schema.objects(USER_SCHEMA)[0].money;
