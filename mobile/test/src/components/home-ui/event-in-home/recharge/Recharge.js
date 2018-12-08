@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
-import { Form, Item, Input, Label, Button, Icon } from 'native-base';
+import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
 import Modal from "react-native-modal";
 import RNEventSource from 'react-native-event-source'
 import isEmpty from '../../../../validations/is-empty.validate'
 import GLOBAL from "../../../../config";
-
+import {queryUserMoney} from "../../../../realm/userQueries"
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -16,7 +16,11 @@ class Recharge extends Component {
       money: "10000",
       modalVisible: false,
       passWord: "",
-      sucessOrNot: null
+      sucessOrNot: null,
+      modalFee:0,
+      modalTime:"",
+      modalID:"",
+      modalPro:""
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -50,14 +54,24 @@ class Recharge extends Component {
     if (this.state.passWord.length >= 5) {
       if (this.state.passWord.length == 5) {
         this.setState({ passWord: this.state.passWord + value })
-        rechargeMoney(932311434, this.state.money).then(status => {
-          this.setState({
-            modalVisible: !this.state.modalVisible,
-            passWord: "",
-            sucessOrNot: true
-          });
-          // Toast.show({ text: 'Recharge success', buttonText: 'Okay', type: "success",position:"center" });
-
+        rechargeMoney( this.state.money).then(result => {
+          if(result.value["status"]==1)
+            this.setState({
+              modalVisible: !this.state.modalVisible,
+              passWord: "",
+              sucessOrNot: true,
+              modalFee:result.value["Fee"],
+              modalTime:result.value["DateTrans"],
+              modalID:result.value["TranID"],
+              modalPro:result.value["MoneyPromotion"]
+            });
+          else{
+            this.setState({
+              modalVisible: !this.state.modalVisible,
+              passWord: "",
+            });
+          alert("error");
+          }
         });
       }
     }
@@ -96,7 +110,7 @@ class Recharge extends Component {
           backgroundColor: "#EDEDED"
         }}>
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "300", fontSize: 15, color: "#616161" }} >Số dư hiện tại</Text>
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{this.state.money}</Text>
+          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{queryUserMoney()}</Text>
         </View>
         <View style={{
           flex: 1,
@@ -257,19 +271,23 @@ class Recharge extends Component {
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Nạp tiền </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>Nạp tiền </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Phí giao dịch </Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Miễn phí </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>{this.state.modalFee==0?"Miễn phí":this.state.modalFee+" VNĐ"}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Thời gian </Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>19:30 11/19/2018 </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>{this.state.modalTime} </Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Khuyến mãi </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'center' }}>{this.state.modalPro==0?"Không có":this.state.modalPro+" VNĐ"} </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch </Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>DET12S8DAS912 </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'center' }}>{this.state.modalID} </Text>
              </View>
             </View>
             <View style={styles.buttonSuccess}>

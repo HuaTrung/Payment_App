@@ -21,12 +21,14 @@ import PIN from "../security-pass-ui/PIN";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Toast } from "native-base";
+import {queryUserId} from '../../../realm/userQueries'
 
 import HomeTop from "./HomeTop";
+import firebase from "react-native-firebase";
 
 import {HomSearch} from "../../../navigation-config/Route";
 
-import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney} from "../../../realm/userQueries";
+import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney,updateMoney} from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 class Home extends Component {
 
@@ -34,7 +36,8 @@ class Home extends Component {
     super(props);
     this.state = {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
-      isModalVisible: false
+      isModalVisible: false,
+      moneyUser:queryUserMoney()
     }
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
@@ -53,6 +56,15 @@ class Home extends Component {
 
   componentDidMount() {
     if(isFirstTimeUsing()) this._toggleModal();
+    firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
+      console.log("____________________")
+      console.log("Key: " + snapshot.key+" and "+snapshot.val() );
+      if(snapshot.key=="money")
+        updateMoney(snapshot.val()).then( value=>{
+          this.setState({moneyUser:0})
+        }).catch(()=>this.setState({moneyUser:0})) ;
+      
+    });
   }
 
   _onFulfill (code) {
@@ -132,7 +144,7 @@ class Home extends Component {
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "FontAwesome5"
               iconName = "teamspeak"
-              text = {queryUserMoney()}
+              text = {this.state.moneyUser}
             />
 
             <HomeTop 

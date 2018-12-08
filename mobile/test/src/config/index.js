@@ -1,7 +1,7 @@
 //import * as firebase from 'firebase';
 
 const GLOBAL = {
-  HostName: "http://192.168.1.9:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
+  HostName: "http://192.168.1.130:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
 
 };
 // const firebaseConfig = {
