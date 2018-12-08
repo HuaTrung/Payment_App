@@ -44,7 +44,7 @@ export const updateUserOnline = (id, data) => new Promise((resolve,reject) => {
       let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
     
       user.online = data;
-      console.log(JSON.stringify(queryUser()));
+      //console.log(JSON.stringify(queryUser()));
       // alert(JSON.stringify(user));
       resolve();
    })
