@@ -9,7 +9,7 @@ import { Provider } from  "react-redux";
 import store from './src/redux/store';
 import {offline,online} from "./src/no-redux/logout";
 import firebase from "react-native-firebase";
-
+import { queryUserId } from "./src/realm/userQueries";
 export default class App extends Component {
 
   constructor(props) {
@@ -25,7 +25,11 @@ export default class App extends Component {
     console.log("App is running at: " + nextAppState);
     if(nextAppState.match(/background|inactive/)) {
       offline();
-      BackgroundTimer.runBackgroundTimer(() => console.log("background"),2000);
+      BackgroundTimer.runBackgroundTimer(() => {   
+        firebase.database().ref("transaction").on("child_changed", snapshot => {
+          console.log(JSON.stringify("lang nghe nekkkkk"));
+        })     
+        console.log("background")},2000);
     } else if(nextAppState =="active") {      
       online();
       BackgroundTimer.stopBackgroundTimer();  
@@ -34,12 +38,6 @@ export default class App extends Component {
 
   componentDidMount() {
     AppState.addEventListener("change", this._handleBackground);
-  
-    firebase.database().ref("online").on("value", snapshot => {
-      console.log(JSON.stringify(snapshot));
-    })
-     // loadDataRealTime(data.user).then(() => resolve({type: true})).catch((err)=> alert(err));
-    
   }
 
   componentWillUnmount() {

@@ -2,9 +2,12 @@ import axios from "axios";
 import GLOBAL from "../config";
 import { queryUserId, isEmptyUserLogin, queryUserPhone, queryUserOnline, updateUserOnline } from "../realm/userQueries";
 
+import dev from "react-native-device-info";
 const logout = () => new Promise( (resolve,reject) => {
   if(isEmptyUserLogin()) return;
   let id = queryUserId();
+
+  axios.post(GLOBAL.HostName + "/app/user/offline",{id});
   axios.post(GLOBAL.HostName + "/app/user/logout",{id})
   .then( response => {
     let { data } = response;
@@ -18,7 +21,7 @@ export const offline = () => {
   if(!queryUserOnline()) return;
 
   let id = queryUserId();
-  axios.post(GLOBAL.HostName + "/app/user/logout",{id})
+  axios.post(GLOBAL.HostName + "/app/user/offline",{id})
   .then( response => updateUserOnline(id,false))
 }
 
