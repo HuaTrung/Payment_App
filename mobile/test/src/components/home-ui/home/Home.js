@@ -61,8 +61,8 @@ class Home extends Component {
       console.log("Key: " + snapshot.key+" and "+snapshot.val() );
       if(snapshot.key=="money")
         updateMoney(snapshot.val()).then( value=>{
-          this.setState({moneyUser:0})
-        }).catch(()=>this.setState({moneyUser:0})) ;
+          // this.setState({moneyUser:0})
+        }) ;
       
     });
   }
@@ -193,7 +193,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 , margin: 10}}  >
+              <TouchableOpacity style = {{ flex: 1 , margin: 10}} onPress = { () => this.props.navigation.push('ActionTransferFriend') } >
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
                   <Text>receive</Text>
                 </View>
