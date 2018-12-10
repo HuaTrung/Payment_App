@@ -1,8 +1,9 @@
 import axios from "axios";
 import GLOBAL from "../config";
-import { queryUserId, isEmptyUserLogin, queryUserPhone, queryUserOnline, updateUserOnline } from "../realm/userQueries";
+import { deleteUserLogout ,queryUserId, isEmptyUserLogin, queryUserPhone, queryUserOnline, updateUserOnline } from "../realm/userQueries";
 
 import dev from "react-native-device-info";
+
 const logout = () => new Promise( (resolve,reject) => {
   if(isEmptyUserLogin()) return;
   let id = queryUserId();
@@ -14,6 +15,21 @@ const logout = () => new Promise( (resolve,reject) => {
     if(data.status == 0) resolve();
     else reject();
   }).catch(err=> reject());
+})
+
+export const block = () => new Promise( (resolve,reject) => {
+  let id = queryUserId();
+  axios.post(GLOBAL.HostName + "/app/user/block",{id})
+  .then( response => {
+    let { data } = response;
+    if(data.status == 0) {
+      // delete user
+      deleteUserLogout().then( ()=> resolve(true) )
+    }
+    else {
+      
+    }
+  }).catch(err=> console.log(err));
 })
 
 export const offline = () => {

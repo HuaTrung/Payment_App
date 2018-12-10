@@ -7,7 +7,8 @@ import {
   StatusBar, 
   TextInput, 
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  AppState
 } from 'react-native';
 import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
@@ -21,13 +22,19 @@ import PIN from "../security-pass-ui/PIN";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Toast } from "native-base";
-
 import HomeTop from "./HomeTop";
-
 import {HomSearch} from "../../../navigation-config/Route";
-
-import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney} from "../../../realm/userQueries";
+import {queryUserId, isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney} from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
+import firebase from "react-native-firebase";
+import {
+  appStateAddEventListener,
+  AppStateRemoveEventListener,
+  hasPermission,
+  messageListener,
+  onTokenRefreshListener 
+} from "../../../no-redux/notification";
+
 class Home extends Component {
 
   constructor(props) {
@@ -36,6 +43,7 @@ class Home extends Component {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
       isModalVisible: false
     }
+
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
@@ -49,9 +57,70 @@ class Home extends Component {
   _toggleModal() {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
-  
+  // _handleBackground = (nextAppState) => {
+  //   console.log("App is running at: " + nextAppState);
+  //   if(nextAppState == "background") {
+  //     offline();
+  //     BackgroundTimer.runBackgroundTimer(() => { 
+  //       console.log("background")
+  //   },2000);
+  //   } else if(nextAppState =="active") {      
+  //     online();
+  //     BackgroundTimer.stopBackgroundTimer();  
+  //   }
+  // }
 
-  componentDidMount() {
+
+  async componentDidMount() {
+    appStateAddEventListener();
+    hasPermission();
+    onTokenRefreshListener();
+    messageListener().then( val => {
+      if(val == true)  this.props.navigation.navigate("SignOutScreen");
+    })
+    // this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+    //   // Process your token as required
+    //   let uid = queryUserId();
+    //   let token = firebase.database().ref("register-token/" + uid);
+    //   token.update({
+    //     token: fcmToken
+    //   }, error => {
+    //   if(error) console.log(JSON.stringify(error));
+    //   }).then(data => console.log(JSON.stringify(data)));
+    // });
+    // AppState.addEventListener("change", this._handleBackground);
+
+    // const enabled = await firebase.messaging().hasPermission();
+    // if (enabled) {
+    //     // user has permissions
+    //     const token = await firebase.messaging().getToken();
+    //     let uid = queryUserId();
+    //     let tokens = firebase.database().ref("register-token/" + uid);
+    //     tokens.update({
+    //       token: token
+    //     }, error => {
+    //     if(error) console.log(JSON.stringify(error));
+    //     }).then(data => console.log(JSON.stringify(data)));
+    // } else {
+    //     // user doesn't have permission
+    //     try {
+    //         await firebase.messaging().requestPermission();
+    //         // User has authorised
+    //     } catch (error) {
+    //         // User has rejected permissions
+    //         alert('No permission for notification');
+    //     }
+    // }
+
+    // this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+    //   // Process your message as required
+    //   console.log(JSON.stringify(message));
+    // });
+    
+
+    firebase.database().ref("user/"+queryUserId()).on("child_changed", snapshot => {
+      console.log(JSON.stringify(snapshot.val()));
+    })
     if(isFirstTimeUsing()) this._toggleModal();
   }
 
@@ -66,9 +135,17 @@ class Home extends Component {
           Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "top",duration:2000 });  
         }).catch(err => alert(err));
       }
-      
     });    
   }
+
+
+
+  componentWillUnmount() {   
+    AppStateRemoveEventListener();
+    onTokenRefreshListener();
+    messageListener();    
+  }
+
   _renderPinCode() {
     return (
       <Modal isVisible={this.state.isModalVisible}  
