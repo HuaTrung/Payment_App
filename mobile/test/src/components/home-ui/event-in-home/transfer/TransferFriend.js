@@ -16,22 +16,8 @@ export default class TransferFriend extends Component {
       valueSearch: ""
     };
   }
-  componentDidMount() {
-    this.eventSource = new RNEventSource('http://192.168.226.1:8080/updates');
+ 
 
-    this.eventSource.addEventListener('connected', (e) => {
-      console.log('Connection is established');
-    });
-
-    // listens to all the messages. The only way to catch unnamed events (with no `event` name set)
-    this.eventSource.addEventListener('message', (e) => {
-      console.log(e.data);
-    });
-  }
-  componentWillUnmount() {
-    this.eventSource.removeAllListeners();
-    this.eventSource.close();
-  }
   searchUser() {
     searchUserByPhone(this.state.valueSearch).then(status => {
       this.setState({
@@ -44,16 +30,20 @@ export default class TransferFriend extends Component {
     const options = [];
     for (let i = 0; i < listFriends.length; i++) {
       options.push(<ListItem avatar>
+     
         <Left>
           <Thumbnail source={{uri: listFriends[i].avatar}} />
         </Left>
         <Body>
+        <TouchableOpacity onPress = { () => this.props.navigation.push('ActionTransferFriend',{target:listFriends[i]})}>
           <Text>{listFriends[i].name}</Text>
           <Text note>{listFriends[i].phone}</Text>
+          </TouchableOpacity>
         </Body>
         <Right>
           <Icon name="ios-arrow-forward" />
         </Right>
+        
       </ListItem>
       )
     }

@@ -18,25 +18,8 @@ export default class Transfer extends Component {
       sucessOrNot: null
     };
   }
-    componentDidMount() {
-      this.eventSource = new RNEventSource('http://192.168.226.1:8080/updates');
-  
-      this.eventSource.addEventListener('connected', (e) => {
-          console.log('Connection is established');
-      });
-      
-      // listens to all the messages. The only way to catch unnamed events (with no `event` name set)
-      this.eventSource.addEventListener('message', (e) => {
-        console.log(e.data);
-        this.setState({ 
-          money: e.data.money
-        });
-    });
-    }
-    componentWillUnmount() {
-      this.eventSource.removeAllListeners();
-      this.eventSource.close();
-    }
+    
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>

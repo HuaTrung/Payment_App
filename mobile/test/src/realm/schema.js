@@ -11,11 +11,13 @@ const UserSchema = {
     money: "double",
     gender: "bool", // true: male - false: female
     isFirstTime: "bool",
-    memberAt: "string",
+    memberAt: "double",
     address: "string?",
     email: "string?",
-    birthday: "string?",
-    avatar:"string"
+    birthday: "double?",
+    avatar:"string",
+    typeMoney:"string",
+    online:"bool?"
   }
 }
 

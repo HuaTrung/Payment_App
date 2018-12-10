@@ -9,7 +9,7 @@ import {
   EMAIL_PHONE_INVALID
 } from '../validations/errors-name';
 import isEmail from '../validations/email.validate';
-
+import deviceInfo from "react-native-device-info";
 import { insertUserLogin } from "../realm/userQueries";
 
 function checkErrorBeforeLogin(data) {
@@ -33,12 +33,14 @@ function checkErrorBeforeLogin(data) {
  */
 const loginUser = data  => new Promise((resolve, reject) => {
  
+
   let resultCheckErrorBeforeLogin = {};
   for(let key in data) data[key] = data[key].trim();        
   resultCheckErrorBeforeLogin = checkErrorBeforeLogin(data); // check the error like empty pass, name and detect type login
   if(!isEmpty(resultCheckErrorBeforeLogin.errors)) resolve({type: false, errors: resultCheckErrorBeforeLogin.errors}); // send errors to user
   else {    
     data.type = resultCheckErrorBeforeLogin.type; // check user login with email or phone
+    data.deviceInfo = deviceInfo.getDeviceName();
     // send data to server
     axios.post(GLOBAL.HostName +"/app/user/login",data)
     .then( response => {
