@@ -126,13 +126,13 @@ class Home extends Component {
 
   _renderHome() {
     return(
-      <ScrollView >
-        <View style = {{ flex:1 }}>
+      <ScrollView style={{backgroundColor: "white"}} >
+        <View style = {{ flex:1}}>
           
           {/*  */}
           {/* <HomeSearchBar/> */}
           {/*  */}
-          <View style = { styles.mainTopWrapper }>
+          <View style = { styles.mainTopWrapper  }>
             <HomeTop 
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "MCIcons"
@@ -164,13 +164,13 @@ class Home extends Component {
 
           <View style = {{ 
             flex:1,
-            backgroundColor: "white", 
+            backgroundColor: "white"
             }}
           >
           {/* flat list => split new class */}
-            <View style = {{ height: 100, flexDirection: "row" }}>
-              <TouchableOpacity onPress = { () => this.props.navigation.push('RechargeScreen') } style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
+            <View style = {{ height: 120, flexDirection: "row" ,marginTop:20}}>
+              <TouchableOpacity onPress = { () => this.props.navigation.push('RechargeScreen') } style = {{ flex: 1 }}>
+                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1,borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 }}>
                 <MCIcons
                 name='cellphone-arrow-down'
                 color='#3b5998'
@@ -181,8 +181,8 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress = { () => this.props.navigation.push('TransferScreen') } style = {{flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1}}>
+              <TouchableOpacity onPress = { () => this.props.navigation.push('TransferScreen') } style = {{flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center", flex: 1,borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 }}>
                 <Ionicons
                   name='ios-repeat'
                   color='#3b5998'
@@ -193,46 +193,46 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 , margin: 10}} onPress = { () => this.props.navigation.push('ActionTransferFriend') } >
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+              <TouchableOpacity style = {{ flex: 1 }} >
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
                   <Text>receive</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <View style = {{ height: 100, flexDirection: "row" }}>
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+            <View style = {{ height: 120, flexDirection: "row"}}>
+              <TouchableOpacity style = {{ flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1  ,flex: 1}}>
                   <Text>phone card</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+              <TouchableOpacity style = {{flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
                   <Text>bill</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+              <TouchableOpacity style = {{ flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
                   <Text>movie ticket</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <View style = {{ height: 100, flexDirection: "row" }}>
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+            <View style = {{ height: 120, flexDirection: "row",marginBottom:10}}>
+              <TouchableOpacity style = {{ flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
                   <Text>air ticket</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+              <TouchableOpacity style = {{flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
                   <Text>...</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1, margin: 10}}>
-                <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
+              <TouchableOpacity style = {{ flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 ,borderBottomWidth:1 , flex: 1}}>
                   <Text>...</Text>
                 </View>
               </TouchableOpacity>
@@ -259,7 +259,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#1aa3ff", 
     justifyContent: "space-around", 
     alignItems: "center" ,
-    flexDirection: "row"  
+    flexDirection: "row",
+    borderBottomWidth:4,
+    borderTopWidth:2,
+    borderColor:"white"
   },
   promotionwrapper: {
     height:promoHeight, 

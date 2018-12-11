@@ -4,10 +4,8 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
 import Modal from "react-native-modal";
-import RNEventSource from 'react-native-event-source'
-import isEmpty from '../../../../validations/is-empty.validate'
-import GLOBAL from "../../../../config";
 import {queryUserMoney} from "../../../../realm/userQueries"
+import MyKeyBoard from "./MyKeyboard"
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -63,6 +61,26 @@ class Recharge extends Component {
       this.setState({ passWord: this.state.passWord + value })
     }
   }
+
+  setMoney(param){
+    if(param!=="000"){
+      if(param>=0){
+        this.setState({
+          money: this.state.money+param
+        })
+      }
+      else{
+        if(param==-1){
+          this.setState({ 
+            money: this.state.money.substring(0, (this.state.money.length - 1))
+          })
+        }
+        else{
+          this.setState({ money: "" })}
+        }
+      }
+    }
+
   render() {
     const { money } = this.state;
     return (
@@ -76,11 +94,6 @@ class Recharge extends Component {
           flexDirection: "row"
         }}>
           <TouchableOpacity style={{ marginLeft: 7 }} onPress={() => this.props.navigation.goBack()} >
-            {/* <Ionicons
-              name="ios-arrow-back"
-              size={35}
-              color="white"
-            /> */}
             <Icon type='Ionicons' name='ios-arrow-back' style={{ color: "#fafafa" }} fontSize={35} />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
@@ -93,8 +106,7 @@ class Recharge extends Component {
           alignItems: "center",
           backgroundColor: "#EDEDED"
         }}>
-                <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
-
+          <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "350", fontSize: 20, color: "#616161" }} >Số dư hiện tại</Text>
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{queryUserMoney()}</Text>
           </ImageBackground>
@@ -125,51 +137,9 @@ class Recharge extends Component {
             <Text style={{ color: "#1565c0", fontSize: 20 }} >Xác nhận</Text>
           </Button>
         </View>
-        <View style={{
-          flex: 1,
-          backgroundColor: "#ffffff",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "row"
-        }}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#f5f5f5" }} >
-            <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row', }}>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "1" })}
-              ><Text style={{ color: "black" }}>1</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "2" })}><Text style={{ color: "black" }}>2</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "3" })}><Text style={{ color: "black" }}>3</Text></TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "4" })}><Text style={{ color: "black" }}>4</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "5" })}><Text style={{ color: "black" }}>5</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "6" })}><Text style={{ color: "black" }}>6</Text></TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "7" })}><Text style={{ color: "black" }}>7</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "8" })}><Text style={{ color: "black" }}>8</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "9" })}><Text style={{ color: "black" }}>9</Text></TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, alignSelf: 'center', flexDirection: 'row' }}>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "0" })}><Text style={{ color: "black" }}>0</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money + "000" })}><Text style={{ color: "black" }}>000</Text></TouchableOpacity>
-              <TouchableOpacity style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.setState({ money: this.state.money.substring(0, (this.state.money.length - 1)) })}
-                onLongPress={() => this.setState({ money: "" })} >
-                <Icon type='Ionicons' name='ios-backspace' style={{ color: "black" }} /></TouchableOpacity>
-            </View>
-          </View>
-        </View>
+        <MyKeyBoard
+         setMoney={this.setMoney}
+        ></MyKeyBoard>
         <Modal
           aanimationIn="slideInUp"
           animationOut="slideOutDown"
@@ -258,23 +228,23 @@ class Recharge extends Component {
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>Nạp tiền </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'right',paddingRight:30 }}>Nạp tiền </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Phí giao dịch </Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>{this.state.modalFee==0?"Miễn phí":this.state.modalFee+" VNĐ"}</Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'right',paddingRight:30 }}>{this.state.modalFee==0?"Miễn phí":this.state.modalFee+" VNĐ"}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Thời gian </Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'center'}}>{this.state.modalTime} </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 ,textAlign: 'right',paddingRight:30 }}>{this.state.modalTime} </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Khuyến mãi </Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'center' }}>{this.state.modalPro==0?"Không có":this.state.modalPro+" VNĐ"} </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.modalPro==0?"Không có":this.state.modalPro+" VNĐ"} </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch </Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'center' }}>{this.state.modalID} </Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30  }}>{this.state.modalID} </Text>
              </View>
             </View>
             <View style={styles.buttonSuccess}>
