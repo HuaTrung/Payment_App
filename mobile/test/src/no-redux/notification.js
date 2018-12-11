@@ -1,10 +1,9 @@
 import firebase from "react-native-firebase";
 import type { Notification, NotificationOpen, RemoteMessage} from "react-native-firebase";
 import { queryUserId } from "../realm/userQueries";
-import { AppState } from "react-native";
+import { AppState, AsyncStorage } from "react-native";
 import  BackgroundTimer  from "react-native-background-timer";
-import { offline, online, block } from "./logout";
-
+import { block } from "./logout";
 const onTokenRefreshListener = () => {
   firebase.messaging().onTokenRefresh(fcmToken => {
     // Process your token as required
@@ -13,26 +12,31 @@ const onTokenRefreshListener = () => {
     token.update({
       token: fcmToken
     }, error => {
-    if(error) console.log(JSON.stringify(error));
-    }).then(data => console.log(JSON.stringify(data)));
+      if(error) console.log(JSON.stringify(error));
+    })
+    .then(data => console.log(data));
   });
 }
 
-const messageListener = () => new Promise((resolve,reject) =>{
-  firebase.messaging().onMessage((message: RemoteMessage) => {
-    console.log(JSON.stringify(message))
-    // Process your message as required
-    switch (message.data.type) {
-      case "BLOCK": // user was hacked => log out 
-        block().then(val => resolve(val));
-        break;
-      case "RECEIVE_TRANSACTION":
-
-        break;
-      default:
-        break;
+const messageListener = () => new Promise((resolve,reject) => {
+  AsyncStorage.getItem('LOGIN').then(value => {
+    if(value == null) {
+      AsyncStorage.setItem('LOGIN','1').then(()=> {
+        firebase.messaging().onMessage((message: RemoteMessage) => {
+          console.log(JSON.stringify(message))
+          // Process your message as required
+          switch (message.data.type) {
+            case "BLOCK": // user was hacked => log out 
+              block().then(val => resolve(val));
+              break;
+            case "RECEIVE_TRANSACTION":
+      
+              break;
+          }
+        });
+      })
     }
-  });
+  })
 })
 
 const hasPermission = async () => {
@@ -46,30 +50,30 @@ const hasPermission = async () => {
       token: token
     }, error => {
     if(error) console.log(JSON.stringify(error));
-    }).then(data => console.log(JSON.stringify(data)));
+    }).then(data => console.log(data));
   } else {
     // user doesn't have permission
     try {
-        await firebase.messaging().requestPermission();
-        // User has authorised
+      await firebase.messaging().requestPermission();
+      // User has authorised
     } catch (error) {
-        // User has rejected permissions
-        alert('No permission for notification');
+      // User has rejected permissions
+      alert('No permission for notification');
     }
   }
 }
 
 _handleBackground = (nextAppState) => {
   console.log("App is running at: " + nextAppState);
-  if(nextAppState == "background") {
-    offline();
-    BackgroundTimer.runBackgroundTimer(() => { 
-      console.log("background")
-  },2000);
-  } else if(nextAppState =="active") {      
-    online();
-    BackgroundTimer.stopBackgroundTimer();  
-  }
+  // if(nextAppState == "background") {
+  //   offline();
+  //   BackgroundTimer.runBackgroundTimer(() => { 
+  //     console.log("background")
+  // },2000);
+  // } else if(nextAppState =="active") {      
+  //   online();
+  //   BackgroundTimer.stopBackgroundTimer();  
+  // }
 }
 
 const appStateAddEventListener = () => {

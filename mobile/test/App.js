@@ -17,6 +17,9 @@ export default class App extends Component {
     //   this.setState({ splashScreen:false});
     // },3000);
   }
+
+  
+
   render() {
   //  const { splashScreen } = this.state;
   //  let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;

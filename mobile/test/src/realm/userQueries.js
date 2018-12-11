@@ -23,7 +23,6 @@ export const queryUserLoginData = () => new Promise((resolve,reject) => {
 });
 
 export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
-  // alert(1);
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
     // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
@@ -36,21 +35,17 @@ export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
   }).catch((err) => reject(err));
 });
 
-export const updateUserOnline = (id, data) => new Promise((resolve,reject) => {
-  // alert(1);
+export const updateMoney = (money) => new Promise((resolve,reject) => {
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
     // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
-      let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
-    
-      user.online = data;
-      //console.log(JSON.stringify(queryUser()));
+    let user = realm.objectForPrimaryKey(USER_SCHEMA,Schema.objects(USER_SCHEMA)[0].id);
+      user.money=parseFloat(money),
       // alert(JSON.stringify(user));
-      resolve();
+      resolve({status:true});
    })
   }).catch((err) => reject(err));
 });
-
 export const deleteUserLogout = () => new Promise((resolve,reject)=> {
   logout().then( () => {
     Realm.open(databaseOptions).then(realm => {
@@ -73,6 +68,7 @@ export const queryUserId = () =>  Schema.objects(USER_SCHEMA)[0].id;
 export const queryUserPhone = () =>  Schema.objects(USER_SCHEMA)[0].phone;
 export const queryUserOnline = () =>  Schema.objects(USER_SCHEMA)[0].online;
 export const queryUser = () =>  Schema.objects(USER_SCHEMA)[0];
+export const queryUserName = () =>  Schema.objects(USER_SCHEMA)[0].name;
 
 export const queryUserMoney = () =>  Schema.objects(USER_SCHEMA)[0].money;
 

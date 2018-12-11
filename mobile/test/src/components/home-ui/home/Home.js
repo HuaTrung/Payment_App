@@ -41,7 +41,8 @@ class Home extends Component {
     super(props);
     this.state = {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
-      isModalVisible: false
+      isModalVisible: false,
+      moneyUser:queryUserMoney()
     }
 
     this._renderHome = this._renderHome.bind(this);
@@ -57,71 +58,26 @@ class Home extends Component {
   _toggleModal() {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
-  // _handleBackground = (nextAppState) => {
-  //   console.log("App is running at: " + nextAppState);
-  //   if(nextAppState == "background") {
-  //     offline();
-  //     BackgroundTimer.runBackgroundTimer(() => { 
-  //       console.log("background")
-  //   },2000);
-  //   } else if(nextAppState =="active") {      
-  //     online();
-  //     BackgroundTimer.stopBackgroundTimer();  
-  //   }
-  // }
 
-
-  async componentDidMount() {
-    appStateAddEventListener();
+  componentDidMount() {
+    //appStateAddEventListener();
     hasPermission();
     onTokenRefreshListener();
+
     messageListener().then( val => {
       if(val == true)  this.props.navigation.navigate("SignOutScreen");
     })
-    // this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-    //   // Process your token as required
-    //   let uid = queryUserId();
-    //   let token = firebase.database().ref("register-token/" + uid);
-    //   token.update({
-    //     token: fcmToken
-    //   }, error => {
-    //   if(error) console.log(JSON.stringify(error));
-    //   }).then(data => console.log(JSON.stringify(data)));
-    // });
-    // AppState.addEventListener("change", this._handleBackground);
 
-    // const enabled = await firebase.messaging().hasPermission();
-    // if (enabled) {
-    //     // user has permissions
-    //     const token = await firebase.messaging().getToken();
-    //     let uid = queryUserId();
-    //     let tokens = firebase.database().ref("register-token/" + uid);
-    //     tokens.update({
-    //       token: token
-    //     }, error => {
-    //     if(error) console.log(JSON.stringify(error));
-    //     }).then(data => console.log(JSON.stringify(data)));
-    // } else {
-    //     // user doesn't have permission
-    //     try {
-    //         await firebase.messaging().requestPermission();
-    //         // User has authorised
-    //     } catch (error) {
-    //         // User has rejected permissions
-    //         alert('No permission for notification');
-    //     }
-    // }
-
-    // this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
-    //   // Process your message as required
-    //   console.log(JSON.stringify(message));
-    // });
-    
-
-    firebase.database().ref("user/"+queryUserId()).on("child_changed", snapshot => {
-      console.log(JSON.stringify(snapshot.val()));
-    })
     if(isFirstTimeUsing()) this._toggleModal();
+    firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
+      console.log("____________________")
+      console.log("Key: " + snapshot.key+" and "+snapshot.val() );
+      if(snapshot.key=="money")
+        updateMoney(snapshot.val()).then( value=>{
+          // this.setState({moneyUser:0})
+        }) ;
+      
+    });
   }
 
   _onFulfill (code) {
@@ -141,9 +97,11 @@ class Home extends Component {
 
 
   componentWillUnmount() {   
-    AppStateRemoveEventListener();
+    //AppStateRemoveEventListener();
     onTokenRefreshListener();
-    messageListener();    
+    messageListener().then( val => {
+      if(val == true)  this.props.navigation.navigate("SignOutScreen");
+    })  
   }
 
   _renderPinCode() {
@@ -209,7 +167,7 @@ class Home extends Component {
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "FontAwesome5"
               iconName = "teamspeak"
-              text = {queryUserMoney()}
+              text = {this.state.moneyUser}
             />
 
             <HomeTop 
@@ -258,7 +216,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 , margin: 10}}  >
+              <TouchableOpacity style = {{ flex: 1 , margin: 10}} onPress = { () => this.props.navigation.push('ActionTransferFriend') } >
                 <View style = {{ justifyContent : "center", alignItems : "center", backgroundColor: "#4d79ff", flex: 1}}>
                   <Text>receive</Text>
                 </View>

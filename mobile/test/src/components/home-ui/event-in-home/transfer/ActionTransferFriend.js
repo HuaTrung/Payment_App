@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
 import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
-import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
+import { Form, Item, Input, Label, Button, Icon, Left,Thumbnail } from 'native-base';
 import Modal from "react-native-modal";
 import RNEventSource from 'react-native-event-source'
 import isEmpty from '../../../../validations/is-empty.validate'
 import GLOBAL from "../../../../config";
 import {queryUserMoney} from "../../../../realm/userQueries"
-const moneyHeight = height / 3
-class Recharge extends Component {
+const moneyUser = height /4
+class ActionTransferFriend extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,9 +24,9 @@ class Recharge extends Component {
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
-
+    console.log(this.props.navigation.state.params.target);
   }
-
+  
   setModalVisible(visible) {
     this.setState({
       modalVisible: visible,
@@ -84,19 +84,20 @@ class Recharge extends Component {
             <Icon type='Ionicons' name='ios-arrow-back' style={{ color: "#fafafa" }} fontSize={35} />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
-            <Text style={{ textAlign: "center", color: "white", fontWeight: "500", fontSize: 18 }} >Recharge</Text>
+            <Text style={{ textAlign: "center", color: "white", fontWeight: "500", fontSize: 18 }} >{this.props.navigation.state.params.target.name}</Text>
           </View>
         </View>
         <View style={{
-          height: moneyHeight,
+          height: moneyUser,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#EDEDED"
         }}>
-                <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
-
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "350", fontSize: 20, color: "#616161" }} >Số dư hiện tại</Text>
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{queryUserMoney()}</Text>
+        <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
+       
+           <Thumbnail source={{uri:this.props.navigation.state.params.target.avatar}} large/>
+          <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 25 }} >{this.props.navigation.state.params.target.name}</Text>
+          <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 20 }} >Số ĐT: {this.props.navigation.state.params.target.phone}</Text>
           </ImageBackground>
         </View>
         <View style={{
@@ -111,6 +112,14 @@ class Recharge extends Component {
               <Input editable={false} value={this.state.money} />
             </Item>
           </Form>
+          <Form style={{
+            marginTop: 10
+          }}>
+            <Item floatingLabel>
+              <Label>Lời nhắn</Label>
+              <Input editable={false} value={this.state.money} />
+            </Item>
+          </Form>
           <Button style={{
             width: width - 20,
             marginTop: 30,
@@ -122,7 +131,7 @@ class Recharge extends Component {
                 this.setModalVisible(!this.state.modalVisible);
             }}>
             <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
-            <Text style={{ color: "#1565c0", fontSize: 20 }} >Xác nhận</Text>
+            <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
           </Button>
         </View>
         <View style={{
@@ -386,4 +395,5 @@ const styles = StyleSheet.create({
     height:"100%"
   }
 })
-export default Recharge;
+export default ActionTransferFriend
+;
