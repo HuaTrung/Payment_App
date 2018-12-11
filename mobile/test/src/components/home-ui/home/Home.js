@@ -90,7 +90,7 @@ class Home extends Component {
       if(snapshot.key=="money")
         updateMoney(snapshot.val()).then( value=>{
           // console.log(JSON.stringify(value));
-          this._handleUpdateMoney(value);
+        //  this._handleUpdateMoney(value);
         });
     });
   }
@@ -110,12 +110,10 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(JSON.stringify(nextProps));
-    if(!isEmpty(nextProps.money)) {
+    console.log(queryUserMoney());
       this.setState({
-        moneyUser:money
+        moneyUser:123456
       })
-    }
   }
 
   componentWillUnmount() {   

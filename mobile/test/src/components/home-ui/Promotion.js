@@ -25,11 +25,13 @@ export default class Promotion extends Component {
     const { listPromotion } = this.state;
     const options = [];
     for (let i = 0; i < listPromotion.length; i++) {
-      console.log(listPromotion[i].Image);
+      Begin_date=(new Date(listPromotion[i].Start_date*1000));
+      End_date=(new Date(listPromotion[i].End_date*1000));
       options.push(<ListItem avatar key={i} style={{padding:5}}>
         <Body>
          <Image style={{width: "100%", height: 180}} source={{uri: listPromotion[i]["Image"]}} ></Image>
-          <Text>{listPromotion[i].Query}</Text>
+          <Text style={{color:"#424242",fontSize:20,marginTop:10}}>Ngày bắt đầu: { Begin_date.getDay()}/{Begin_date.getMonth()}/{Begin_date.getFullYear()} _ Ngày kết thúc: { End_date.getDay()}/{End_date.getMonth()}/{End_date.getFullYear()}</Text>
+          <Text style={{color:"#d32f2f"}}>Chỉ còn: {(new Date((listPromotion[i].End_date-listPromotion[i].Start_date)*1000)).getDay()} ngày</Text>
         </Body>
         <Right>
         </Right>

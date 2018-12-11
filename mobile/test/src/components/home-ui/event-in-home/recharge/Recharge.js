@@ -6,6 +6,9 @@ import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
 import Modal from "react-native-modal";
 import {queryUserMoney} from "../../../../realm/userQueries"
 import MyKeyBoard from "./MyKeyboard"
+import { updateUserMoney } from "../../../../redux/actions/updateUser.action";
+import { connect } from "react-redux";
+
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -37,7 +40,7 @@ class Recharge extends Component {
       if (this.state.passWord.length == 5) {
         this.setState({ passWord: this.state.passWord + value })
         rechargeMoney( this.state.money).then(result => {
-          if(result.value["status"]==1)
+          if(result.value["status"]==1){
             this.setState({
               modalVisible: !this.state.modalVisible,
               passWord: "",
@@ -47,6 +50,8 @@ class Recharge extends Component {
               modalID:result.value["TranID"],
               modalPro:result.value["MoneyPromotion"]
             });
+            this.props.updateUserMoney(this.state.money);
+          }
           else{
             this.setState({
               modalVisible: !this.state.modalVisible,
@@ -359,4 +364,9 @@ const styles = StyleSheet.create({
     height:"100%"
   }
 })
-export default Recharge;
+const mapStateToProps = state => ({
+  money: state.updatedataReducer
+});
+export default connect(mapStateToProps,{
+  updateUserMoney}
+)(Recharge);

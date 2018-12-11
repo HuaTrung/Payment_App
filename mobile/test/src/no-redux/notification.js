@@ -23,14 +23,14 @@ const messageListener = () => new Promise((resolve,reject) => {
     if(value == null) {
       AsyncStorage.setItem('LOGIN','1').then(()=> {
         firebase.messaging().onMessage((message: RemoteMessage) => {
-          console.log(JSON.stringify(message))
+          console.log(JSON.stringify(message));
+          
           // Process your message as required
           switch (message.data.type) {
             case "BLOCK": // user was hacked => log out 
               block().then(val => resolve(val));
               break;
             case "RECEIVE_TRANSACTION":
-      
               break;
           }
         });

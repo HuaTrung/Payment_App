@@ -27,7 +27,12 @@ export default class TransferFriend extends Component {
   render() {
     const { listFriends } = this.state;
     const options = [];
+    
     for (let i = 0; i < listFriends.length; i++) {
+      if(listFriends[i].name=="null"){
+        options.push(<Text style={{marginTop:20,fontSize:20,color:"#c62828",textAlign: 'center'}}>Không tìm được kết quả</Text>);
+        break;
+      }
       if(listFriends[i].phone!=queryUserPhone())
       options.push(<ListItem avatar key={i}>
      
