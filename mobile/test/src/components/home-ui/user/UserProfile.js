@@ -67,7 +67,7 @@ class UserProfile extends Component {
         <ProfileElement 
           name = { user.name }
           phone = { String(user.phone) }
-          startMemberAt = { user.memberAt }
+          startMemberAt = { new Date(user.memberAt).toLocaleDateString() }
           onPress = { () => this._navigateProfileChange(user) } 
           w1 = {w1} w3 = {w3} h = {h1} />
         <View style = {{ height:10 }} />
