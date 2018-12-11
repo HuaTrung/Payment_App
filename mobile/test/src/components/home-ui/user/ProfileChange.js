@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View ,ScrollView, Text,StyleSheet, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Radio, DatePicker, CheckBox } from "native-base";
-import { Alert } from 'react-native';
+import { Image } from 'react-native';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -16,6 +16,9 @@ import {
 
 import { updateInformationUser } from "../../../no-redux/updateInformationUser"
 
+import ImagePicker from 'react-native-image-picker';
+
+
 const { width, height } = Dimensions.get('window');
 
 const w1 = width / 4.5;
@@ -28,7 +31,7 @@ class ProfileChange extends Component {
   constructor(props) {
     super(props);
 
-    const { name, phone, address, gender, email, birthday } = this.props.navigation.getParam('user');
+    const { name, phone, address, gender, email, birthday, avatar } = this.props.navigation.getParam('user');
 
     this.state = {
       name: name,
@@ -38,6 +41,7 @@ class ProfileChange extends Component {
       email: email,
       isOpenPass: false,
       birthday: birthday,
+      avatar: avatar,
       errors: ''
     }
     this._onGenderPress = this._onGenderPress.bind(this);
@@ -169,8 +173,24 @@ class ProfileChange extends Component {
     })
   }
 
+  pickImageHandler = () => {
+    ImagePicker.showImagePicker({title: "Pick an Image", maxWidth: 800, maxHeight: 600}, res => {
+      if (res.didCancel) {
+        console.log("User cancelled!");
+      } else if (res.error) {
+        console.log("Error", res.error);
+      } else {
+        this.setState({
+          avatar: res.uri
+        });
+        
+      }
+    });
+  }
+
   render() {
-    const { name, phone, email, gender, address, isOpenPass, birthday, errors } = this.state;
+    const { name, phone, email, gender, address,
+      isOpenPass, birthday, errors, avatar } = this.state;
     
     return (
       <View style={styles.container}>
@@ -183,12 +203,12 @@ class ProfileChange extends Component {
               color = "white"
             />
           </TouchableOpacity>          
-          <Text style = { [{flex: 1},styles.textStyle] } >User Information</Text>
-          <TouchableOpacity style = {{ justifyContent:"flex-end", marginRight: 10 }}>
+          <Text style = { [{flex: 1}, styles.textStyle] } >User Information</Text>
+          <TouchableOpacity 
+            style = {[{ justifyContent:"flex-end", marginRight: 10 }, styles.buttonSave]}
+            onPress = { () => this._saveInformationUser() } >
             <Text 
-              style = {[{ textDecorationLine: "underline"},styles.textStyle]}
-              onPress = { () => this._saveInformationUser() } 
-              >Save</Text>
+              style = {[styles.textStyle]}>Save</Text>
           </TouchableOpacity>
         </View>
         {/* main */}
@@ -196,9 +216,26 @@ class ProfileChange extends Component {
         <ScrollView style = {{ flex:1 }}>
         
           {/* user image */}
-          <View style = {{ height: h2 , justifyContent: "center", alignItems:"center"}}>                    
-            <FontAwesome5 name = "user-astronaut" color = "#3b5998" size = {h2-h2/3} />
-            <Text>Change</Text>
+          <View style = {{ justifyContent: "center", alignItems:"center", marginTop: 5}}>                    
+            {/* <FontAwesome5 name = "user-astronaut" color = "#3b5998" size = {h2-h2/3} /> */}
+
+            <Image
+              style={{width: 70, height: 70, marginBottom: 2}}
+              source={{uri: avatar}}
+            />
+
+            {/* <Text>Change</Text> */}
+            {/* <Button  
+              style = {{ padding: 0 }}
+              title="Change" 
+              onPress={this.pickImageHandler} /> */}
+
+              <TouchableOpacity onPress = {this.pickImageHandler} >
+                <View style = {styles.buttonChange}>
+                    <Text style = {{color: 'white'}}>Change</Text>
+                </View>
+            </TouchableOpacity>
+
           </View>
 
           {/* <View style = {{ height:10 }} /> */}
@@ -339,6 +376,23 @@ const styles = StyleSheet.create({
   textinvalid: {
     color: '#FF2D00',
     fontSize: 12
+  },
+  buttonChange: {
+    backgroundColor: '#0095ff', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    borderRadius: 1,
+    padding: 4
+  },
+  buttonSave: {
+    backgroundColor: '#07c', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    borderRadius: 2,
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingBottom: 3,
+    fontWeight: '400'
   }
 });
 
