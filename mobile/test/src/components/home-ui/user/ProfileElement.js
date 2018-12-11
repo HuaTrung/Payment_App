@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text,StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -13,11 +13,14 @@ class ProfileElement extends Component {
   }
 
   render() {
-    const { w1, w2, w3, h, onPress, name, phone, startMemberAt } = this.props;
+    const { w1, w2, w3, h, onPress, name, phone, startMemberAt, avatar } = this.props;
     return (
       <TouchableOpacity onPress= {onPress} style = {{ flexDirection: "row", height: h, backgroundColor: "white"}}>       
         <View style = {{ width: w1 , justifyContent: "center", alignItems:"center"}}>                    
-          <FontAwesome5 name = "user-astronaut" color = "#3b5998" size = {h-h/3} />
+          <Image
+          style={{width: 50, height: 50}}
+          source={{uri: avatar}}
+        />
         </View>
         <View style = {{ flex:1 , flexDirection: "column", justifyContent: "center", marginHorizontal:5 }}>
           <Text style = {{ fontWeight:"bold", fontSize:16 }} >{name}</Text>
@@ -39,7 +42,8 @@ ProfileElement.propTypes = {
   onPress : PropTypes.func.isRequired,
   name: PropTypes.string.isRequired, 
   phone: PropTypes.string.isRequired, 
-  startMemberAt: PropTypes.string.isRequired
+  startMemberAt: PropTypes.string.isRequired,
+  avatar: PropTypes.string
 };
 
 ProfileElement.defaultProps = {
