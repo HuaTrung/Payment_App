@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import type { Notification, NotificationOpen, RemoteMessage} from "react-native-firebase";
-import { queryUserId } from "../realm/userQueries";
+import { queryUserId, updateMoney } from "../realm/userQueries";
 import { AppState, AsyncStorage } from "react-native";
 import  BackgroundTimer  from "react-native-background-timer";
 import { block } from "./logout";
@@ -74,6 +74,18 @@ _handleBackground = (nextAppState) => {
   //   online();
   //   BackgroundTimer.stopBackgroundTimer();  
   // }
+}
+
+export const onListenerData = () => {
+  firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
+    console.log("____________________")
+    console.log("Key: " + snapshot.key+" and "+snapshot.val() );
+    if(snapshot.key=="money")
+      updateMoney(snapshot.val()).then( value=>{
+        // this.setState({moneyUser:0})
+      }) ;
+    
+  });
 }
 
 const appStateAddEventListener = () => {

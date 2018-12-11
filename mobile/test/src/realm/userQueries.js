@@ -42,7 +42,7 @@ export const updateMoney = (money) => new Promise((resolve,reject) => {
     let user = realm.objectForPrimaryKey(USER_SCHEMA,Schema.objects(USER_SCHEMA)[0].id);
       user.money=parseFloat(money),
       // alert(JSON.stringify(user));
-      resolve({status:true});
+      resolve(user.money);
    })
   }).catch((err) => reject(err));
 });
