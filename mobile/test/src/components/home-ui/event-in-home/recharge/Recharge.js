@@ -22,7 +22,7 @@ class Recharge extends Component {
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
-
+    this.setMoney=this.setMoney.bind(this);
   }
 
   setModalVisible(visible) {
@@ -76,7 +76,10 @@ class Recharge extends Component {
           })
         }
         else{
-          this.setState({ money: "" })}
+          this.setState({
+             money: ""
+            });
+          }
         }
       }
     }

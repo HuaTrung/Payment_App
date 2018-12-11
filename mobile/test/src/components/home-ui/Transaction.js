@@ -6,7 +6,7 @@ import {
 import { TouchableOpacity,ScrollView } from 'react-native';
 import { searchTransaction } from '../../no-redux/search'
 
-export default class Promotion extends Component {
+export default class Transaction extends Component {
   constructor(props) {
     super(props);
     this.state = {

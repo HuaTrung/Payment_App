@@ -17,5 +17,12 @@ const searchTransaction = () => new Promise((resolve,reject) => {
     .catch( err => reject(err));
     })
 ;
-
-export {searchUserByPhone,searchTransaction};
+const searchPromotion = () => new Promise((resolve,reject) => {
+    axios.get(GLOBAL.HostName +"/transaction/search/loadPromotion")
+    .then(res => {
+        resolve ({listPromotion:res.data});
+    }) 
+    .catch( err => reject(err));
+    })
+;
+export {searchUserByPhone,searchTransaction,searchPromotion};

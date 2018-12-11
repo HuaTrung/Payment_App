@@ -7,6 +7,7 @@ import RechargeScreen from './event-in-home/recharge/Recharge'
 import TransferScreen from './event-in-home/transfer/Transfer'
 import TransferFriendScreen from './event-in-home/transfer/TransferFriend'
 import ActionTransferFriend from './/event-in-home/transfer/ActionTransferFriend'
+import PromotionScreen from "./Promotion"
 export {
   HomeScreen,
   UserProfileScreen,
@@ -15,5 +16,6 @@ export {
   RechargeScreen,
   TransferScreen,
   TransferFriendScreen,
-  ActionTransferFriend
+  ActionTransferFriend,
+  PromotionScreen
 };
