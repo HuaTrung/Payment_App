@@ -16,8 +16,7 @@ const UserSchema = {
     email: "string?",
     birthday: "double?",
     avatar:"string",
-    typeMoney:"string",
-    online:"bool?"
+    typeMoney:"string"
   }
 }
 

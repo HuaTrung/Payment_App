@@ -23,27 +23,12 @@ export const queryUserLoginData = () => new Promise((resolve,reject) => {
 });
 
 export const updateIsFirstTime = (id) => new Promise((resolve,reject) => {
-  // alert(1);
   Realm.open(databaseOptions).then(realm => {
     realm.write(() => {
     // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
       let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
     
       user.isFirstTime = false;
-      // alert(JSON.stringify(user));
-      resolve();
-   })
-  }).catch((err) => reject(err));
-});
-export const updateUserOnline = (id, data) => new Promise((resolve,reject) => {
-  // alert(1);
-  Realm.open(databaseOptions).then(realm => {
-    realm.write(() => {
-    // realm.create(USER_SCHEMA, {id, isFirstTime: false}, true);
-      let user = realm.objectForPrimaryKey(USER_SCHEMA,id);
-    
-      user.online = data;
-      //console.log(JSON.stringify(queryUser()));
       // alert(JSON.stringify(user));
       resolve();
    })
@@ -57,7 +42,7 @@ export const updateMoney = (money) => new Promise((resolve,reject) => {
     let user = realm.objectForPrimaryKey(USER_SCHEMA,Schema.objects(USER_SCHEMA)[0].id);
       user.money=parseFloat(money),
       // alert(JSON.stringify(user));
-      resolve({status:true});
+      resolve(user.money);
    })
   }).catch((err) => reject(err));
 });

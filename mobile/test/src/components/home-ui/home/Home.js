@@ -7,7 +7,8 @@ import {
   StatusBar, 
   TextInput, 
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  AppState
 } from 'react-native';
 import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
@@ -21,15 +22,30 @@ import PIN from "../security-pass-ui/PIN";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Toast } from "native-base";
-import {queryUserId} from '../../../realm/userQueries'
-
 import HomeTop from "./HomeTop";
-import firebase from "react-native-firebase";
-
 import {HomSearch} from "../../../navigation-config/Route";
-
-import { isFirstTimeUsing, isEmptyUserLogin,updateIsFirstTime , queryUser,queryUserMoney,updateMoney} from "../../../realm/userQueries";
+import {
+  queryUserId, 
+  isFirstTimeUsing, 
+  isEmptyUserLogin,
+  updateIsFirstTime , 
+  queryUser, 
+  queryUserMoney,
+  updateMoney
+} from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
+import firebase from "react-native-firebase";
+import {
+  appStateAddEventListener,
+  AppStateRemoveEventListener,
+  hasPermission,
+  messageListener,
+  onTokenRefreshListener,
+  onListenerData
+} from "../../../no-redux/notification";
+import { connect } from "react-redux";
+import { updateUserMoney } from "../../../redux/actions/updateUser.action";
+import isEmpty from "../../../validations/is-empty.validate";
 class Home extends Component {
 
   constructor(props) {
@@ -39,10 +55,12 @@ class Home extends Component {
       isModalVisible: false,
       moneyUser:queryUserMoney()
     }
+
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
     this._onFulfill = this._onFulfill.bind(this);
+    this._handleUpdateMoney = this._handleUpdateMoney.bind(this);
   }
 
   navigatePayScan() {
@@ -52,18 +70,28 @@ class Home extends Component {
   _toggleModal() {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
-  
+
+  _handleUpdateMoney (data) {
+    this.props.updateUserMoney(data);
+  }
 
   componentDidMount() {
+    //appStateAddEventListener();
+    hasPermission();
+    onTokenRefreshListener();
+    messageListener().then( val => {
+      if(val == true)  this.props.navigation.navigate("SignOutScreen");
+    })
     if(isFirstTimeUsing()) this._toggleModal();
+
     firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
       console.log("____________________")
       console.log("Key: " + snapshot.key+" and "+snapshot.val() );
       if(snapshot.key=="money")
         updateMoney(snapshot.val()).then( value=>{
-          // this.setState({moneyUser:0})
-        }) ;
-      
+          // console.log(JSON.stringify(value));
+          this._handleUpdateMoney(value);
+        });
     });
   }
 
@@ -78,9 +106,26 @@ class Home extends Component {
           Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "top",duration:2000 });  
         }).catch(err => alert(err));
       }
-      
     });    
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(JSON.stringify(nextProps));
+    if(!isEmpty(nextProps.money)) {
+      this.setState({
+        moneyUser:money
+      })
+    }
+  }
+
+  componentWillUnmount() {   
+    //AppStateRemoveEventListener();
+    onTokenRefreshListener();
+    messageListener().then( val => {
+      if(val == true)  this.props.navigation.navigate("SignOutScreen");
+    })  
+  }
+
   _renderPinCode() {
     return (
       <Modal isVisible={this.state.isModalVisible}  
@@ -125,6 +170,7 @@ class Home extends Component {
   };
 
   _renderHome() {
+
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>
@@ -274,4 +320,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home;
+const mapStateToProps = state => ({
+  money: state.updatedataReducer
+});
+
+export default connect(mapStateToProps,{
+  updateUserMoney
+})(Home);

@@ -7,8 +7,8 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
-// import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-// import io.invertase.firebase.messaging.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.realm.react.RealmReactPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.facebook.react.ReactNativeHost;
@@ -17,8 +17,6 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
-import com.test.QRCodePackage;
-import com.test.BarcodeScannerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 public class MainApplication extends Application implements ReactApplication {
@@ -37,14 +35,12 @@ public class MainApplication extends Application implements ReactApplication {
         new BackgroundTimerPackage(),
         new RNFirebasePackage(),
         new RNFirebaseDatabasePackage(),
-        // new RNFirebaseMessagingPackage(),
-        // new RNFirebaseNotificationsPackage(),
+        new RNFirebaseNotificationsPackage(),
+        new RNFirebaseMessagingPackage(),
         new RealmReactPackage(),
         new RNCameraPackage(),
         new VectorIconsPackage(),
-        new LinearGradientPackage(),
-        new QRCodePackage(),
-        new BarcodeScannerPackage()
+        new LinearGradientPackage()
       );
     }
 
