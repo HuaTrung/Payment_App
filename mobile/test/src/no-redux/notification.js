@@ -3,7 +3,9 @@ import type { Notification, NotificationOpen, RemoteMessage} from "react-native-
 import { queryUserId, updateMoney } from "../realm/userQueries";
 import { AppState, AsyncStorage } from "react-native";
 import  BackgroundTimer  from "react-native-background-timer";
-import { block } from "./logout";
+import logout, { block } from "./logout";
+import { UPDATE_USER_MONEY_DATA } from '../redux/actions/types';
+import store from "../redux/store";
 const onTokenRefreshListener = () => {
   firebase.messaging().onTokenRefresh(fcmToken => {
     // Process your token as required
@@ -23,16 +25,16 @@ const messageListener = () => new Promise((resolve,reject) => {
     if(value == null) {
       AsyncStorage.setItem('LOGIN','1').then(()=> {
         firebase.messaging().onMessage((message: RemoteMessage) => {
-          console.log(JSON.stringify(message));
-          
+          console.log(JSON.stringify(message));         
           // Process your message as required
           switch (message.data.type) {
-            case "BLOCK": // user was hacked => log out 
-              block().then(val => resolve(val));
-              break;
             case "RECEIVE_TRANSACTION":
               break;
           }
+        });
+        firebase.notifications().onNotification((notification: Notification) => {
+          console.log(JSON.stringify(notification));         
+
         });
       })
     }
@@ -76,17 +78,21 @@ _handleBackground = (nextAppState) => {
   // }
 }
 
-export const onListenerData = () => {
+export const onListenerData = () => new Promise((resolve,reject) => { 
   firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
     console.log("____________________")
     console.log("Key: " + snapshot.key+" and "+snapshot.val() );
-    if(snapshot.key=="money")
-      updateMoney(snapshot.val()).then( value=>{
-        // this.setState({moneyUser:0})
-      }) ;
-    
+    if(snapshot.key == "money")
+      updateMoney(snapshot.val()).then( value => {
+        store.dispatch({
+          type: UPDATE_USER_MONEY_DATA,
+          payload: snapshot.val()
+        })
+      });
+    else if(snapshot.key == "type" && snapshot.val() == 1 ) // block:
+      logout().then(() => resolve(1));
   });
-}
+})
 
 const appStateAddEventListener = () => {
   AppState.addEventListener("change", this._handleBackground);

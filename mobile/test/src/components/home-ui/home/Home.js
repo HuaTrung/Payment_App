@@ -44,7 +44,6 @@ import {
   onListenerData
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
-import { updateUserMoney } from "../../../redux/actions/updateUser.action";
 import isEmpty from "../../../validations/is-empty.validate";
 class Home extends Component {
 
@@ -60,7 +59,6 @@ class Home extends Component {
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
     this._onFulfill = this._onFulfill.bind(this);
-    this._handleUpdateMoney = this._handleUpdateMoney.bind(this);
   }
 
   navigatePayScan() {
@@ -71,10 +69,6 @@ class Home extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
-  _handleUpdateMoney (data) {
-    this.props.updateUserMoney(data);
-  }
-
   componentDidMount() {
     //appStateAddEventListener();
     hasPermission();
@@ -83,15 +77,11 @@ class Home extends Component {
       if(val == true)  this.props.navigation.navigate("SignOutScreen");
     })
     if(isFirstTimeUsing()) this._toggleModal();
-
-    firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
-      console.log("____________________")
-      console.log("Key: " + snapshot.key+" and "+snapshot.val() );
-      if(snapshot.key=="money")
-        updateMoney(snapshot.val()).then( value=>{
-          // console.log(JSON.stringify(value));
-        //  this._handleUpdateMoney(value);
-        });
+    onListenerData().then( val => {
+      if(val == 1) { // block 
+        this.props.navigation.navigate("SignOutScreen"); 
+        Toast.show({ text: 'Sorry ! You was blocked', buttonText: 'Okay', type: "danger", position: "bottom",duration:4000 });  
+      }
     });
   }
 
@@ -110,9 +100,10 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(queryUserMoney());
+    console.log("next props is " + nextProps);
+    if(!isEmpty(nextProps.userData))
       this.setState({
-        moneyUser:123456
+        moneyUser: nextProps.userData.money
       })
   }
 
@@ -319,9 +310,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  money: state.updatedataReducer
+  userData: state.updatedataReducer
 });
 
-export default connect(mapStateToProps,{
-  updateUserMoney
-})(Home);
+export default connect(mapStateToProps)(Home);
