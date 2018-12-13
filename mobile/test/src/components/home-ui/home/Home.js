@@ -118,15 +118,16 @@ class Home extends Component {
     hasPermission();
     onTokenRefreshListener();
     messageListener().then( val => {
-      if(val == true)  this.props.navigation.navigate("SignOutScreen");
-    })
-    if(isFirstTimeUsing()) this._toggleModal();
-    onListenerData().then(val => {     
       this.setState({
         tranID: val.tranID,
         money: val.money,
         description: val.description
       })
+    })
+    if(isFirstTimeUsing()) this._toggleModal();
+    onListenerData().then(val => {     
+    
+      if(val == true)  this.props.navigation.navigate("SignOutScreen");
     });
 
 //    this.subs = this.props.navigation.addListener("didFocus",this.__onPopupTransaction);
@@ -156,7 +157,7 @@ class Home extends Component {
     if(!isEmpty(nextProps.popupTrans)) {
       console.log(12132);
       this.setState({
-        popupTrans: nextProps.popupTrans.trans
+        popupTrans: true
       })
     }
   }

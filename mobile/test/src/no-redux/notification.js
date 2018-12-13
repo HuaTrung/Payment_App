@@ -40,6 +40,10 @@ const messageListener = () => new Promise((resolve,reject) => {
                 description,
                 type: "RECEIVE_TRANSACTION"
               }
+              store.dispatch({
+                type: POPUP_TRANSACTION,
+                payload: value
+              })
               resolve(value);
             }
               break;
