@@ -16,7 +16,8 @@ const UserSchema = {
     email: "string?",
     birthday: "double?",
     avatar:"string",
-    typeMoney:"string"
+    typeMoney:"string",
+    securityPass: "string"
   }
 }
 

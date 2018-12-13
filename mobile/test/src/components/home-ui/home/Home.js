@@ -31,7 +31,8 @@ import {
   updateIsFirstTime , 
   queryUser, 
   queryUserMoney,
-  updateMoney
+  updateMoney,
+  queryUserTypeMoney
 } from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 import firebase from "react-native-firebase";
@@ -39,27 +40,27 @@ import {
   appStateAddEventListener,
   AppStateRemoveEventListener,
   hasPermission,
-  messageListener,
+  onMessageListener,
   onTokenRefreshListener,
   onListenerData
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
 import isEmpty from "../../../validations/is-empty.validate";
+import { formatCurrency } from "../../../validations/util";
 import { Icon} from 'native-base';
-class Home extends Component {
 
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
       isModalVisible: false,
-      moneyUser:queryUserMoney(),
+      moneyUser: queryUserMoney(),
       popupTrans: false,
       tranID: "",
       money:0,
       description:""
-    }
-
+    };
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
@@ -114,35 +115,30 @@ class Home extends Component {
 
 
   componentDidMount() {
-    //appStateAddEventListener();
     hasPermission();
     onTokenRefreshListener();
-    messageListener().then( val => {
-      this.setState({
-        tranID: val.tranID,
-        money: val.money,
-        description: val.description
-      })
-    })
+    onMessageListener();
     if(isFirstTimeUsing()) this._toggleModal();
     onListenerData().then(val => {     
-    
-      if(val == true)  this.props.navigation.navigate("SignOutScreen");
+      if(val == 1)  {
+        console.log("blockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        this.props.navigation.navigate("SignOutScreen"); // blocked
+        Toast.show({ text: 'Sorry you was BLOCKED', buttonText: 'Okay', type: "danger", position: "bottom",duration:5000 });  
+      }
+      else if(val == 2)  // update security pass success
+        Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
     });
 
-//    this.subs = this.props.navigation.addListener("didFocus",this.__onPopupTransaction);
-    
   }
 
   _onFulfill (code) {
     register_PIN(code).then( data => {
-     alert(JSON.stringify(data));
       if(data.status == 0) {
         // update database offline:
         updateIsFirstTime(data.id).then( () => {
           // alert(JSON.stringify(queryUser()));
           this._toggleModal();
-          Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "top",duration:2000 });  
+          
         }).catch(err => alert(err));
       }
     });    
@@ -155,9 +151,11 @@ class Home extends Component {
         moneyUser: nextProps.userData.money
       })
     if(!isEmpty(nextProps.popupTrans)) {
-      console.log(12132);
       this.setState({
-        popupTrans: true
+        popupTrans: nextProps.popupTrans.trans,
+        tranID: nextProps.popupTrans.tranID,
+        money: nextProps.popupTrans.money,
+        description:  nextProps.popupTrans.description
       })
     }
   }
@@ -165,10 +163,7 @@ class Home extends Component {
   componentWillUnmount() {   
     //AppStateRemoveEventListener();
     onTokenRefreshListener();
-    messageListener().then( val => {
-      if(val == true)  this.props.navigation.navigate("SignOutScreen");
-    })  
-  //  this.subs.remove();
+    onMessageListener();
   }
 
   _renderPinCode() {
@@ -215,7 +210,7 @@ class Home extends Component {
   };
 
   _renderHome() {
-
+    const formatCurr = formatCurrency(this.state.moneyUser);
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>
@@ -233,9 +228,9 @@ class Home extends Component {
 
             <HomeTop 
               _onPress = { this.navigatePayScan.bind(this) }
-              iconType = "FontAwesome5"
-              iconName = "teamspeak"
-              text = {this.state.moneyUser}
+              iconType = "Zocial"
+              iconName = "bitcoin"
+              text = { formatCurr }
             />
 
             <HomeTop 
@@ -337,7 +332,7 @@ class Home extends Component {
   render() {
     return (
       <View style = {{ flex:1 }}>
-        {  this._renderHome() }
+        { this._renderHome() }
         { this._renderPinCode() }
         { this._renderReceiveTransaction() }
       </View>
