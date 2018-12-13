@@ -1,11 +1,14 @@
 import firebase from "react-native-firebase";
 import type { Notification, NotificationOpen, RemoteMessage} from "react-native-firebase";
 import { queryUserId, updateMoney } from "../realm/userQueries";
-import { AppState, AsyncStorage } from "react-native";
+import { AppState, AsyncStorage, View, Text, StyleSheet } from "react-native";
 import  BackgroundTimer  from "react-native-background-timer";
 import logout, { block } from "./logout";
-import { UPDATE_USER_MONEY_DATA } from '../redux/actions/types';
+import { UPDATE_USER_MONEY_DATA, POPUP_TRANSACTION } from '../redux/actions/types';
 import store from "../redux/store";
+
+import Modal from "react-native-modal";
+
 const onTokenRefreshListener = () => {
   firebase.messaging().onTokenRefresh(fcmToken => {
     // Process your token as required
@@ -29,12 +32,18 @@ const messageListener = () => new Promise((resolve,reject) => {
           // Process your message as required
           switch (message.data.type) {
             case "RECEIVE_TRANSACTION":
+            {
+              let { tranID, money, description } = message.data;
+              let value = {
+                tranID,
+                money,
+                description,
+                type: "RECEIVE_TRANSACTION"
+              }
+              resolve(value);
+            }
               break;
           }
-        });
-        firebase.notifications().onNotification((notification: Notification) => {
-          console.log(JSON.stringify(notification));         
-
         });
       })
     }
@@ -88,11 +97,18 @@ export const onListenerData = () => new Promise((resolve,reject) => {
           type: UPDATE_USER_MONEY_DATA,
           payload: snapshot.val()
         })
+        // let a = true;
+        // store.dispatch({
+        //   type: POPUP_TRANSACTION,
+        //   payload: a
+        // })
       });
     else if(snapshot.key == "type" && snapshot.val() == 1 ) // block:
       logout().then(() => resolve(1));
   });
 })
+
+
 
 const appStateAddEventListener = () => {
   AppState.addEventListener("change", this._handleBackground);
@@ -109,3 +125,4 @@ export {
   messageListener,
   onTokenRefreshListener
 };
+

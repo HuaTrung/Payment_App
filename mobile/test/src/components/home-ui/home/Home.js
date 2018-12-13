@@ -45,6 +45,7 @@ import {
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
 import isEmpty from "../../../validations/is-empty.validate";
+import { Icon} from 'native-base';
 class Home extends Component {
 
   constructor(props) {
@@ -52,13 +53,18 @@ class Home extends Component {
     this.state = {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
       isModalVisible: false,
-      moneyUser:queryUserMoney()
+      moneyUser:queryUserMoney(),
+      popupTrans: false,
+      tranID: "",
+      money:0,
+      description:""
     }
 
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
     this._onFulfill = this._onFulfill.bind(this);
+    this._renderReceiveTransaction = this._renderReceiveTransaction.bind(this);
   }
 
   navigatePayScan() {
@@ -69,6 +75,44 @@ class Home extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
+  _renderReceiveTransaction() {
+    return(
+      <Modal isVisible={this.state.popupTrans}>
+          <View style={styles.modalContent}>
+            <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
+              <Icon type='MaterialCommunityIcons' name='check-circle' style={{ color: "#0EB709" ,marginRight:10}} />
+              <Text style={{ color: "#0EB709", fontSize: 20 }}>BẠN ĐÃ NHẬN ĐƯỢC TIỀN </Text>
+            </View>
+            <View style={{alignItems: "center",paddingBottom:10}}>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
+              </View>
+            </View>
+            <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch</Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.tranID}</Text>
+             </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Mô tả</Text>
+              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.description}</Text>
+             </View>
+            </View>
+            <View style={styles.buttonSuccess}>
+              <TouchableOpacity onPress={() => this.setState({ popupTrans: false })}>
+                <View style={{padding:5}}>
+                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+      </Modal>
+    )
+  }
+
+
   componentDidMount() {
     //appStateAddEventListener();
     hasPermission();
@@ -77,12 +121,16 @@ class Home extends Component {
       if(val == true)  this.props.navigation.navigate("SignOutScreen");
     })
     if(isFirstTimeUsing()) this._toggleModal();
-    onListenerData().then( val => {
-      if(val == 1) { // block 
-        this.props.navigation.navigate("SignOutScreen"); 
-        Toast.show({ text: 'Sorry ! You was blocked', buttonText: 'Okay', type: "danger", position: "bottom",duration:4000 });  
-      }
+    onListenerData().then(val => {     
+      this.setState({
+        tranID: val.tranID,
+        money: val.money,
+        description: val.description
+      })
     });
+
+//    this.subs = this.props.navigation.addListener("didFocus",this.__onPopupTransaction);
+    
   }
 
   _onFulfill (code) {
@@ -100,11 +148,17 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("next props is " + nextProps);
+    console.log("next props is " + JSON.stringify(nextProps));
     if(!isEmpty(nextProps.userData))
       this.setState({
         moneyUser: nextProps.userData.money
       })
+    if(!isEmpty(nextProps.popupTrans)) {
+      console.log(12132);
+      this.setState({
+        popupTrans: nextProps.popupTrans.trans
+      })
+    }
   }
 
   componentWillUnmount() {   
@@ -113,6 +167,7 @@ class Home extends Component {
     messageListener().then( val => {
       if(val == true)  this.props.navigation.navigate("SignOutScreen");
     })  
+  //  this.subs.remove();
   }
 
   _renderPinCode() {
@@ -283,6 +338,7 @@ class Home extends Component {
       <View style = {{ flex:1 }}>
         {  this._renderHome() }
         { this._renderPinCode() }
+        { this._renderReceiveTransaction() }
       </View>
     );
   }
@@ -306,11 +362,19 @@ const styles = StyleSheet.create({
   bottomModal: {
     justifyContent: "flex-end",
     margin: 0
+  },
+  modalContent: {
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
   }
 })
 
 const mapStateToProps = state => ({
-  userData: state.updatedataReducer
+  userData: state.updatedataReducer,
+  popupTrans: state.popupTransReducer
 });
 
 export default connect(mapStateToProps)(Home);
