@@ -5,7 +5,8 @@ const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, TextInput,Thumbnail } from 'native-base';
 import Modal from "react-native-modal";
 import MyKeyBoard from "../recharge/MyKeyboard"
-const moneyUser = height /4
+const moneyUser = height /4;
+import { formatCurrency } from "../../../../validations/util";
 class ActionTransferFriend extends Component {
   constructor(props) {
     super(props);
@@ -133,7 +134,7 @@ class ActionTransferFriend extends Component {
           }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
-              <Input editable={false} value={this.state.money} />
+              <Input editable={false} value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
           <Form style={{

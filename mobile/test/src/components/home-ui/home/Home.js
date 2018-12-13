@@ -31,7 +31,8 @@ import {
   updateIsFirstTime , 
   queryUser, 
   queryUserMoney,
-  updateMoney
+  updateMoney,
+  queryUserTypeMoney
 } from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 import firebase from "react-native-firebase";
@@ -39,27 +40,28 @@ import {
   appStateAddEventListener,
   AppStateRemoveEventListener,
   hasPermission,
-  messageListener,
+  onMessageListener,
   onTokenRefreshListener,
   onListenerData
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
 import isEmpty from "../../../validations/is-empty.validate";
+import { formatCurrency } from "../../../validations/util";
 import { Icon} from 'native-base';
-class Home extends Component {
+import store from '../../../redux/store';
 
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: ["Promotion 1","Promotion 2","Promotion 3","Promotion 4"],
       isModalVisible: false,
-      moneyUser:queryUserMoney(),
+      moneyUser: queryUserMoney(),
       popupTrans: false,
       tranID: "",
       money:0,
       description:""
-    }
-
+    };
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
@@ -101,7 +103,12 @@ class Home extends Component {
              </View>
             </View>
             <View style={styles.buttonSuccess}>
-              <TouchableOpacity onPress={() => this.setState({ popupTrans: false })}>
+              <TouchableOpacity onPress={() => {
+                store.dispatch({
+                  type: "UNPOPUP_TRANSACTION"
+                })
+                this.setState({ popupTrans: false })
+              } }>
                 <View style={{padding:5}}>
                  <Text style={{color:"white",fontSize:16}}>Đóng</Text>
                 </View>
@@ -114,35 +121,30 @@ class Home extends Component {
 
 
   componentDidMount() {
-    //appStateAddEventListener();
     hasPermission();
     onTokenRefreshListener();
-    messageListener().then( val => {
-      if(val == true)  this.props.navigation.navigate("SignOutScreen");
-    })
+    onMessageListener();
     if(isFirstTimeUsing()) this._toggleModal();
     onListenerData().then(val => {     
-      this.setState({
-        tranID: val.tranID,
-        money: val.money,
-        description: val.description,
-        popupTrans: true
-      })
+      if(val == 1)  {
+        console.log("blockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        this.props.navigation.navigate("SignOutScreen"); // blocked
+        Toast.show({ text: 'Sorry you was BLOCKED', buttonText: 'Okay', type: "danger", position: "bottom",duration:5000 });  
+      }
+      else if(val == 2)  // update security pass success
+        Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
     });
 
-//    this.subs = this.props.navigation.addListener("didFocus",this.__onPopupTransaction);
-    
   }
 
   _onFulfill (code) {
     register_PIN(code).then( data => {
-     alert(JSON.stringify(data));
       if(data.status == 0) {
         // update database offline:
         updateIsFirstTime(data.id).then( () => {
           // alert(JSON.stringify(queryUser()));
           this._toggleModal();
-          Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "top",duration:2000 });  
+          
         }).catch(err => alert(err));
       }
     });    
@@ -150,19 +152,25 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log("next props is " + JSON.stringify(nextProps));
-    if(!isEmpty(nextProps.userData))
+    if(nextProps.userData.money )
       this.setState({
         moneyUser: nextProps.userData.money
       })
+
+    if(nextProps.popupTrans.trans == true) {
+      this.setState({
+        popupTrans: true,
+        tranID: nextProps.popupTrans.tranID,
+        money: nextProps.popupTrans.money,
+        description:  nextProps.popupTrans.description
+      })
+    }
   }
 
   componentWillUnmount() {   
     //AppStateRemoveEventListener();
     onTokenRefreshListener();
-    messageListener().then( val => {
-      if(val == true)  this.props.navigation.navigate("SignOutScreen");
-    })  
-  //  this.subs.remove();
+    onMessageListener();
   }
 
   _renderPinCode() {
@@ -209,7 +217,7 @@ class Home extends Component {
   };
 
   _renderHome() {
-
+    const formatCurr = formatCurrency(this.state.moneyUser);
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>
@@ -227,9 +235,9 @@ class Home extends Component {
 
             <HomeTop 
               _onPress = { this.navigatePayScan.bind(this) }
-              iconType = "FontAwesome5"
-              iconName = "teamspeak"
-              text = {this.state.moneyUser}
+              iconType = "Zocial"
+              iconName = "bitcoin"
+              text = { formatCurr }
             />
 
             <HomeTop 
@@ -331,7 +339,7 @@ class Home extends Component {
   render() {
     return (
       <View style = {{ flex:1 }}>
-        {  this._renderHome() }
+        { this._renderHome() }
         { this._renderPinCode() }
         { this._renderReceiveTransaction() }
       </View>
@@ -364,11 +372,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  buttonSuccess: {
+    backgroundColor: "#0EB709",
+    padding: 3,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
   }
 })
 
 const mapStateToProps = state => ({
-  userData: state.updatedataReducer
+  userData: state.updatedataReducer,
+  popupTrans: state.popupTransReducer
 });
 
 export default connect(mapStateToProps)(Home);

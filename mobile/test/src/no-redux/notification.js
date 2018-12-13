@@ -1,9 +1,9 @@
 import firebase from "react-native-firebase";
 import type { Notification, NotificationOpen, RemoteMessage} from "react-native-firebase";
-import { queryUserId, updateMoney } from "../realm/userQueries";
+import { queryUserId, updateMoney, updateSecurityPass, deleteUserLogout } from "../realm/userQueries";
 import { AppState, AsyncStorage, View, Text, StyleSheet } from "react-native";
 import  BackgroundTimer  from "react-native-background-timer";
-import logout, { block } from "./logout";
+import logout,{ block } from "./logout";
 import { UPDATE_USER_MONEY_DATA, POPUP_TRANSACTION } from '../redux/actions/types';
 import store from "../redux/store";
 
@@ -23,7 +23,7 @@ const onTokenRefreshListener = () => {
   });
 }
 
-const messageListener = () => new Promise((resolve,reject) => {
+const onMessageListener = () => {
   AsyncStorage.getItem('LOGIN').then(value => {
     if(value == null) {
       AsyncStorage.setItem('LOGIN','1').then(()=> {
@@ -39,15 +39,18 @@ const messageListener = () => new Promise((resolve,reject) => {
                 money,
                 description
               }
-              resolve(value);
+              store.dispatch({
+                type: POPUP_TRANSACTION,
+                payload: value
+              })
             }
-			break;
+            break;
           }
         });
       })
     }
   })
-})
+}
 
 const hasPermission = async () => {
   const enabled = await firebase.messaging().hasPermission();
@@ -87,7 +90,7 @@ _handleBackground = (nextAppState) => {
 }
 
 export const onListenerData = () => new Promise((resolve,reject) => { 
-  firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot, prevChildKey) {
+  firebase.database().ref("user/" + queryUserId()).on("child_changed", function(snapshot) {
     console.log("____________________")
     console.log("Key: " + snapshot.key+" and "+snapshot.val() );
     if(snapshot.key == "money")
@@ -103,7 +106,9 @@ export const onListenerData = () => new Promise((resolve,reject) => {
         // })
       });
     else if(snapshot.key == "type" && snapshot.val() == 1 ) // block:
-      logout().then(() => resolve(1));
+      deleteUserLogout().then(() =>  resolve(1));
+    else if(snapshot.key == "securityPass") // upadate local security pass:
+      updateSecurityPass(snapshot.val()).then(() => resolve(2));
   });
 })
 
@@ -121,7 +126,7 @@ export {
   appStateAddEventListener,
   AppStateRemoveEventListener,
   hasPermission,
-  messageListener,
+  onMessageListener,
   onTokenRefreshListener
 };
 

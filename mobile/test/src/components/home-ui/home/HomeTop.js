@@ -9,6 +9,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Zocial from "react-native-vector-icons/Zocial";
 import { withNavigation } from "react-navigation";
 const { width, height } = Dimensions.get('window');
 const impHeight = height / 8;
@@ -26,6 +27,8 @@ class HomeTop extends Component {
         return <MCIcons name = { iconName } size = { iconSize } color = { iconColor }/>
       case "FontAwesome5":
         return <FontAwesome5 name = { iconName } size = { iconSize } color = { iconColor }/>
+      case "Zocial":
+        return <Zocial name = { iconName } size = { iconSize } color = { iconColor }/>
     }
     
   }
