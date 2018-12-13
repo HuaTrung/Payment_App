@@ -125,7 +125,8 @@ class Home extends Component {
       this.setState({
         tranID: val.tranID,
         money: val.money,
-        description: val.description
+        description: val.description,
+        popupTrans: true
       })
     });
 
@@ -153,12 +154,6 @@ class Home extends Component {
       this.setState({
         moneyUser: nextProps.userData.money
       })
-    if(!isEmpty(nextProps.popupTrans)) {
-      console.log(12132);
-      this.setState({
-        popupTrans: nextProps.popupTrans.trans
-      })
-    }
   }
 
   componentWillUnmount() {   
@@ -373,8 +368,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  userData: state.updatedataReducer,
-  popupTrans: state.popupTransReducer
+  userData: state.updatedataReducer
 });
 
 export default connect(mapStateToProps)(Home);

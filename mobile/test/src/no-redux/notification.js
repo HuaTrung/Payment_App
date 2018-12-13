@@ -37,12 +37,11 @@ const messageListener = () => new Promise((resolve,reject) => {
               let value = {
                 tranID,
                 money,
-                description,
-                type: "RECEIVE_TRANSACTION"
+                description
               }
               resolve(value);
             }
-              break;
+			break;
           }
         });
       })
