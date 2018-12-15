@@ -1,7 +1,7 @@
 package com.test;
 
 import android.app.Application;
-
+import com.test.ExitApp;
 import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.ocetnik.timer.BackgroundTimerPackage;
@@ -40,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
         new RealmReactPackage(),
         new RNCameraPackage(),
         new VectorIconsPackage(),
-        new LinearGradientPackage()
+        new LinearGradientPackage(),
+        new ExitApp()
       );
     }
 

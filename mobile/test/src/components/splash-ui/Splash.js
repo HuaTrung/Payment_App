@@ -1,7 +1,10 @@
 import { View, Text } from 'react-native';
 import React, { Component } from 'react';
 
+
 class Splash extends Component {
+
+
 
   render() {
     return (

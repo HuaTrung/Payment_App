@@ -7,7 +7,7 @@ import  forgotPasswordReducer from './forgotPassword.reducer';
 import  securityPasswordReducer from './secutiry.reducer';
 import  updatedataReducer from './updatedata.reducer';
 import  popupTransReducer from './popup.Trans.reducer';
-
+import  langReducer from './lang.reducer';
 // combine all reducers from another module
 export default combineReducers({
   erorrsLoginReducer,
@@ -16,5 +16,6 @@ export default combineReducers({
   forgotPasswordReducer,
   securityPasswordReducer,
   updatedataReducer,
-  popupTransReducer
+  popupTransReducer,
+  langReducer
 });

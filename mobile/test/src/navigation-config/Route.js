@@ -25,13 +25,14 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign"
 const { height } = Dimensions.get('window');
 Height = (height / 4);
-
+import { isEmptyUserLogin,isEmptySetting, querySettingLanguage } from "../realm/userQueries.js";
+import { GLOBAL } from "../config/language";
 const SignedInTabNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        title: 'Home',
+        title: isEmptySetting() ? "Trang chủ" : GLOBAL[querySettingLanguage()].HOME,
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome5
             name='home'
@@ -44,7 +45,7 @@ const SignedInTabNavigator = createBottomTabNavigator(
     Transaction: {
       screen: TransactionScreen,
       navigationOptions: {
-        title: 'Transaction',
+        title: isEmptySetting() ? "Giao dịch" : GLOBAL[querySettingLanguage()].TRANSACTION,
         tabBarIcon: ({ tintColor }) => (
           <AntDesign
             name='menufold'
@@ -57,7 +58,7 @@ const SignedInTabNavigator = createBottomTabNavigator(
     Promotion: {
       screen:PromotionScreen,
       navigationOptions: {
-        title: 'Promotion',
+        title:isEmptySetting() ? "Khuyến mãi" :  GLOBAL[querySettingLanguage()].PROMOTION,
         tabBarIcon: ({ tintColor }) => (
           <AntDesign
             name='gift'
@@ -70,7 +71,7 @@ const SignedInTabNavigator = createBottomTabNavigator(
     UserProfile: {
       screen: UserProfileScreen,
       navigationOptions: {
-        title: 'User',
+        title: isEmptySetting() ? "Tài khoản" : GLOBAL[querySettingLanguage()].USER,
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome5
             name='user-shield'
@@ -178,7 +179,7 @@ const LoginTabNavigator = createMaterialTopTabNavigator(
         backgroundColor: "#ffa31a",
         height: 3
       }
-    },
+    }
 
   }
 );
@@ -202,7 +203,7 @@ const SignOutStack = createStackNavigator(
     }
   });
 
-  import { isEmptyUserLogin } from "../realm/userQueries.js";
+
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 

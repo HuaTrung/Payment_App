@@ -6,7 +6,16 @@ import {
 import { TouchableOpacity,ScrollView,Image } from 'react-native';
 import { searchPromotion } from '../../no-redux/search'
 
-export default class Promotion extends Component {
+import { GLOBAL } from "../../config/language";
+import { connect } from "react-redux";
+
+class Promotion extends Component {
+
+  // static navigationOptions =  ({navigation}) => ({
+  //   title: navigation.getParam('PROMOTION','Promotion')
+  // })
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -50,3 +59,7 @@ export default class Promotion extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  lang: state.langReducer
+});
+export default connect(mapStateToProps)(Promotion);

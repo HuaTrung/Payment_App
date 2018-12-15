@@ -6,7 +6,15 @@ import {
 import { TouchableOpacity,ScrollView } from 'react-native';
 import { searchTransaction } from '../../no-redux/search'
 import { formatCurrency } from "../../validations/util"
-export default class Transaction extends Component {
+
+import { connect } from "react-redux";
+import { GLOBAL } from "../../config/language";
+class Transaction extends Component {
+
+  // static navigationOptions =  ({navigation}) => ({
+  //   title: navigation.getParam('TRANSACTION','Transaction')
+  // })
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +31,7 @@ export default class Transaction extends Component {
 
   render() {
     const { listTransaction } = this.state;
+    let { lang } = this.props.lang;
     const options = [];
     let content1="";
     let content2="";
@@ -31,19 +40,19 @@ export default class Transaction extends Component {
       content2="";
       switch (listTransaction[i].Type) {
         case 1:
-          content1 = "Chuyển tiền tới " + listTransaction[i].Name;
+          content1 = GLOBAL[lang].TransferTrans + listTransaction[i].Name;
           content2 = <Text  style={{color:"red"}}  >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 2:
-          content1 = "Chuyển tiền tới " + listTransaction[i].Name;
+          content1 = GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
           content2 = <Text style = {{ color:"red" }} >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 3:
-          content1="Nạp tiền vào tài khoản ZolaPay";
+          content1= GLOBAL[lang].RechargeTrans;
           content2=<Text style = {{ color:"#3b5998" }}>+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 4:
-          content1 = "Nhận tiền từ " + listTransaction[i].Name;
+          content1 = GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
           content2 = <Text style={{ color: "#64dd17" }} >+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         default:
@@ -74,3 +83,7 @@ export default class Transaction extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  lang: state.langReducer
+});
+export default connect(mapStateToProps)(Transaction);
