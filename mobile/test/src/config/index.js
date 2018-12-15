@@ -2,7 +2,7 @@
 
 const GLOBAL = {
 
-  HostName: "http://192.168.1.6:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
+  HostName: "http://192.168.1.12:8080" // config host  here [aws, heroku, localhost(use Ipv4) , ...]
 
 };
 
