@@ -89,7 +89,7 @@ export const deleteUserLogout = () => new Promise((resolve,reject)=> {
     Realm.open(databaseOptions).then(realm => {
       realm.write(() => {
         try {
-          realm.deleteAll();
+          realm.delete(realm.objectForPrimaryKey(USER_SCHEMA,Schema.objects(USER_SCHEMA)[0].id));
           resolve(); 
         } catch (error) { }     
       });
