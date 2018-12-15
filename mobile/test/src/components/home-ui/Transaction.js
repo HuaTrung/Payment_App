@@ -5,7 +5,7 @@ import {
 } from 'native-base';
 import { TouchableOpacity,ScrollView } from 'react-native';
 import { searchTransaction } from '../../no-redux/search'
-
+import { formatCurrency } from "../../validations/util"
 export default class Transaction extends Component {
   constructor(props) {
     super(props);
@@ -32,19 +32,19 @@ export default class Transaction extends Component {
       switch (listTransaction[i].Type) {
         case 1:
           content1 = "Chuyển tiền tới " + listTransaction[i].Name;
-          content2 = <Text  >{listTransaction[i].Money}</Text>;
+          content2 = <Text  style={{color:"red"}}  >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 2:
           content1 = "Chuyển tiền tới " + listTransaction[i].Name;
-          content2 = <Text >{listTransaction[i].Money}</Text>;
+          content2 = <Text style = {{ color:"red" }} >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 3:
           content1="Nạp tiền vào tài khoản ZolaPay";
-          content2=<Text style={{color:"#64dd17"}} >+ {listTransaction[i].Money}</Text>;
+          content2=<Text style = {{ color:"#3b5998" }}>+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 4:
           content1 = "Nhận tiền từ " + listTransaction[i].Name;
-          content2 = <Text style={{ color: "#64dd17" }} >+ {listTransaction[i].Money}</Text>;
+          content2 = <Text style={{ color: "#64dd17" }} >+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         default:
           content1 = "";

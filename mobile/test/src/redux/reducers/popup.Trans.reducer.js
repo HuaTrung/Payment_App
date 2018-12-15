@@ -16,6 +16,11 @@ const updateTransReducer = (state = initialState , action) => {
         money:action.payload.money,
         description:action.payload.description
       }   
+      case "UNPOPUP_TRANSACTION":
+      return {
+        ...state,
+        trans: false,
+      }   
     default: return state;
   }
 };

@@ -8,7 +8,7 @@ import {queryUserMoney} from "../../../../realm/userQueries"
 import MyKeyBoard from "./MyKeyboard"
 import { updateUserMoney } from "../../../../redux/actions/updateUser.action";
 import { connect } from "react-redux";
-
+import { formatCurrency } from "../../../../validations/util";
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -116,7 +116,7 @@ class Recharge extends Component {
         }}>
           <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "350", fontSize: 20, color: "#616161" }} >Số dư hiện tại</Text>
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{queryUserMoney()}</Text>
+          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{ formatCurrency(queryUserMoney())}</Text>
           </ImageBackground>
         </View>
         <View style={{
@@ -128,7 +128,7 @@ class Recharge extends Component {
           }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
-              <Input editable={false} value={this.state.money} />
+              <Input editable={false} value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
           <Button style={{

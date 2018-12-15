@@ -5,12 +5,13 @@ import firebase from "react-native-firebase";
 import dev from "react-native-device-info";
 
 const logout = () => new Promise( (resolve,reject) => {
-  if(isEmptyUserLogin()) return;
+  
   let id = queryUserId();
   axios.post(GLOBAL.HostName + "/app/user/logout",{id})
   .then( response => {
     let { data } = response;
     if(data.status == 0) {
+      console.log("log out");
       firebase.database().ref("user/" + id).off("child_changed");
       resolve();
     }
@@ -19,13 +20,14 @@ const logout = () => new Promise( (resolve,reject) => {
 })
 
 export const block = () => new Promise( (resolve,reject) => {
+  console.log("block");
   let id = queryUserId();
-  axios.post(GLOBAL.HostName + "/app/user/block",{id})
+  axios.post(GLOBAL.HostName + "/app/user/logout",{id})
   .then( response => {
     let { data } = response;
     if(data.status == 0) {
       // delete user
-      deleteUserLogout().then( ()=> resolve(true) )
+      deleteUserLogout().then( ()=> resolve() )
     }
     else {
       
