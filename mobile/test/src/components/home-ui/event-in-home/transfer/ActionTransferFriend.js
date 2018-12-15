@@ -21,6 +21,7 @@ class ActionTransferFriend extends Component {
       Target: '',
       TranID: '',
       Fee: 0,
+      onFocusNumber:false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -134,7 +135,8 @@ class ActionTransferFriend extends Component {
           }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
-              <Input editable={false} value={formatCurrency(this.state.money)} />
+              <Input onFocus={() =>  this.setState({onFocus:!this.state.onFocus})} 
+              onBlur={() =>  this.setState({onFocus:!this.state.onFocus})}  value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
           <Form style={{
@@ -159,9 +161,7 @@ class ActionTransferFriend extends Component {
             <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
             <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
           </Button>
-        <MyKeyBoard
-         setMoney={this.setMoney}
-        ></MyKeyBoard>
+          {this.state.onFocus && <MyKeyBoard setMoney={this.setMoney}></MyKeyBoard>}
         <Modal
           aanimationIn="slideInUp"
           animationOut="slideOutDown"
