@@ -3,7 +3,7 @@ import {
   Container, Header, Item, Input, Icon, Button, Text
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
-import { TouchableOpacity,ScrollView,Image } from 'react-native';
+import { TouchableOpacity,ScrollView,Image,RefreshControl } from 'react-native';
 import { searchPromotion } from '../../no-redux/search'
 
 import { GLOBAL } from "../../config/language";
@@ -20,7 +20,8 @@ class Promotion extends Component {
     super(props);
     this.state = {
       listPromotion: [],
-      valueSearch: ""
+      valueSearch: "",
+      refreshing: false
     };
     
     searchPromotion().then(status => {
@@ -29,11 +30,16 @@ class Promotion extends Component {
       });
     });
   }
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
   render() {
     const { listPromotion } = this.state;
     const options = [];
-    for (let i = 0; i < listPromotion.length; i++) {
+    for (let i = (listPromotion.length-1); i>=0;i--) {
       Begin_date=(new Date(listPromotion[i].Start_date*1000));
       End_date=(new Date(listPromotion[i].End_date*1000));
       options.push(<ListItem avatar key={i} style={{padding:5}}>
@@ -49,7 +55,13 @@ class Promotion extends Component {
       )
     }
     return (
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }>
         <Container>
           <List>
           {options}

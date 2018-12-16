@@ -166,7 +166,7 @@ class Home extends Component {
     console.log("next props is " + JSON.stringify(nextProps));
     if(nextProps.userData.money )
       this.setState({
-        moneyUser: nextProps.userData.money
+        moneyUser: queryUserMoney()
       })
 
     if(nextProps.popupTrans.trans == true) {
@@ -226,9 +226,10 @@ class Home extends Component {
   };
 
   _renderHome() {
+    
+  console.log( queryUserId());
     const formatCurr = formatCurrency(this.state.moneyUser);
     const { lang } = this.props.lang;
-
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>

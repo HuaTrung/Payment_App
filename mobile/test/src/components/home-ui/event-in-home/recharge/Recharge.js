@@ -51,7 +51,6 @@ class Recharge extends Component {
               modalID:result.value["TranID"],
               modalPro:result.value["MoneyPromotion"]
             });
-            this.props.updateUserMoney(this.state.money);
           }
           else{
             this.setState({

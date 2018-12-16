@@ -144,7 +144,9 @@ class ActionTransferFriend extends Component {
           }}>
             <Item floatingLabel>
               <Label>Lời nhắn</Label>
-              <Input value={this.state.description}/>
+              <Input onChangeText={(description) => {
+                this.setState({description})}
+              } value={this.state.description} />
             </Item>
           </Form>
         </View>
