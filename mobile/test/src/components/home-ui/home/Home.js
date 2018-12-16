@@ -8,7 +8,9 @@ import {
   TextInput, 
   TouchableOpacity,
   ScrollView,
-  AppState
+  AppState,
+  BackHandler,
+  NativeModules
 } from 'react-native';
 import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
@@ -32,7 +34,9 @@ import {
   queryUser, 
   queryUserMoney,
   updateMoney,
-  queryUserTypeMoney
+  queryUserTypeMoney,
+  querySettingId,
+  updateLanguage
 } from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 import firebase from "react-native-firebase";
@@ -42,7 +46,7 @@ import {
   hasPermission,
   onMessageListener,
   onTokenRefreshListener,
-  onListenerData
+  onListenerData,
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
 import isEmpty from "../../../validations/is-empty.validate";
@@ -50,7 +54,12 @@ import { formatCurrency } from "../../../validations/util";
 import { Icon} from 'native-base';
 import store from '../../../redux/store';
 
+import { GLOBAL } from "../../../config/language";
+
 class Home extends Component {
+  // static navigationOptions =  ({navigation}) => ({
+  //   title: navigation.getParam('SIGNIN','SIGN IN')
+  // })
   constructor(props) {
     super(props);
     this.state = {
@@ -69,6 +78,7 @@ class Home extends Component {
     this._renderReceiveTransaction = this._renderReceiveTransaction.bind(this);
   }
 
+
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
   }
@@ -78,15 +88,16 @@ class Home extends Component {
   }
 
   _renderReceiveTransaction() {
+    let { lang } = this.props.lang;
     return(
       <Modal isVisible={this.state.popupTrans}>
           <View style={styles.modalContent}>
             <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
               <Icon type='MaterialCommunityIcons' name='check-circle' style={{ color: "#0EB709" ,marginRight:10}} />
-              <Text style={{ color: "#0EB709", fontSize: 20 }}>BẠN ĐÃ NHẬN ĐƯỢC TIỀN </Text>
+              <Text style={{ color: "#0EB709", fontSize: 20 }}>{GLOBAL[lang].ReceivedMoney}</Text>
             </View>
             <View style={{alignItems: "center",paddingBottom:10}}>
-              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].MoneyTrans}</Text>
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
@@ -94,11 +105,11 @@ class Home extends Component {
             </View>
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch</Text>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].IdTrans}</Text>
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.tranID}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>Mô tả</Text>
+              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].DesTrans}</Text>
               <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.description}</Text>
              </View>
             </View>
@@ -110,7 +121,7 @@ class Home extends Component {
                 this.setState({ popupTrans: false })
               } }>
                 <View style={{padding:5}}>
-                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                 <Text style={{color:"white",fontSize:16}}>{GLOBAL[lang].Close}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -121,6 +132,7 @@ class Home extends Component {
 
 
   componentDidMount() {
+    let { lang } = this.props.lang;
     hasPermission();
     onTokenRefreshListener();
     onMessageListener();
@@ -129,10 +141,10 @@ class Home extends Component {
       if(val == 1)  {
         console.log("blockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         this.props.navigation.navigate("SignOutScreen"); // blocked
-        Toast.show({ text: 'Sorry you was BLOCKED', buttonText: 'Okay', type: "danger", position: "bottom",duration:5000 });  
+        Toast.show({ text: GLOBAL[lang].SorryBlock, buttonText: 'Okay', type: "danger", position: "bottom",duration:5000 });  
       }
       else if(val == 2)  // update security pass success
-        Toast.show({ text: 'Create PIN CODE success', buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
+        Toast.show({ text: GLOBAL[lang].CreatePin, buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
     });
 
   }
@@ -176,9 +188,6 @@ class Home extends Component {
   _renderPinCode() {
     return (
       <Modal isVisible={this.state.isModalVisible}  
-        // animationIn="slideInLeft"
-        // animationOut="slideOutRight"
-        // onSwipe={() => this.setState({ isModalVisible: null })}
         swipeDirection="down"
         scrollTo={this.handleScrollTo}
         scrollOffset={this.state.scrollOffset}
@@ -218,6 +227,8 @@ class Home extends Component {
 
   _renderHome() {
     const formatCurr = formatCurrency(this.state.moneyUser);
+    const { lang } = this.props.lang;
+
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>
@@ -230,7 +241,7 @@ class Home extends Component {
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "MCIcons"
               iconName = "qrcode-scan"
-              text = "QR Pay"
+              text = { GLOBAL[lang].QRPay }
               />
 
             <HomeTop 
@@ -244,7 +255,7 @@ class Home extends Component {
               _onPress = { this.navigatePayScan.bind(this) }
               iconType = "MCIcons"
               iconName = "credit-card-scan"
-              text = "Connect"
+              text = {GLOBAL[lang].Connect}
             />
 
           </View>
@@ -270,7 +281,7 @@ class Home extends Component {
                 style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
                 size={45}
                 />
-                  <Text style = {{ color:"black"}}>Recharge</Text>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].Recharge}</Text>
                 </View>
               </TouchableOpacity>
 
@@ -282,51 +293,79 @@ class Home extends Component {
                   
                   style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
                   size={50}/>
-                  <Text style = {{ color:"black"}}>Transfer</Text>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].Transfer}</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1 }} >
+              <TouchableOpacity   style = {{ flex: 1 }} >
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>receive</Text>
+                  <Text>{GLOBAL[lang].Receive}</Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row"}}>
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1  ,flex: 1}}>
-                  <Text>phone card</Text>
+                  <Text>{GLOBAL[lang].PhoneCard}</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>bill</Text>
+                  <Text>{GLOBAL[lang].Bill}</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>movie ticket</Text>
+                  <Text>{GLOBAL[lang].MovieTicket}</Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row",marginBottom:10}}>
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
-                  <Text>air ticket</Text>
+                  <Text>{GLOBAL[lang].AirTicket}</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{flex: 1}}>
+              <TouchableOpacity onPress = { () => { // test
+                  updateLanguage(0).then(()=> {
+                    store.dispatch({
+                      type: "CHANGE_LANGUAGE",
+                      payload: 0                  
+                    })   
+                    NativeModules.RNExitApp.exitApp();
+                    // let { lang } = this.props.lang;
+                    // this.props.navigation.setParams({ HOME: GLOBAL[lang].HOME });
+                    // this.props.navigation.setParams({ TRANSACTION: GLOBAL[lang].TRANSACTION });
+                    // this.props.navigation.setParams({ PROMOTION: GLOBAL[lang].PROMOTION });
+                    // this.props.navigation.setParams({ USER: GLOBAL[lang].USER });
+                    // BackHandler.exitApp();
+                  })               
+              }} style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
-                  <Text>...</Text>
+                  <Text>Use English</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style = {{ flex: 1}}>
+              <TouchableOpacity onPress = { () => { // test
+                  updateLanguage(1).then(()=> {
+                    store.dispatch({
+                      type: "CHANGE_LANGUAGE",
+                      payload: 1                  
+                    })   
+                    NativeModules.RNExitApp.exitApp();
+                    // let { lang } = this.props.lang;
+                    // this.props.navigation.setParams({ HOME: GLOBAL[lang].HOME });
+                    // this.props.navigation.setParams({ TRANSACTION: GLOBAL[lang].TRANSACTION });
+                    // this.props.navigation.setParams({ PROMOTION: GLOBAL[lang].PROMOTION });
+                    // this.props.navigation.setParams({ USER: GLOBAL[lang].USER });
+                    // BackHandler.exitApp();
+                  })               
+              }} style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 ,borderBottomWidth:1 , flex: 1}}>
-                  <Text>...</Text>
+                  <Text>Dùng Tiếng việt</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -386,7 +425,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   userData: state.updatedataReducer,
-  popupTrans: state.popupTransReducer
+  popupTrans: state.popupTransReducer,
+  lang: state.langReducer
 });
 
 export default connect(mapStateToProps)(Home);
