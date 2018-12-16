@@ -260,7 +260,7 @@ class Home extends Component {
           </View>
           {/*  */}
           <View style = { styles.promotionwrapper }>
-            <HomePromotionSwiper data = { this.state.data} />
+            <HomePromotionSwiper/>
           </View>  
 
           {/*  */}

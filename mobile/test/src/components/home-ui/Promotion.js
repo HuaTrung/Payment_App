@@ -29,7 +29,7 @@ class Promotion extends Component {
   _onRefresh = () => {
     console.log("123");
     this.setState({refreshing: true});
-    searchPromotion().then(() => {
+    searchPromotion().then(status => {
       this.setState({
         listPromotion: status.listPromotion,
         refreshing: false});
