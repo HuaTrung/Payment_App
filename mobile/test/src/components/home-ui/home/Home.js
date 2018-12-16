@@ -99,7 +99,7 @@ class Home extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].MoneyTrans}</Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -182,7 +182,7 @@ class Home extends Component {
   componentWillUnmount() {   
     //AppStateRemoveEventListener();
     onTokenRefreshListener();
-    onMessageListener();
+  //  onMessageListener();
   }
 
   _renderPinCode() {

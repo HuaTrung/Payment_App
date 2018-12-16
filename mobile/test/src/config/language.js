@@ -66,7 +66,8 @@ export const GLOBAL = [
     Recharge: "Recharge",
     PromotionId: "Promotion Id ",
     Free: "Free",
-    No: "No"
+    No: "No",
+    TransactionHistory: "Transaction History"
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -135,6 +136,7 @@ export const GLOBAL = [
     Recharge: "Nạp tiền",
     PromotionId: "Mã giảm giá ",
     Free: "Miễn phí",
-    No: "Không có"
+    No: "Không có",
+    TransactionHistory: "Lịch sử giao dịch"
   } 
 ];

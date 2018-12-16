@@ -3,7 +3,7 @@ import {
   Container, Header, Item, Input, Icon, Button, Text
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
-import { TouchableOpacity,ScrollView ,RefreshControl} from 'react-native';
+import { TouchableOpacity,ScrollView ,RefreshControl, View} from 'react-native';
 import { searchTransaction } from '../../no-redux/search'
 import { formatCurrency } from "../../validations/util"
 
@@ -82,16 +82,21 @@ class Transaction extends Component {
       )
     }
     return (
-      <ScrollView refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh}
-        />
-      }>
-          <List  >
-          {options}
-          </List>
-      </ScrollView>
+      <View style = {{ flex:1 }}>
+        <View style = {{ height:45, backgroundColor: "#1aa3ff",justifyContent: "center",alignItems: "center" }}>       
+          <Text style = {{ textAlign : "center", color: "white", fontWeight:"500", fontSize: 18}} >{GLOBAL[lang].TransactionHistory}</Text>
+        </View>
+        <ScrollView style = {{ flex:1 }} refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }>
+            <List  >
+            {options}
+            </List>
+        </ScrollView>
+      </View>
     );
   }
 }

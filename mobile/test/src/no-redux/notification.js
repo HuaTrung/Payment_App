@@ -1,8 +1,7 @@
 import firebase from "react-native-firebase";
-import type { Notification, NotificationOpen, RemoteMessage} from "react-native-firebase";
+import type { RemoteMessage} from "react-native-firebase";
 import { queryUserId, updateMoney, updateSecurityPass, deleteUserLogout } from "../realm/userQueries";
 import { AppState, AsyncStorage, View, Text, StyleSheet } from "react-native";
-import  BackgroundTimer  from "react-native-background-timer";
 import logout,{ block } from "./logout";
 import { UPDATE_USER_MONEY_DATA, POPUP_TRANSACTION } from '../redux/actions/types';
 import store from "../redux/store";
@@ -24,9 +23,10 @@ const onTokenRefreshListener = () => {
 }
 
 const onMessageListener = () => {
-  AsyncStorage.getItem('LOGIN').then(value => {
+  AsyncStorage.getItem('DATA').then(value => {
     if(value == null) {
-      AsyncStorage.setItem('LOGIN','1').then(()=> {
+      alert("hello");
+      AsyncStorage.setItem('DATA','1').then(()=> {
         firebase.messaging().onMessage((message: RemoteMessage) => {
           console.log(JSON.stringify(message));         
           // Process your message as required
@@ -78,15 +78,7 @@ const hasPermission = async () => {
 
 _handleBackground = (nextAppState) => {
   console.log("App is running at: " + nextAppState);
-  // if(nextAppState == "background") {
-  //   offline();
-  //   BackgroundTimer.runBackgroundTimer(() => { 
-  //     console.log("background")
-  // },2000);
-  // } else if(nextAppState =="active") {      
-  //   online();
-  //   BackgroundTimer.stopBackgroundTimer();  
-  // }
+
 }
 
 export const onListenerData = () => new Promise((resolve,reject) => { 

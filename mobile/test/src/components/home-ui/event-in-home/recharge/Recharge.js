@@ -128,7 +128,7 @@ class Recharge extends Component {
           backgroundColor: "#EDEDED"
         }}>
           <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "350", fontSize: 20, color: "#616161" }} >{ GLOBAL[lang].CurrentCurrency }</Text>
+          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "300", fontSize: 20, color: "#616161" }} >{ GLOBAL[lang].CurrentCurrency }</Text>
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{ formatCurrency(this.state.newMoney)}</Text>
           </ImageBackground>
         </View>
@@ -242,7 +242,7 @@ class Recharge extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].RechargeMoney}</Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -288,7 +288,7 @@ class Recharge extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].RechargeMoney}</Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -318,7 +318,7 @@ class Recharge extends Component {
         <Modal
           isVisible={this.state.process === true}>
           <View style={{ alignItems: 'center',justifyContent: 'center', flex: 1}}>
-            <Image style={{width:"70%",height:"70%",textAlign: 'center'}} source={require('../../../../image/load.gif')}  />
+            <Image style={{width:"70%",height:"70%"}} source={require('../../../../image/load.gif')}  />
           </View>
         </Modal>
       </View>
