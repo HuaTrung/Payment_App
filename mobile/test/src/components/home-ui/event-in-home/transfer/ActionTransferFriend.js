@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground ,Image} from 'react-native';
 import { sendMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, TextInput,Thumbnail } from 'native-base';
@@ -7,6 +7,7 @@ import Modal from "react-native-modal";
 import MyKeyBoard from "../recharge/MyKeyboard"
 const moneyUser = height /4;
 import { formatCurrency } from "../../../../validations/util";
+import {querySecurityPass} from "../../../../realm/userQueries"
 class ActionTransferFriend extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +22,8 @@ class ActionTransferFriend extends Component {
       Target: '',
       TranID: '',
       Fee: 0,
-      onFocusNumber:false
+      onFocusNumber:false,
+      process:false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -41,6 +43,7 @@ class ActionTransferFriend extends Component {
         this.setState({ passWord: this.state.passWord + value })
         let description=this.state.description;
         if(description===undefined) description="null"
+
         sendMoney( this.state.money,this.props.navigation.state.params.target.phone,description,this.props.navigation.state.params.target.name).then(result => {
           console.log(result.value);
           if(result.value["status"]==1){
@@ -52,7 +55,8 @@ class ActionTransferFriend extends Component {
               Fee: result.value["Fee"],
               modalVisible: !this.state.modalVisible,
               passWord: "",
-              sucessOrNot: true
+              sucessOrNot: true,
+              process:false
             });
           }
           else{
@@ -60,9 +64,10 @@ class ActionTransferFriend extends Component {
               modalVisible: !this.state.modalVisible,
               passWord: "",
             });
-          alert("error");
+          this.setState({sucessOrNot:false});
           }
         });
+       this.setState({process:true});
       }
     }
     else {
@@ -150,6 +155,7 @@ class ActionTransferFriend extends Component {
             </Item>
           </Form>
         </View>
+        
         <Button style={{
             width: width - 20,
             marginTop: 30,
@@ -323,6 +329,12 @@ class ActionTransferFriend extends Component {
           </View>
         </Modal>
 
+        <Modal
+          isVisible={this.state.process === true}>
+          <View style={{ alignItems: 'center',justifyContent: 'center', flex: 1}}>
+            <Image style={{width:"70%",height:"70%",textAlign: 'center'}} source={require('../../../../image/load.gif')}  />
+          </View>
+        </Modal>
       </View>
 
     );

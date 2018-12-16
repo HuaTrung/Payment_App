@@ -18,7 +18,7 @@ class HomePromotionSwiper extends Component {
 
   render() {
     return (
-      <Swiper showsButtons = {true}>
+      <Swiper showsButtons = {true} autoplay={true} autoplayTimeout={2}>
         {
           this.props.data.map((item, key) => {
           return (

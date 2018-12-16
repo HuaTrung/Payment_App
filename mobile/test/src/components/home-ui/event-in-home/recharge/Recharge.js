@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground,Image } from 'react-native';
 import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
@@ -23,7 +23,8 @@ class Recharge extends Component {
       modalTime:"",
       modalID:"",
       modalPro:"",
-      newMoney: queryUserMoney()
+      newMoney: queryUserMoney(),
+      process:false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -57,7 +58,8 @@ class Recharge extends Component {
               modalFee:result.value["Fee"],
               modalTime:result.value["DateTrans"],
               modalID:result.value["TranID"],
-              modalPro:result.value["MoneyPromotion"]
+              modalPro:result.value["MoneyPromotion"],
+              process:false
             });
           }
           else{
@@ -65,9 +67,11 @@ class Recharge extends Component {
               modalVisible: !this.state.modalVisible,
               passWord: "",
             });
-          alert("error");
+            this.setState({sucessOrNot:false});
           }
         });
+        
+       this.setState({process:true});
       }
     }
     else {
@@ -311,7 +315,12 @@ class Recharge extends Component {
             </View>
           </View>
         </Modal>
-
+        <Modal
+          isVisible={this.state.process === true}>
+          <View style={{ alignItems: 'center',justifyContent: 'center', flex: 1}}>
+            <Image style={{width:"70%",height:"70%",textAlign: 'center'}} source={require('../../../../image/load.gif')}  />
+          </View>
+        </Modal>
       </View>
 
     );

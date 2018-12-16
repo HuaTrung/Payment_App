@@ -44,7 +44,7 @@ class Transaction extends Component {
     const options = [];
     let content1="";
     let content2="";
-    for (let i = 0; i < listTransaction.length; i++) {
+    for (let i = (listTransaction.length-1); i >=0;i--) {
       content1="";
       content2="";
       switch (listTransaction[i].Type) {
