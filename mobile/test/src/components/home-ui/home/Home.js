@@ -22,6 +22,9 @@ const impHeight = height / 8;
 const promoHeight = height / 4;
 import PIN from "../security-pass-ui/PIN";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Toast } from "native-base";
 import HomeTop from "./HomeTop";
@@ -299,12 +302,12 @@ class Home extends Component {
               <TouchableOpacity   style = {{ flex: 1 }} >
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
                 <MCIcons
-                  name='chevron-double-down'
+                  name='airplane-takeoff'
                   color='#3b5998'
                   
                   style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
-                  size={40}/>
-                  <Text style = {{ color:"black"}}>{GLOBAL[lang].Receive}</Text>
+                  size={50}/>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].AirTicket}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -347,54 +350,59 @@ class Home extends Component {
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row",marginBottom:10}}>
-              <TouchableOpacity style = {{ flex: 1}}>
+            <TouchableOpacity onPress = { () => { // test
+                  updateLanguage(2).then(()=> {
+                    // store.dispatch({
+                    //   type: "CHANGE_LANGUAGE",
+                    //   payload: 2               
+                    // })   
+                    NativeModules.RNExitApp.exitApp();
+                  })               
+              }} style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
-                <MCIcons
-                  name='airplane-takeoff'
-                  color='#3b5998'
-                  
-                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
-                  size={50}/>
-                  <Text style = {{ color:"black"}}>{GLOBAL[lang].AirTicket}</Text>
+                  <FontAwesome5
+                    name='language'
+                    color='#3b5998'
+                    style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                    size={50}/>
+                    <Text>日本語を使う</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity onPress = { () => { // test
                   updateLanguage(0).then(()=> {
-                    store.dispatch({
-                      type: "CHANGE_LANGUAGE",
-                      payload: 0                  
-                    })   
+                    // store.dispatch({
+                    //   type: "CHANGE_LANGUAGE",
+                    //   payload: 0                  
+                    // })   
                     NativeModules.RNExitApp.exitApp();
-                    // let { lang } = this.props.lang;
-                    // this.props.navigation.setParams({ HOME: GLOBAL[lang].HOME });
-                    // this.props.navigation.setParams({ TRANSACTION: GLOBAL[lang].TRANSACTION });
-                    // this.props.navigation.setParams({ PROMOTION: GLOBAL[lang].PROMOTION });
-                    // this.props.navigation.setParams({ USER: GLOBAL[lang].USER });
-                    // BackHandler.exitApp();
                   })               
               }} style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
-                  <Text>Use English</Text>
+                  <FontAwesome
+                    name='language'
+                    color='#3b5998'
+                    style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                    size={50}/>
+                    <Text>Use English</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity onPress = { () => { // test
                   updateLanguage(1).then(()=> {
-                    store.dispatch({
-                      type: "CHANGE_LANGUAGE",
-                      payload: 1                  
-                    })   
+                    // store.dispatch({
+                    //   type: "CHANGE_LANGUAGE",
+                    //   payload: 1                  
+                    // })   
                     NativeModules.RNExitApp.exitApp();
-                    // let { lang } = this.props.lang;
-                    // this.props.navigation.setParams({ HOME: GLOBAL[lang].HOME });
-                    // this.props.navigation.setParams({ TRANSACTION: GLOBAL[lang].TRANSACTION });
-                    // this.props.navigation.setParams({ PROMOTION: GLOBAL[lang].PROMOTION });
-                    // this.props.navigation.setParams({ USER: GLOBAL[lang].USER });
-                    // BackHandler.exitApp();
                   })               
               }} style = {{ flex: 1}}>
-                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 ,borderBottomWidth:1 , flex: 1}}>
+                <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
+                  <Entypo
+                    name='language'
+                    color='#3b5998'
+                    style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                    size={50}/>
                   <Text>Dùng Tiếng việt</Text>
                 </View>
               </TouchableOpacity>

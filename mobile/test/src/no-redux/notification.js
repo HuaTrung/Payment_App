@@ -23,10 +23,10 @@ const onTokenRefreshListener = () => {
 }
 
 const onMessageListener = () => {
-  AsyncStorage.getItem('DATA').then(value => {
+  AsyncStorage.getItem('69').then(value => {
     if(value == null) {
       alert("hello");
-      AsyncStorage.setItem('DATA','1').then(()=> {
+      AsyncStorage.setItem('69','1').then(()=> {
         firebase.messaging().onMessage((message: RemoteMessage) => {
           console.log(JSON.stringify(message));         
           // Process your message as required

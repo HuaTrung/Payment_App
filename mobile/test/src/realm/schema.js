@@ -2,6 +2,7 @@ import Realm from "realm";
 
 const USER_SCHEMA = "user";
 const SETTING_SCHEMA = "setting";
+const TRAN_HISTORY_SCHEMA = "tranhistory";
 const UserSchema = {
   name: USER_SCHEMA,
   primaryKey: 'id',
@@ -32,15 +33,32 @@ const SettingSchema = {
   }
 };
 
+const TranHistorySchema = {
+  name: TRAN_HISTORY_SCHEMA,
+  properties: {
+    DateTrans: "string",
+    Description: "string",
+    FeeTrans: "double",
+    Money: "double",
+    Name: "string",
+    Phone: "string",
+    Target: "string",
+    TranID: "string",
+    Type: "int"
+  }
+};
+
 const databaseOptions = {
   path: "OPApp.realm",
-  schema: [UserSchema,SettingSchema],
-  schemaVersion: 1
+  schema: [UserSchema,SettingSchema,TranHistorySchema],
+  schemaVersion: 0
 }
 
 export {
   USER_SCHEMA,
   SETTING_SCHEMA,
-  databaseOptions
+  TRAN_HISTORY_SCHEMA,
+  databaseOptions,
+  
 }
 export default new Realm(databaseOptions);

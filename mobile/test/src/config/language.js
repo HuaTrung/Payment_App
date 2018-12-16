@@ -18,7 +18,7 @@ export const GLOBAL = [
     Close: "Close",
     ReceiveTrans: "Received money from ",
     TransferTrans: "Transfer money to ",
-    RechargeTrans: "Recharged money to Tri-T Pay",
+    RechargeTrans: "Recharged to Tri-T Pay",
     EmailPhone: "Email / Phone",
     Password: "Password",
     SignIn: "Sign In",
@@ -67,7 +67,14 @@ export const GLOBAL = [
     PromotionId: "Promotion Id ",
     Free: "Free",
     No: "No",
-    TransactionHistory: "Transaction History"
+    TransactionHistory: "Transaction History",
+    DETAIL_TRANSACTION: "DETAIL TRANSACTION",
+    MONEY_TRANSACTION: "MONEY TRANSACTION",
+    Target: "Target",
+    TranId: "TranId",
+    Fee: "Fee",
+    Date: "Date",
+    Type: "Type"
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -88,7 +95,7 @@ export const GLOBAL = [
     Close: "Đóng",
     ReceiveTrans: "Nhận tiền từ ",
     TransferTrans: "Chuyển tiền tới ",
-    RechargeTrans: "Nạp tiền vào tài khoản Tri-T Pay",
+    RechargeTrans: "Nạp tiền vào Tri-T Pay",
     EmailPhone: "Email / Số điện thoại",
     Password: "Mật khẩu",
     SignIn: "Đăng nhập",
@@ -137,6 +144,90 @@ export const GLOBAL = [
     PromotionId: "Mã giảm giá ",
     Free: "Miễn phí",
     No: "Không có",
-    TransactionHistory: "Lịch sử giao dịch"
+    TransactionHistory: "Lịch sử giao dịch",
+    DETAIL_TRANSACTION: "THÔNG TIN GIAO DỊCH",
+    MONEY_TRANSACTION: "SỐ TIỀN GIAO DỊCH",
+    Target: "Từ",
+    TranId: "Id giao dịch",
+    Fee: "Phí",
+    Date: "Ngày",
+    Type: "Loại"
+  } ,
+  {
+    QRPay: "コードリーダー", //
+    Connect: "接続",　//
+    Recharge: "リチャージ", //
+    Transfer: "振替", //
+    Receive: "受ける",//
+    PhoneCard: "テレフォンカード",//
+    Bill: "付け",//
+    MovieTicket: "映画のチケット",//
+    AirTicket: "空港のチケット",//
+    CreatePin: "成功PINを樹立",//
+    SorryBlock: "すみません！プロックス",//
+    ReceivedMoney: "あなたは成功お金をくれました",//
+    MoneyTrans: "商売のお金",//
+    IdTrans: "商売のID",//
+    DesTrans: "記述",//
+    Close: "閉める",//
+    ReceiveTrans: "Nhận tiền từ ",//
+    TransferTrans: "Chuyển tiền tới ",//
+    RechargeTrans: "Nạp tiền vào Tri-T Pay",//
+    EmailPhone: "メール / テレフォン番号",//
+    Password: "合言葉",//
+    SignIn: "加入",//
+    ForgotPassword: "合言葉を忘れる  ?",//
+    SIGNIN: "加入",//
+    SIGNUP: "サインアップ",//
+    Send: "送る",//
+    Name: "名前",//
+    PhoneNumber: "電話番号",//
+    VerifyCode: "ベリファイコード",//
+    ConfirmPassword: "合言葉を結ぶ",//
+    Register: "サインアップ",//
+    RegisterEccept: "Đăng ký bạn đã chấp nhận ",//
+    TermOfUse: "điều khoản sử dụng",//
+    GetThePassword: "合言葉を入れる",
+    ProvideEmailAddress: "　合言葉を入れるのに情報を供給してください",
+    FORGOTPASS: '合言葉を忘れる',
+    SendPassSuccess: "成功合言葉を送る",
+    HOME: "ホーム",
+    TRANSACTION: "商売",
+    PROMOTION: "キャンペーン",
+    USER: "利用者",
+    HighProtectAccount: "Thiết lập bảo vệ tài khoản",
+    ConnectSocial: "Liên kết mạng xã hội",
+    PayAccount: "Tài khoản thanh toán",
+    GiftsList : "Danh sách quà tặng",
+    Support: "Hỗ trợ",
+    QuickFeedback: "Phản hồi nhanh",
+    AboutApp: "Thông tin về Tri-T Pay",
+    SignOut: "サインアウト",
+    LogoutSuccess: "Đăng xuất thành công",
+    ProfileSetting: "Thiết lập tài khoản",
+    CurrentCurrency: "今のお金",
+    EnterMoney: "お金を書いて下さい",
+    Confirm: "確認",
+    EnterPass2Recharge: "　お金のリチャージのに合言葉を入れる",
+    RechargeSuccess: "お金のリチャージが成功です",
+    RechargeFail: "お金のリチャージが成功でわない",
+    RechargeMoney: "リチャージのお金",
+    RechargeId: "リチャージのID",
+    ServiceType: "サービス型",
+    FeeRecharge: "リチャージの料金",
+    Time: "時間 ",
+    Promotion: "キャンペーン ",
+    Recharge: "リチャージ",
+    PromotionId: "IDのキャンペーン ",
+    Free: "無料",
+    No: "いいえ",
+    TransactionHistory: "商売の歴史",
+    DETAIL_TRANSACTION: "商売の情報",
+    MONEY_TRANSACTION: "商売のお金",
+    Target: "対象",
+    TranId: "IDの商売",
+    Fee: "料金",
+    Date: "日",
+    Type: "型"
   } 
 ];

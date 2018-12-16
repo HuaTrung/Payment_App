@@ -249,7 +249,7 @@ class ActionTransferFriend extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.money}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -294,7 +294,7 @@ class ActionTransferFriend extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{this.state.moneyTrans}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.moneyTrans)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -328,7 +328,7 @@ class ActionTransferFriend extends Component {
 
         <Modal isVisible={this.state.process === true}>
           <View style={{ alignItems: 'center',justifyContent: 'center', flex: 1}}>
-            <Image style={{width:"70%",height:"70%",textAlign: 'center'}} source={require('../../../../image/load.gif')}  />
+            <Image style={{width:"70%",height:"70%"}} source={require('../../../../image/load.gif')}  />
           </View>
         </Modal>
       </View>
