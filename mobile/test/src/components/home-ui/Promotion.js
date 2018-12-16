@@ -3,7 +3,7 @@ import {
   Container, Header, Item, Input, Icon, Button, Text
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
-import { TouchableOpacity,ScrollView,Image,RefreshControl } from 'react-native';
+import { TouchableOpacity,ScrollView,Image,RefreshControl,FlatList } from 'react-native';
 import { searchPromotion } from '../../no-redux/search'
 
 import { GLOBAL } from "../../config/language";
@@ -24,22 +24,29 @@ class Promotion extends Component {
       refreshing: false
     };
     
+    
+  }
+  _onRefresh = () => {
+    console.log("123");
+    this.setState({refreshing: true});
+    searchPromotion().then(() => {
+      this.setState({
+        listPromotion: status.listPromotion,
+        refreshing: false});
+    });
+  }
+  componentDidMount(){
+    console.log("123");
     searchPromotion().then(status => {
       this.setState({
         listPromotion: status.listPromotion
       });
     });
   }
-  _onRefresh = () => {
-    this.setState({refreshing: true});
-    fetchData().then(() => {
-      this.setState({refreshing: false});
-    });
-  }
   render() {
     const { listPromotion } = this.state;
     const options = [];
-    for (let i = (listPromotion.length-1); i>=0;i--) {
+    for (let i =0; i<listPromotion.length;i++) {
       Begin_date=(new Date(listPromotion[i].Start_date*1000));
       End_date=(new Date(listPromotion[i].End_date*1000));
       options.push(<ListItem avatar key={i} style={{padding:5}}>
@@ -55,15 +62,14 @@ class Promotion extends Component {
       )
     }
     return (
-      <ScrollView
-        refreshControl={
+      <ScrollView>
+        <Container>
+          <List refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}
           />
         }>
-        <Container>
-          <List>
           {options}
           </List>
         </Container>

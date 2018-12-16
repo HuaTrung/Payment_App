@@ -226,8 +226,6 @@ class Home extends Component {
   };
 
   _renderHome() {
-    
-  console.log( queryUserId());
     const formatCurr = formatCurrency(this.state.moneyUser);
     const { lang } = this.props.lang;
     return(
@@ -300,33 +298,64 @@ class Home extends Component {
 
               <TouchableOpacity   style = {{ flex: 1 }} >
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>{GLOBAL[lang].Receive}</Text>
+                <MCIcons
+                  name='chevron-double-down'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={40}/>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].Receive}</Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row"}}>
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1  ,flex: 1}}>
-                  <Text>{GLOBAL[lang].PhoneCard}</Text>
+                 
+                <MCIcons
+                  name='credit-card-plus'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={40}/>
+                   <Text style = {{ color:"black"}}>{GLOBAL[lang].PhoneCard}</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>{GLOBAL[lang].Bill}</Text>
+                <Ionicons
+                  name='ios-document'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={45}/>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].Bill}</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 , flex: 1}}>
-                  <Text>{GLOBAL[lang].MovieTicket}</Text>
+                <MCIcons
+                  name='theater'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={40}/>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].MovieTicket}</Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row",marginBottom:10}}>
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
-                  <Text>{GLOBAL[lang].AirTicket}</Text>
+                <MCIcons
+                  name='airplane-takeoff'
+                  color='#3b5998'
+                  
+                  style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
+                  size={50}/>
+                  <Text style = {{ color:"black"}}>{GLOBAL[lang].AirTicket}</Text>
                 </View>
               </TouchableOpacity>
 
