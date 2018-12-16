@@ -21,7 +21,7 @@ class ActionTransferFriend extends Component {
       Target: '',
       TranID: '',
       Fee: 0,
-      onFocusNumber:false
+      onFocusNumber:true
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -91,6 +91,7 @@ class ActionTransferFriend extends Component {
   
   render() {
     const { money } = this.state;
+    //alert(this.state.onFocusNumber);
     return (
       <View style={{ flex: 1 }}>
         {/* Top bar */}
@@ -135,8 +136,7 @@ class ActionTransferFriend extends Component {
           }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
-              <Input onFocus={() =>  this.setState({onFocus:!this.state.onFocus})} 
-              onBlur={() =>  this.setState({onFocus:!this.state.onFocus})}  value={formatCurrency(this.state.money)} />
+              <Input editable={false}  value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
           <Form style={{
@@ -144,11 +144,12 @@ class ActionTransferFriend extends Component {
           }}>
             <Item floatingLabel>
               <Label>Lời nhắn</Label>
-              <Input value={this.state.description}/>
+              <Input onFocus={() =>  this.setState({onFocusNumber: false})} 
+              onBlur={() =>  this.setState({onFocusNumber:true})}  value={this.state.description}/>
             </Item>
           </Form>
         </View>
-        <Button style={{
+        { this.state.onFocusNumber &&   <Button style={{
             width: width - 20,
             marginTop: 30,
             marginLeft: 10,
@@ -160,8 +161,10 @@ class ActionTransferFriend extends Component {
             }}>
             <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
             <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
-          </Button>
-          {this.state.onFocus && <MyKeyBoard setMoney={this.setMoney}></MyKeyBoard>}
+          </Button> 
+        }
+      
+          {this.state.onFocusNumber && <MyKeyBoard setMoney={this.setMoney}></MyKeyBoard>}
         <Modal
           aanimationIn="slideInUp"
           animationOut="slideOutDown"
