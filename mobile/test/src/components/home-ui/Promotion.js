@@ -5,9 +5,8 @@ import {
 } from 'native-base';
 import { TouchableOpacity,ScrollView,Image,RefreshControl,FlatList } from 'react-native';
 import { searchPromotion } from '../../no-redux/search'
-
+import {  querySettingLanguage } from "../../realm/userQueries"
 import { GLOBAL } from "../../config/language";
-import { connect } from "react-redux";
 
 class Promotion extends Component {
 
@@ -21,7 +20,8 @@ class Promotion extends Component {
     this.state = {
       listPromotion: [],
       valueSearch: "",
-      refreshing: false
+      refreshing: false,
+      lang: querySettingLanguage()
     };
     
     
@@ -77,7 +77,4 @@ class Promotion extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-export default connect(mapStateToProps)(Promotion);
+export default Promotion;

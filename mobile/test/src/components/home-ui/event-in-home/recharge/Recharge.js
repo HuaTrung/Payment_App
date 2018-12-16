@@ -4,7 +4,7 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
 import Modal from "react-native-modal";
-import {queryUserMoney} from "../../../../realm/userQueries"
+import {queryUserMoney, querySettingLanguage} from "../../../../realm/userQueries"
 import MyKeyBoard from "./MyKeyboard"
 import { updateUserMoney } from "../../../../redux/actions/updateUser.action";
 import { connect } from "react-redux";
@@ -24,7 +24,8 @@ class Recharge extends Component {
       modalID:"",
       modalPro:"",
       newMoney: queryUserMoney(),
-      process:false
+      process:false,
+      lang: querySettingLanguage()
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -103,7 +104,7 @@ class Recharge extends Component {
 
   render() {
     const { money } = this.state;
-    const { lang } = this.props.lang;
+    const { lang } = this.state;
     return (
       <View style={{ flex: 1 }}>
         {/* Top bar */}
@@ -384,8 +385,5 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = state => ({
   userData: state.updatedataReducer,
-  lang: state.langReducer
 });
-export default connect(mapStateToProps,{
-  updateUserMoney}
-)(Recharge);
+export default connect(mapStateToProps)(Recharge);

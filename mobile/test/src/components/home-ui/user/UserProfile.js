@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
 import { Toast } from 'native-base';
 import UserElement from "./UserElement";
-import { deleteUserLogout, queryUserLoginData, queryUserMoney } from "../../../realm/userQueries";
+import { querySettingLanguage,deleteUserLogout, queryUserLoginData, queryUserMoney } from "../../../realm/userQueries";
 import { formatCurrency } from "../../../validations/util";
 const { width, height } = Dimensions.get('window');
 const w1 = width / 4.5;
@@ -13,7 +13,6 @@ const w3 = width / 10;
 const h1 = height / 7;
 
 import { GLOBAL } from "../../../config/language";
-import { connect } from "react-redux";
 class UserProfile extends Component {
   // static navigationOptions =  ({navigation}) => ({
   //   title: navigation.getParam('USER','User')
@@ -28,7 +27,8 @@ class UserProfile extends Component {
         name: '',
         phone: '',
         memberAt: '',
-      } 
+      } ,
+      lang: querySettingLanguage()
     };
 
   }
@@ -46,7 +46,7 @@ class UserProfile extends Component {
 
   _handleLogOut() {
     deleteUserLogout().then(() => {
-      let {lang} = this.props.lang;
+      let {lang} = this.state;
       this.props.navigation.navigate("SignOutScreen");
       Toast.show({ text: GLOBAL[lang].LogoutSuccess, buttonText: 'Okay', type: "success" });
     });
@@ -59,8 +59,7 @@ class UserProfile extends Component {
 
   render() {
     
-    const { user } = this.state;
-    const { lang } = this.props.lang;
+    const { user,lang } = this.state;
     return (
       <View style={styles.container}>
         {/* Top bar */}
@@ -148,7 +147,4 @@ const styles = StyleSheet.create({
     flex:1,
   }
 });
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-export default connect(mapStateToProps)(UserProfile);
+export default UserProfile;

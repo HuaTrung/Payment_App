@@ -39,7 +39,8 @@ import {
   updateMoney,
   queryUserTypeMoney,
   querySettingId,
-  updateLanguage
+  updateLanguage,
+  querySettingLanguage
 } from "../../../realm/userQueries";
 import {register_PIN} from "../../../no-redux/securityPIN";
 import firebase from "react-native-firebase";
@@ -72,7 +73,8 @@ class Home extends Component {
       popupTrans: false,
       tranID: "",
       money:0,
-      description:""
+      description:"",
+      lang: querySettingLanguage()
     };
     this._renderHome = this._renderHome.bind(this);
     this._renderPinCode = this._renderPinCode.bind(this);
@@ -91,7 +93,7 @@ class Home extends Component {
   }
 
   _renderReceiveTransaction() {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     return(
       <Modal isVisible={this.state.popupTrans}>
           <View style={styles.modalContent}>
@@ -135,7 +137,7 @@ class Home extends Component {
 
 
   componentDidMount() {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     hasPermission();
     onTokenRefreshListener();
     onMessageListener();
@@ -230,7 +232,7 @@ class Home extends Component {
 
   _renderHome() {
     const formatCurr = formatCurrency(this.state.moneyUser);
-    const { lang } = this.props.lang;
+    const { lang } = this.state;
     return(
       <ScrollView style={{backgroundColor: "white"}} >
         <View style = {{ flex:1}}>
@@ -464,7 +466,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   userData: state.updatedataReducer,
   popupTrans: state.popupTransReducer,
-  lang: state.langReducer
 });
 
 export default connect(mapStateToProps)(Home);

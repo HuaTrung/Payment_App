@@ -6,8 +6,7 @@ import { getForgotPassword }  from '../../no-redux/login';
 import isEmpty from "../../validations/is-empty.validate";
 const height = Dimensions.get('window').height;
 import { GLOBAL } from "../../config/language";
-import { connect } from "react-redux";
-
+import { querySettingLanguage } from "../../realm/userQueries";
 class ForgotPassword extends Component {
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -26,18 +25,19 @@ class ForgotPassword extends Component {
     this.state = { 
       emailOrPhone: '',
       errors: '',
+      lang: querySettingLanguage()
     };
     this.handleForgotPassword = this.handleForgotPassword.bind(this);
   }
 
   
   componentDidMount() {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     this.props.navigation.setParams({ FORGOTPASS: GLOBAL[lang].FORGOTPASS });
   }
 
   handleForgotPassword(e) {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     getForgotPassword(this.state.emailOrPhone).then ( api => {
       if(api.type == false) this.setState({ errors: api.errors });
       else Toast.show({ text: GLOBAL[lang].SendPassSuccess, buttonText: 'Okay', type: "success" });
@@ -55,7 +55,7 @@ class ForgotPassword extends Component {
 
   render() {
     const { errors } = this.state;
-    const { lang } = this.props.lang;
+    const { lang } = this.state;
     return (
       <View style = {{ flex: 1}}>
         <View style = {{ marginHorizontal: 15  }}>
@@ -78,9 +78,4 @@ class ForgotPassword extends Component {
   }
 }
 
-
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-
-export default connect(mapStateToProps)(ForgotPassword);
+export default ForgotPassword;

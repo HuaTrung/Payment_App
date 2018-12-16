@@ -15,7 +15,7 @@ import axios from 'axios';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import { GLOBAL } from "../../config/language";
-import { connect } from "react-redux";
+import { querySettingLanguage } from "../../realm/userQueries";
 class SignUp extends Component {
 
   static navigationOptions =  ({navigation}) => ({
@@ -31,14 +31,15 @@ class SignUp extends Component {
       verifyCode: '',
       password: '',
       confirmPassword: '',
-      errors: ''
+      errors: '',
+      lang: querySettingLanguage()
     };
     this.handleSendOtp = this.handleSendOtp.bind(this);
     this.handleRegisterUser = this.handleRegisterUser.bind(this);
   } 
 
   componentDidMount() {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     this.props.navigation.setParams({ SIGNUP: GLOBAL[lang].SIGNUP });
   }
 
@@ -102,8 +103,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const {errors} = this.state;
-    const { lang } = this.props.lang;
+    const {errors,lang} = this.state;
     return (
       <ScrollView>
           <View style = {{ flex: 1, marginHorizontal: 15}} >
@@ -161,8 +161,4 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-
-export default connect(mapStateToProps)(SignUp);
+export default SignUp;

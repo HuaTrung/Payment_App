@@ -9,7 +9,7 @@ import LoginInput from '../custom-ui/login-input/LoginInput';
 import { loginUser }  from '../../no-redux/login';
 import isEmpty from '../../validations/is-empty.validate';
 import { GLOBAL } from "../../config/language";
-import { connect } from "react-redux";
+import { querySettingLanguage } from "../../realm/userQueries";
 class SignIn extends Component {
   
   static navigationOptions =  ({navigation}) => ({
@@ -22,12 +22,13 @@ class SignIn extends Component {
       emailOrPhone: '',
       password: '',
       errors: '',
+      lang: querySettingLanguage()
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     this.props.navigation.setParams({ SIGNIN: GLOBAL[lang].SIGNIN });
   }
 
@@ -61,7 +62,7 @@ class SignIn extends Component {
 
   render() {
     const { errors } = this.state;
-    const { lang } = this.props.lang;
+    const { lang } = this.state;
     return (
       <View style = {{ flex: 1, marginHorizontal: 15}} >
         <View style={{ height:20}} />
@@ -96,8 +97,4 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-
-export default connect(mapStateToProps)(SignIn);
+export default SignIn;

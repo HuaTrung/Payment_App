@@ -6,9 +6,8 @@ import {
 import { TouchableOpacity,ScrollView ,RefreshControl, View, StyleSheet, FlatList} from 'react-native';
 import { searchTransaction } from '../../no-redux/search';
 import { formatCurrency } from "../../validations/util";
-import { connect } from "react-redux";
 import { GLOBAL } from "../../config/language";
-import { isEmptyTransHis, updateTransHis,queryTransData, deleteTransHis, queryTempData, queryTransHisId } from "../../realm/userQueries";
+import { querySettingLanguage,isEmptyTransHis, updateTransHis,queryTransData, deleteTransHis, queryTempData, queryTransHisId } from "../../realm/userQueries";
 import Modal from "react-native-modal";
 class Transaction extends Component {
 
@@ -24,7 +23,8 @@ class Transaction extends Component {
       refreshing: false,
       popupTrans: false,
       key: 0,
-      listTransaction1: []
+      listTransaction1: [],
+      lang:querySettingLanguage()
     };
     this._renderPopupItem = this._renderPopupItem.bind(this);
   }
@@ -59,7 +59,7 @@ class Transaction extends Component {
   _renderPopupItem() {
     const { key } = this.state;
     const data = queryTransHisId(key);
-    const {lang} = this.props.lang;
+    const {lang} = this.state;
     return(
       data != null &&
       <Modal isVisible={this.state.popupTrans}>
@@ -126,7 +126,7 @@ class Transaction extends Component {
 
   render() {
     const { listTransaction } = this.state;
-    let { lang } = this.props.lang;
+    let { lang } = this.state;
     const options = [];
     let content1="";
     let content2="";
@@ -206,7 +206,5 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.1)"
   }
 })
-const mapStateToProps = state => ({
-  lang: state.langReducer
-});
-export default connect(mapStateToProps)(Transaction);
+
+export default Transaction;

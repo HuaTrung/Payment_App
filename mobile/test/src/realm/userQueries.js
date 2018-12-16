@@ -12,10 +12,10 @@ export const insertDefaultSetting = () => new Promise((resolve,reject) => {
     realm.write(() => {
       try {
         realm.create(SETTING_SCHEMA, { language: 1 }, true);
-        store.dispatch({
-          type: CHANGE_LANGUAGE,
-          payload: 1
-        });
+        // store.dispatch({
+        //   type: CHANGE_LANGUAGE,
+        //   payload: 1
+        // });
         resolve();
       } catch (error) { throw error }
     });
