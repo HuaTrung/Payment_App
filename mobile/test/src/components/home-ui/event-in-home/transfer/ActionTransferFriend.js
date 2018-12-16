@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground ,Image} from 'react-native';
 import { sendMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, TextInput,Thumbnail } from 'native-base';
@@ -7,6 +7,7 @@ import Modal from "react-native-modal";
 import MyKeyBoard from "../recharge/MyKeyboard"
 const moneyUser = height /4;
 import { formatCurrency } from "../../../../validations/util";
+import {querySecurityPass} from "../../../../realm/userQueries"
 class ActionTransferFriend extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +22,9 @@ class ActionTransferFriend extends Component {
       Target: '',
       TranID: '',
       Fee: 0,
-      onFocusNumber:true
+
+      onFocusNumber:true,
+      process:false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -41,6 +44,7 @@ class ActionTransferFriend extends Component {
         this.setState({ passWord: this.state.passWord + value })
         let description=this.state.description;
         if(description===undefined) description="null"
+
         sendMoney( this.state.money,this.props.navigation.state.params.target.phone,description,this.props.navigation.state.params.target.name).then(result => {
           console.log(result.value);
           if(result.value["status"]==1){
@@ -52,7 +56,8 @@ class ActionTransferFriend extends Component {
               Fee: result.value["Fee"],
               modalVisible: !this.state.modalVisible,
               passWord: "",
-              sucessOrNot: true
+              sucessOrNot: true,
+              process:false
             });
           }
           else{
@@ -60,9 +65,10 @@ class ActionTransferFriend extends Component {
               modalVisible: !this.state.modalVisible,
               passWord: "",
             });
-          alert("error");
+          this.setState({sucessOrNot:false});
           }
         });
+       this.setState({process:true});
       }
     }
     else {
@@ -127,41 +133,38 @@ class ActionTransferFriend extends Component {
           <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 20 }} >Số ĐT: {this.props.navigation.state.params.target.phone}</Text>
           </ImageBackground>
         </View>
-        <View style={{
-          flex: 1,
-          backgroundColor: "#ffffff"
-        }} >
-          <Form style={{
-            marginTop: 10
-          }}>
+        <View style={{ flex: 1, backgroundColor: "#ffffff" }} >
+          <Form style={{ marginTop: 10 }}>
             <Item floatingLabel>
               <Label>Nhập số tiền</Label>
               <Input editable={false}  value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
-          <Form style={{
-            marginTop: 10
-          }}>
+          <Form style={{ marginTop: 10 }}>
             <Item floatingLabel>
               <Label>Lời nhắn</Label>
-              <Input onFocus={() =>  this.setState({onFocusNumber: false})} 
-              onBlur={() =>  this.setState({onFocusNumber:true})}  value={this.state.description}/>
+              <Input 
+                onFocus={() =>  this.setState({onFocusNumber: false})} 
+                onBlur={() =>  this.setState({onFocusNumber:true})} 
+                onChangeText={(description) => {
+                  this.setState({description})}
+                } 
+                value={this.state.description} />
             </Item>
           </Form>
         </View>
-        { this.state.onFocusNumber &&   <Button style={{
-            width: width - 20,
-            marginTop: 30,
-            marginLeft: 10,
-            marginRight: 10
-          }} block bordered iconRight textStyle="#1aa3ff"
-            onPress={() => {
-              if(this.state.money.length>0)
-                this.setModalVisible(!this.state.modalVisible);
-            }}>
-            <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
-            <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
+        
+        { this.state.onFocusNumber && 
+          (
+          <Button style={{ width: width - 20, marginTop: 30, marginLeft: 10, marginRight: 10 }} block bordered iconRight textStyle="#1aa3ff"
+              onPress={() => {
+                if(this.state.money.length>0)
+                  this.setModalVisible(!this.state.modalVisible);
+              }}>
+              <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
+              <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
           </Button> 
+          )
         }
       
           {this.state.onFocusNumber && <MyKeyBoard setMoney={this.setMoney}></MyKeyBoard>}
@@ -282,8 +285,7 @@ class ActionTransferFriend extends Component {
           </View>
         </Modal>
 
-          <Modal
-          isVisible={this.state.sucessOrNot === false}>
+          <Modal isVisible={this.state.sucessOrNot === false}>
           <View style={styles.modalContent}>
             <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
               <Icon type='FontAwesome' name='times-circle' style={{ color: "#CE3C3E" ,marginRight:10}} />
@@ -324,8 +326,13 @@ class ActionTransferFriend extends Component {
           </View>
         </Modal>
 
+        <Modal isVisible={this.state.process === true}>
+          <View style={{ alignItems: 'center',justifyContent: 'center', flex: 1}}>
+            <Image style={{width:"70%",height:"70%",textAlign: 'center'}} source={require('../../../../image/load.gif')}  />
+          </View>
+        </Modal>
       </View>
-
+     
     );
   }
 }

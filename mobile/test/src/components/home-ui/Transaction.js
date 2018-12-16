@@ -3,7 +3,7 @@ import {
   Container, Header, Item, Input, Icon, Button, Text
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
-import { TouchableOpacity,ScrollView } from 'react-native';
+import { TouchableOpacity,ScrollView ,RefreshControl} from 'react-native';
 import { searchTransaction } from '../../no-redux/search'
 import { formatCurrency } from "../../validations/util"
 
@@ -19,7 +19,8 @@ class Transaction extends Component {
     super(props);
     this.state = {
       listTransaction: [],
-      valueSearch: ""
+      valueSearch: "",
+      refreshing: false
     };
     
     searchTransaction().then(status => {
@@ -28,14 +29,22 @@ class Transaction extends Component {
       });
     });
   }
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    searchTransaction().then(status => {
+      this.setState({
+        listTransaction: status.listTransaction,
+        refreshing: false
+      });
+    });
+  }
   render() {
     const { listTransaction } = this.state;
     let { lang } = this.props.lang;
     const options = [];
     let content1="";
     let content2="";
-    for (let i = 0; i < listTransaction.length; i++) {
+    for (let i = (listTransaction.length-1); i >=0;i--) {
       content1="";
       content2="";
       switch (listTransaction[i].Type) {
@@ -73,12 +82,15 @@ class Transaction extends Component {
       )
     }
     return (
-      <ScrollView>
-        <Container>
-          <List>
+      <ScrollView refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh}
+        />
+      }>
+          <List  >
           {options}
           </List>
-        </Container>
       </ScrollView>
     );
   }

@@ -113,3 +113,4 @@ export const queryUserName = () =>  Schema.objects(USER_SCHEMA)[0].name;
 export const queryUserTypeMoney = () =>  Schema.objects(USER_SCHEMA)[0].typeMoney;
 export const queryUserMoney = () =>  Schema.objects(USER_SCHEMA)[0].money;
 export const queryUserAvatar = () =>  Schema.objects(USER_SCHEMA)[0].avatar;
+export const querySecurityPass = () =>  Schema.objects(USER_SCHEMA)[0].securityPass;
