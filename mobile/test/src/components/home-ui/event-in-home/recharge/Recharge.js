@@ -22,7 +22,8 @@ class Recharge extends Component {
       modalFee:0,
       modalTime:"",
       modalID:"",
-      modalPro:""
+      modalPro:"",
+      newMoney: queryUserMoney()
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -34,6 +35,13 @@ class Recharge extends Component {
       modalVisible: visible,
       passWord: ""
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.userData.money )
+      this.setState({
+        newMoney: nextProps.userData.money
+      });
   }
 
   setPassword(value) {
@@ -51,7 +59,7 @@ class Recharge extends Component {
               modalID:result.value["TranID"],
               modalPro:result.value["MoneyPromotion"]
             });
-            this.props.updateUserMoney(this.state.money);
+            // this.props.updateUserMoney(this.state.money);
           }
           else{
             this.setState({
@@ -118,7 +126,7 @@ class Recharge extends Component {
         }}>
           <ImageBackground source={require('../../../../image/background.png')} style={styles.backgroundImage} >
           <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "350", fontSize: 20, color: "#616161" }} >{ GLOBAL[lang].CurrentCurrency }</Text>
-          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{ formatCurrency(queryUserMoney())}</Text>
+          <Text style={{ textAlign: "center", color: "#1565c0", fontWeight: "500", fontSize: 40 }} >{ formatCurrency(this.state.newMoney)}</Text>
           </ImageBackground>
         </View>
         <View style={{
@@ -367,7 +375,7 @@ const styles = StyleSheet.create({
   }
 })
 const mapStateToProps = state => ({
-  money: state.updatedataReducer,
+  userData: state.updatedataReducer,
   lang: state.langReducer
 });
 export default connect(mapStateToProps,{
