@@ -15,9 +15,9 @@ export default class App extends Component {
     super(props);
     this.state = { splashScreen: true};
 
-    setTimeout(()=>{
-      this.setState({ splashScreen:false});
-    },1000);
+    // setTimeout(()=>{
+    //   this.setState({ splashScreen:false});
+    // },1000);
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ export default class App extends Component {
   }
   render() {
    const { splashScreen } = this.state;
-   let mainScreen = splashScreen ? <Splash /> : <RootNavigator />;
+   let mainScreen = <RootNavigator />;//splashScreen ? <Splash /> : <RootNavigator />;
     return (
       <Provider store = { store } >
         <Root>  
