@@ -52,6 +52,7 @@ import {
   onMessageListener,
   onTokenRefreshListener,
   onListenerData,
+  _fetchNewNotification
 } from "../../../no-redux/notification";
 import { connect } from "react-redux";
 import isEmpty from "../../../validations/is-empty.validate";
@@ -152,7 +153,8 @@ class Home extends Component {
     let { lang } = this.state;
     hasPermission();
     onTokenRefreshListener();
-    onMessageListener();
+    _fetchNewNotification();
+    //onMessageListener();
     if(isFirstTimeUsing()) this._toggleModal();
     onListenerData().then(val => {     
       if(val == 1)  {
@@ -173,7 +175,6 @@ class Home extends Component {
         updateIsFirstTime(data.id).then( () => {
           // alert(JSON.stringify(queryUser()));
           this._toggleModal();
-          
         }).catch(err => alert(err));
       }
     });    
@@ -196,11 +197,7 @@ class Home extends Component {
     }
   }
 
-  componentWillUnmount() {   
-    //AppStateRemoveEventListener();
-    onTokenRefreshListener();
-  //  onMessageListener();
-  }
+
 
   _renderPinCode() {
     return (
