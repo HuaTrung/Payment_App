@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import {  Button } from 'native-base';
 import { SocialIcon } from 'react-native-elements';
 const width = Dimensions.get('window').width;
@@ -65,7 +65,7 @@ class SignIn extends Component {
     const { errors } = this.state;
     const { lang } = this.state;
     return (
-      <View style = {{ flex: 1, marginHorizontal: 15}} >
+      <ScrollView style = {{ flex: 1, marginHorizontal: 15}} >
         <View style={{ height:20}} />
 
         <LoginInput 
@@ -93,7 +93,7 @@ class SignIn extends Component {
             <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>{GLOBAL[lang].ForgotPassword}</Text>
         </TouchableOpacity>
         <View style={{ height:height/32 }} />
-      </View>            
+      </ScrollView>            
     );
   }
 }

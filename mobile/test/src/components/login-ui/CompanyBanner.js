@@ -30,9 +30,9 @@ export default class CompanyBanner extends Component {
 
 const styles = StyleSheet.create({
   background: {
-    width, alignItems: 'center', justifyContent: 'center',
+    width : "100%", alignItems: 'center', justifyContent: 'center',
   },
   icon: {
-    position: 'absolute',  width: companyIconWidth 
+    position: 'absolute',  width: "100%" 
   },
 });

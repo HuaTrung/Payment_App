@@ -104,10 +104,10 @@ class Transaction extends Component {
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Date}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{data.DateTrans}</Text>
              </View>
-             <View style={{flexDirection: 'row'}}>
+             {/* <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Type}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{GLOBAL[lang].TypeTransaction[parseInt(data.Type)-1]}</Text>
-             </View>
+             </View> */}
             </View>
             <View style={styles.buttonSuccess}>
               <TouchableOpacity onPress={() => {

@@ -71,9 +71,7 @@ class Home extends Component {
       isModalVisible: false,
       moneyUser: queryUserMoney(),
       popupTrans: false,
-      tranID: "",
-      money:0,
-      description:"",
+      type:0, money: 0, name:"" , dateTrans:"", description:"",
       lang: querySettingLanguage()
     };
     this._renderHome = this._renderHome.bind(this);
@@ -123,13 +121,21 @@ class Home extends Component {
             </View>
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].IdTrans}</Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.tranID}</Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Name}</Text>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.name}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].DesTrans}</Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.description}</Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Date}</Text>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.dateTrans}</Text>
              </View>
+             <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].DesTrans}</Text>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.description}</Text>
+             </View>
+             {/* <View style={{flexDirection: 'row'}}>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Type}</Text>
+              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{GLOBAL[lang].TypeTransaction[this.state.type]}</Text>
+             </View> */}
             </View>
             <View style={styles.buttonSuccess}>
               <TouchableOpacity onPress={() => {
@@ -167,6 +173,10 @@ class Home extends Component {
     _fetchNewNotification();
   }
 
+  componentWillUnmount() {
+    _fetchNewNotification();
+  }
+
   _onFulfill (code) {
     register_PIN(code).then( data => {
       if(data.status == 0) {
@@ -185,12 +195,13 @@ class Home extends Component {
       this.setState({
         moneyUser: queryUserMoney()
       })
-
     if(nextProps.popupTrans.trans == true) {
       this.setState({
         popupTrans: true,
-        tranID: nextProps.popupTrans.tranID,
+        type: nextProps.popupTrans.type,
+        name: nextProps.popupTrans.name,
         money: nextProps.popupTrans.money,
+        dateTrans: nextProps.popupTrans.dateTrans,
         description:  nextProps.popupTrans.description
       })
     }

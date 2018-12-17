@@ -44,8 +44,8 @@ const onMessageListener = () => {
             switch (notification._data.type) {
               case '0' : // "RECEIVE_TRANSACTION":
               {
-                let { tranID, money, description } = notification._data;
-                let value = { tranID, money, description }
+                let { type, money, name , dateTrans, description} = notification._data;
+                let value = { type, money, name , dateTrans, description }
                 store.dispatch({
                   type: POPUP_TRANSACTION,
                   payload: value
@@ -70,8 +70,8 @@ const onMessageListener = () => {
             switch (notificationOpen.notification._data.type) {
               case "1":
               {
-                let { tranID, money, description } = notificationOpen.notification._data;
-                let value = { tranID, money, description }
+                let { type, money, name , dateTrans, description} = notification._data;
+                let value = { type, money, name , dateTrans, description }
                 store.dispatch({
                   type: POPUP_TRANSACTION,
                   payload: value
@@ -80,8 +80,8 @@ const onMessageListener = () => {
               break;
               case "0":
               {
-                let { tranID, money, description } = notificationOpen.notification._data;
-                let value = { tranID, money, description }
+                let { type, money, name , dateTrans, description} = notification._data;
+                let value = { type, money, name , dateTrans, description }
                 store.dispatch({
                   type: POPUP_TRANSACTION,
                   payload: value

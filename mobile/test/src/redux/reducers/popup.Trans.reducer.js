@@ -1,19 +1,22 @@
 import { POPUP_TRANSACTION } from '../actions/types';
 const initialState = {
   trans: false,
-  tranID: "",
+  type: "",
   money:0,
+  name:"",
+  dateTrans: "",
   description:""
  };
-
 const updateTransReducer = (state = initialState , action) => {
   switch(action.type) {
     case POPUP_TRANSACTION:
       return {
         ...state,
         trans: true,
-        tranID:action.payload.tranID,
+        type:action.payload.type,
         money:action.payload.money,
+        name:action.payload.name,
+        dateTrans:action.payload.dateTrans,
         description:action.payload.description
       }   
       case "UNPOPUP_TRANSACTION":
