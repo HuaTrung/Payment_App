@@ -164,7 +164,7 @@ class Home extends Component {
       else if(val == 2)  // update security pass success
         Toast.show({ text: GLOBAL[lang].CreatePin, buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
     });
-
+    _fetchNewNotification();
   }
 
   _onFulfill (code) {
