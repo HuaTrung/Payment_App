@@ -11,7 +11,7 @@ import { queryUserLoginData } from "../../../realm/userQueries";
 import isEmpty from '../../../validations/is-empty.validate';
 import isEmail from '../../../validations/email.validate';
 import { 
-  EMAIL_EMPTY, NAME_EMPTY, ADDRESS_EMPTY, BIRTHDAY_LESS_CURRENT_DATE, BIRTHDAY_GREATER_FIFTEEN, EMAIL_EXIST
+  EMAIL_EMPTY, NAME_EMPTY, EMAIL_INVALID, ADDRESS_EMPTY, BIRTHDAY_LESS_CURRENT_DATE, BIRTHDAY_GREATER_FIFTEEN, EMAIL_EXIST
 } from '../../../validations/errors-name';
 
 import { updateInformationUser } from "../../../no-redux/updateInformationUser"
@@ -93,7 +93,7 @@ class ProfileChange extends Component {
     if(isEmpty(data.email)) 
       errors.email = EMAIL_EMPTY;
     else if(isEmail(data.email) == false )
-      errors.email = EMAIL_EXIST;
+      errors.email = EMAIL_INVALID;
 
     return errors;
   }
@@ -206,7 +206,8 @@ class ProfileChange extends Component {
           <Text style = { [{flex: 1}, styles.textStyle] } >User Information</Text>
           <TouchableOpacity 
             style = {[{ justifyContent:"flex-end", marginRight: 10 }, styles.buttonSave]}
-            onPress = { () => this._saveInformationUser() } >
+            // onPress = { () => this._saveInformationUser() } 
+            >
             <Text 
               style = {[styles.textStyle]}>Save</Text>
           </TouchableOpacity>
