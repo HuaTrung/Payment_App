@@ -40,7 +40,8 @@ class SignIn extends Component {
     };
     loginUser(data).then( api  => {
       if(api.type == false) this.setState({errors: api.errors});
-      else this.props.navigation.navigate("SignedInScreen");
+      else 
+        this.props.navigation.navigate("SignedInScreen");
     });
   }
 

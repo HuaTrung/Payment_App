@@ -38,11 +38,11 @@ const onMessageListener = () => {
           .setSound("default")
           .android.setPriority(firebase.notifications.Android.Priority.Max)
           .android.setChannelId('channelId')
-          firebase.notifications().displayNotification(notification);
           
-          if(!isEmptyUserLogin()) { // popup when user logined
+          
+           if(!isEmptyUserLogin()) { // popup when user logined
             switch (notification._data.type) {
-              case "RECEIVE_TRANSACTION":
+              case '0' : // "RECEIVE_TRANSACTION":
               {
                 let { tranID, money, description } = notification._data;
                 let value = { tranID, money, description }
@@ -50,10 +50,17 @@ const onMessageListener = () => {
                   type: POPUP_TRANSACTION,
                   payload: value
                 })
+              }              
+              break;
+              case '1': // "RECEIVE_TRANSACTION_NO_POPUP":
+              {
+                firebase.notifications().displayNotification(notification);
               }
               break;
+              default: firebase.notifications().displayNotification(notification);
+              break;
             }
-         }
+          } else firebase.notifications().displayNotification(notification);
         });
         // Handle when notification is clicked to Open
         // This is for FOREGROUND
@@ -97,6 +104,7 @@ const hasPermission = async () => {
     }, error => {
     if(error) console.log(JSON.stringify(error));
     }).then(data => console.log(data));
+    _fetchNewNotification();
   } else {
     // user doesn't have permission
     try {

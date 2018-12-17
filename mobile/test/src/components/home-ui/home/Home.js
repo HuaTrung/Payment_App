@@ -153,7 +153,6 @@ class Home extends Component {
     let { lang } = this.state;
     hasPermission();
     onTokenRefreshListener();
-    _fetchNewNotification();
     //onMessageListener();
     if(isFirstTimeUsing()) this._toggleModal();
     onListenerData().then(val => {     
