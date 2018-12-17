@@ -1,11 +1,12 @@
 import firebase from "react-native-firebase";
-import type { RemoteMessage} from "react-native-firebase";
-import { queryUserId, updateMoney, updateSecurityPass, deleteUserLogout } from "../realm/userQueries";
+import type { RemoteMessage, Notification,NotificationOpen } from "react-native-firebase";
+import { queryUserId, updateMoney, updateSecurityPass, deleteUserLogout, isEmptyUserLogin } from "../realm/userQueries";
 import { AppState, AsyncStorage, View, Text, StyleSheet } from "react-native";
 import logout,{ block } from "./logout";
 import { UPDATE_USER_MONEY_DATA, POPUP_TRANSACTION } from '../redux/actions/types';
 import store from "../redux/store";
-
+import  GLOBAL  from "../config/index";
+import axios from "axios";
 import Modal from "react-native-modal";
 
 const onTokenRefreshListener = () => {
@@ -23,34 +24,78 @@ const onTokenRefreshListener = () => {
 }
 
 const onMessageListener = () => {
-  AsyncStorage.getItem('69').then(value => {
-    if(value == null) {
-      alert("hello");
-      AsyncStorage.setItem('69','1').then(()=> {
-        firebase.messaging().onMessage((message: RemoteMessage) => {
-          console.log(JSON.stringify(message));         
-          // Process your message as required
-          switch (message.data.type) {
-            case "RECEIVE_TRANSACTION":
-            {
-              let { tranID, money, description } = message.data;
-              let value = {
-                tranID,
-                money,
-                description
+  // Prevent loop Listener Notification
+  // This will make Notification run only once time in app's life cycle
+  // AsyncStorage.getItem('RUN_ONCE').then(value => {
+    // if(value == null) {      
+      // AsyncStorage.setItem('RUN_ONCE','1').then(() => {
+        // Listen all notifications that not need Authentication
+        firebase.messaging().subscribeToTopic("NOTIFICATION");
+        // Listen notifications that need Authentication
+        firebase.notifications().onNotification(notification => {
+          console.log(notification._data);
+          notification
+          .setSound("default")
+          .android.setPriority(firebase.notifications.Android.Priority.Max)
+          .android.setChannelId('channelId')
+          .android.setAutoCancel(true)
+          
+           if(!isEmptyUserLogin()) { // popup when user logined
+            switch (notification._data.type) {
+              case '0' : // "RECEIVE_TRANSACTION":
+              {
+                let { tranID, money, description } = notification._data;
+                let value = { tranID, money, description }
+                store.dispatch({
+                  type: POPUP_TRANSACTION,
+                  payload: value
+                })
+              }              
+              break;
+              case '1': // "RECEIVE_TRANSACTION_NO_POPUP":
+              {
+                firebase.notifications().displayNotification(notification);
               }
-              store.dispatch({
-                type: POPUP_TRANSACTION,
-                payload: value
-              })
+              break;
+              default: firebase.notifications().displayNotification(notification);
+              break;
             }
-            break;
-          }
+          } else firebase.notifications().displayNotification(notification);
         });
-      })
-    }
-  })
+        // Handle when notification is clicked to Open
+        // This is for FOREGROUND
+        firebase.notifications().onNotificationOpened(notificationOpen => {
+          if(notificationOpen) {
+            switch (notificationOpen.notification._data.type) {
+              case "1" || "0":
+              {
+                let { tranID, money, description } = notificationOpen.notification._data;
+                let value = { tranID, money, description }
+                store.dispatch({
+                  type: POPUP_TRANSACTION,
+                  payload: value
+                })
+              }
+              break;
+            }
+            console.log("onNotificationOpened");
+          } else {
+            console.log("NOT onNotificationOpened")
+          }
+        })
+        firebase.notifications().getInitialNotification(notificationOpen => {
+          if(notificationOpen) {
+            console.log(notificationOpen);
+            console.log("getInitialNotification 11111111111111111111111111111111111")
+          } else {
+            console.log("NOT getInitialNotification")
+          }
+        })
+      // });
+    // }
+  // })
 }
+
 
 const hasPermission = async () => {
   const enabled = await firebase.messaging().hasPermission();
@@ -64,6 +109,7 @@ const hasPermission = async () => {
     }, error => {
     if(error) console.log(JSON.stringify(error));
     }).then(data => console.log(data));
+    _fetchNewNotification();
   } else {
     // user doesn't have permission
     try {
@@ -79,6 +125,13 @@ const hasPermission = async () => {
 _handleBackground = (nextAppState) => {
   console.log("App is running at: " + nextAppState);
 
+}
+
+export const _fetchNewNotification = () => {
+  let uid = queryUserId();
+  axios
+    .post(GLOBAL.HostName +"/app/user/fetch-notification",{uid})
+    .catch( err => console.error(err));
 }
 
 export const onListenerData = () => new Promise((resolve,reject) => { 

@@ -4,7 +4,7 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon, Left } from 'native-base';
 import Modal from "react-native-modal";
-import {queryUserMoney, querySettingLanguage} from "../../../../realm/userQueries"
+import {queryUserMoney, querySettingLanguage, querySecurityPass} from "../../../../realm/userQueries"
 import MyKeyBoard from "./MyKeyboard"
 import { updateUserMoney } from "../../../../redux/actions/updateUser.action";
 import { connect } from "react-redux";
@@ -47,10 +47,11 @@ class Recharge extends Component {
   }
 
   setPassword(value) {
-    if (this.state.passWord.length >= 5) {
-      if (this.state.passWord.length == 5) {
+    if (this.state.passWord.length == 5) {
+        let pass = this.state.passWord + value;
         this.setState({ passWord: this.state.passWord + value })
         rechargeMoney( this.state.money).then(result => {
+          alert(this.state.passWord);
           if(result.value["status"]==1){
             this.setState({
               modalVisible: !this.state.modalVisible,
@@ -73,11 +74,9 @@ class Recharge extends Component {
         });
         
        this.setState({process:true});
-      }
     }
-    else {
-      this.setState({ passWord: this.state.passWord + value })
-    }
+    else this.setState({ passWord: this.state.passWord + value });
+    
   }
 
   setMoney(param){
