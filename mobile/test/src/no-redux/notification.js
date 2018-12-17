@@ -38,7 +38,7 @@ const onMessageListener = () => {
           .setSound("default")
           .android.setPriority(firebase.notifications.Android.Priority.Max)
           .android.setChannelId('channelId')
-          
+          .android.setAutoCancel(true)
           
            if(!isEmptyUserLogin()) { // popup when user logined
             switch (notification._data.type) {
@@ -66,10 +66,15 @@ const onMessageListener = () => {
         // This is for FOREGROUND
         firebase.notifications().onNotificationOpened(notificationOpen => {
           if(notificationOpen) {
-            switch (notificationOpen.notification._data.action) {
-              case "ALERT":
+            switch (notificationOpen.notification._data.type) {
+              case "1" || "0":
               {
-                alert('ALERT');
+                let { tranID, money, description } = notificationOpen.notification._data;
+                let value = { tranID, money, description }
+                store.dispatch({
+                  type: POPUP_TRANSACTION,
+                  payload: value
+                })
               }
               break;
             }
