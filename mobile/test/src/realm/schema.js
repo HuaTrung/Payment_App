@@ -51,7 +51,7 @@ const TranHistorySchema = {
 const databaseOptions = {
   path: "OPApp.realm",
   schema: [UserSchema,SettingSchema,TranHistorySchema],
-  schemaVersion: 0
+  schemaVersion: 1
 }
 
 export {
