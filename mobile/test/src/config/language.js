@@ -74,7 +74,11 @@ export const GLOBAL = [
     TranId: "TranId",
     Fee: "Fee",
     Date: "Date",
-    Type: "Type"
+    Type: "Type",
+    Language: "Language",
+    ResetLanguage: "You must restart app to apply new language",
+    OK:"OK",
+    Cancel:"Cancel"
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -151,7 +155,12 @@ export const GLOBAL = [
     TranId: "Id giao dịch",
     Fee: "Phí",
     Date: "Ngày",
-    Type: "Loại"
+    Type: "Loại",
+    Language: "NGÔN NGỮ",
+    ResetLanguage: "Bạn phải khởi đội lại phần mềm để sủ dụng ngôn ngữ mới",
+    OK:"OK",
+    Cancel:"Cancel"
+
   } ,
   {
     QRPay: "コードリーダー", //
@@ -170,9 +179,9 @@ export const GLOBAL = [
     IdTrans: "商売のID",//
     DesTrans: "記述",//
     Close: "閉める",//
-    ReceiveTrans: "Nhận tiền từ ",//
-    TransferTrans: "Chuyển tiền tới ",//
-    RechargeTrans: "Nạp tiền vào Tri-T Pay",//
+    ReceiveTrans: "からお金を入れる",//
+    TransferTrans: "までお金を振替する",//
+    RechargeTrans: "Tri-Tのリチャージ",//
     EmailPhone: "メール / テレフォン番号",//
     Password: "合言葉",//
     SignIn: "加入",//
@@ -195,16 +204,16 @@ export const GLOBAL = [
     TRANSACTION: "商売",
     PROMOTION: "キャンペーン",
     USER: "利用者",
-    HighProtectAccount: "Thiết lập bảo vệ tài khoản",
-    ConnectSocial: "Liên kết mạng xã hội",
-    PayAccount: "Tài khoản thanh toán",
-    GiftsList : "Danh sách quà tặng",
-    Support: "Hỗ trợ",
-    QuickFeedback: "Phản hồi nhanh",
-    AboutApp: "Thông tin về Tri-T Pay",
+    HighProtectAccount: "利用者のプロテクト",
+    ConnectSocial: "ソーシャルを接続する",
+    PayAccount: "払いの利用者",
+    GiftsList : "ギフトのリスト",
+    Support: "サポート",
+    QuickFeedback: "速いフィードバック",
+    AboutApp: "Tri-Tの情報",
     SignOut: "サインアウト",
-    LogoutSuccess: "Đăng xuất thành công",
-    ProfileSetting: "Thiết lập tài khoản",
+    LogoutSuccess: "ログアウトが成功です",
+    ProfileSetting: "利用者をセッティング",
     CurrentCurrency: "今のお金",
     EnterMoney: "お金を書いて下さい",
     Confirm: "確認",
@@ -228,6 +237,10 @@ export const GLOBAL = [
     TranId: "IDの商売",
     Fee: "料金",
     Date: "日",
-    Type: "型"
+    Type: "型",
+    Language: "言葉",
+    ResetLanguage: "あなたはベトナムからきましたか？",
+    OK:"はい",
+    Cancel:"いいえ"
   } 
 ];

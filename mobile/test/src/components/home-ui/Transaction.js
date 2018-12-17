@@ -136,11 +136,11 @@ class Transaction extends Component {
       icon = "";
       switch (listTransaction[i].Type) {
         case 1:
-          content1 = GLOBAL[lang].TransferTrans + listTransaction[i].Name;
+          content1 = lang == 2 ? listTransaction[i].Name + GLOBAL[lang].TransferTrans : GLOBAL[lang].TransferTrans + listTransaction[i].Name;
           content2 = <Text  style={{color:"red"}}  >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 2:
-          content1 = GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
+          content1 = lang == 2 ? listTransaction[i].Name + GLOBAL[lang].ReceiveTrans : GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
           content2 = <Text style = {{ color:"red" }} >- {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 3:
@@ -148,7 +148,7 @@ class Transaction extends Component {
           content2=<Text style = {{ color:"#3b5998" }}>+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         case 4:
-          content1 = GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
+          content1 = lang == 2 ? listTransaction[i].Name  + GLOBAL[lang].ReceiveTrans : GLOBAL[lang].ReceiveTrans + listTransaction[i].Name;
           content2 = <Text style={{ color: "#64dd17" }} >+ {formatCurrency(listTransaction[i].Money)}</Text>;
           break;
         default:

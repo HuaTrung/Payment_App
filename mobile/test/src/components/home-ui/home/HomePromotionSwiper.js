@@ -35,7 +35,7 @@ class HomePromotionSwiper extends Component {
      </View>)
     }
     return (
-      <Swiper showsButtons={true} autoplay={true} autoplayTimeout={2}>
+      <Swiper showsButtons={true} autoplay={true} autoplayTimeout={4}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#9dd6eb" }}>
           <ImageBackground source={{ uri: "https://res.cloudinary.com/dzzyu5ejs/image/upload/Promotion2.png" }} style={styles.backgroundImage}></ImageBackground>
         </View>

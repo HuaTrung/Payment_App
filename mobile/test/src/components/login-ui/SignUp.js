@@ -145,7 +145,7 @@ class SignUp extends Component {
               <View style={{ height:height/80}} />
               {/* Sign up button */}
               <Button onPress = { this.handleRegisterUser } block style = {{ backgroundColor: '#ff1a1a' }}>
-                  <Text style = {{  color: 'white', fontSize: 18, textDecorationLine: 'underline' }}>Register</Text>
+                  <Text style = {{  color: 'white', fontSize: 18, textDecorationLine: 'underline' }}>{GLOBAL[lang].Register}</Text>
               </Button>
               <View style={{ height:height/80}} />
               {/* Read license */}

@@ -10,7 +10,8 @@ import {
   ScrollView,
   AppState,
   BackHandler,
-  NativeModules
+  NativeModules,
+  Alert
 } from 'react-native';
 import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
@@ -61,9 +62,7 @@ import store from '../../../redux/store';
 import { GLOBAL } from "../../../config/language";
 
 class Home extends Component {
-  // static navigationOptions =  ({navigation}) => ({
-  //   title: navigation.getParam('SIGNIN','SIGN IN')
-  // })
+
   constructor(props) {
     super(props);
     this.state = {
@@ -81,8 +80,21 @@ class Home extends Component {
     this._toggleModal = this._toggleModal.bind(this);
     this._onFulfill = this._onFulfill.bind(this);
     this._renderReceiveTransaction = this._renderReceiveTransaction.bind(this);
+    this._handleChooseLanguage = this._handleChooseLanguage.bind(this);
   }
 
+  _handleChooseLanguage (id) {
+    let { lang } = this.state;
+    Alert.alert(GLOBAL[lang].Language,GLOBAL[lang].ResetLanguage,
+    [
+      { text: GLOBAL[lang].OK, onPress: () => {
+        updateLanguage(id).then(()=> {
+          NativeModules.RNExitApp.exitApp();
+        })  
+      }},
+      { text: GLOBAL[lang].Cancel, style:"cancel" }
+    ]);
+  }
 
   navigatePayScan() {
     this.props.navigation.push('PayScanScreen')
@@ -276,7 +288,7 @@ class Home extends Component {
             }}
           >
           {/* flat list => split new class */}
-            <View style = {{ height: 120, flexDirection: "row" ,marginTop:20}}>
+            <View style = {{ height: 120, flexDirection: "row" ,marginTop:8}}>
               <TouchableOpacity onPress = { () => this.props.navigation.push('RechargeScreen') } style = {{ flex: 1 }}>
                 <View style = {{ justifyContent : "center", alignItems : "center", flex: 1,borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1 }}>
                 <MCIcons
@@ -306,7 +318,6 @@ class Home extends Component {
                 <MCIcons
                   name='airplane-takeoff'
                   color='#3b5998'
-                  
                   style={{width: '100%', justifyContent: 'center',alignItems: 'center',textAlign:'center'}}
                   size={50}/>
                   <Text style = {{ color:"black"}}>{GLOBAL[lang].AirTicket}</Text>
@@ -316,7 +327,6 @@ class Home extends Component {
             <View style = {{ height: 120, flexDirection: "row"}}>
               <TouchableOpacity style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1  ,flex: 1}}>
-                 
                 <MCIcons
                   name='credit-card-plus'
                   color='#3b5998'
@@ -352,15 +362,7 @@ class Home extends Component {
               </TouchableOpacity>
             </View>
             <View style = {{ height: 120, flexDirection: "row",marginBottom:10}}>
-            <TouchableOpacity onPress = { () => { // test
-                  updateLanguage(2).then(()=> {
-                    // store.dispatch({
-                    //   type: "CHANGE_LANGUAGE",
-                    //   payload: 2               
-                    // })   
-                    NativeModules.RNExitApp.exitApp();
-                  })               
-              }} style = {{flex: 1}}>
+            <TouchableOpacity onPress = { () => this._handleChooseLanguage(2) } style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
                   <FontAwesome5
                     name='language'
@@ -371,15 +373,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress = { () => { // test
-                  updateLanguage(0).then(()=> {
-                    // store.dispatch({
-                    //   type: "CHANGE_LANGUAGE",
-                    //   payload: 0                  
-                    // })   
-                    NativeModules.RNExitApp.exitApp();
-                  })               
-              }} style = {{flex: 1}}>
+              <TouchableOpacity onPress = { () => this._handleChooseLanguage(0) } style = {{flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
                   <FontAwesome
                     name='language'
@@ -390,15 +384,7 @@ class Home extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress = { () => { // test
-                  updateLanguage(1).then(()=> {
-                    // store.dispatch({
-                    //   type: "CHANGE_LANGUAGE",
-                    //   payload: 1                  
-                    // })   
-                    NativeModules.RNExitApp.exitApp();
-                  })               
-              }} style = {{ flex: 1}}>
+              <TouchableOpacity onPress = { () => this._handleChooseLanguage(1) } style = {{ flex: 1}}>
                 <View style = {{ justifyContent : "center", alignItems : "center",borderColor:"#9e9e9e",borderRightWidth:1,borderTopWidth:1,borderBottomWidth:1 , flex: 1}}>
                   <Entypo
                     name='language'
