@@ -39,7 +39,7 @@ export default class App extends Component {
       Toast.show({ text: "Welcome back! INTERNET", buttonText: 'Okay', type: "success", position: "bottom",duration:5000 });  
       this.setState({preNetInfo: 0});
       // fetch new data like notification when user logined
-      if(!isEmptyUserLogin()) _fetchNewNotification();
+      // if(!isEmptyUserLogin()) _fetchNewNotification();
     }
   }
 
@@ -47,13 +47,13 @@ export default class App extends Component {
     if(isEmptySetting()) insertDefaultSetting();
     // Listen all data
     onMessageListener();
-    NetInfo.addEventListener('connectionChange',this.handleFirstConnectivityChange);
+    // NetInfo.addEventListener('connectionChange',this.handleFirstConnectivityChange);
   }
 
   componentWillUnmount() {   
     onTokenRefreshListener();
     onMessageListener();
-    NetInfo.isConnected.removeEventListener('connectionChange',handleFirstConnectivityChange);
+    // NetInfo.removeEventListener('connectionChange',handleFirstConnectivityChange);
   }
 
   render() {
