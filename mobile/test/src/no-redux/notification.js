@@ -66,8 +66,19 @@ const onMessageListener = () => {
         // This is for FOREGROUND
         firebase.notifications().onNotificationOpened(notificationOpen => {
           if(notificationOpen) {
+            console.log(notificationOpen);
             switch (notificationOpen.notification._data.type) {
-              case "1" || "0":
+              case "1":
+              {
+                let { tranID, money, description } = notificationOpen.notification._data;
+                let value = { tranID, money, description }
+                store.dispatch({
+                  type: POPUP_TRANSACTION,
+                  payload: value
+                })
+              }
+              break;
+              case "0":
               {
                 let { tranID, money, description } = notificationOpen.notification._data;
                 let value = { tranID, money, description }

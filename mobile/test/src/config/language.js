@@ -78,7 +78,8 @@ export const GLOBAL = [
     Language: "Language",
     ResetLanguage: "You must restart app to apply new language",
     OK:"OK",
-    Cancel:"Cancel"
+    Cancel:"Cancel",
+    TypeTransaction:["Transfer","Pay","Recharge","Receive"]
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -159,8 +160,8 @@ export const GLOBAL = [
     Language: "NGÔN NGỮ",
     ResetLanguage: "Bạn phải khởi đội lại phần mềm để sủ dụng ngôn ngữ mới",
     OK:"OK",
-    Cancel:"Cancel"
-
+    Cancel:"Cancel",
+    TypeTransaction:["Chuyển tiền","Thanh toán","Nạp tiền","Nhận tiền"]
   } ,
   {
     QRPay: "コードリーダー", //
