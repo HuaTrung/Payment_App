@@ -106,7 +106,7 @@ export const GLOBAL = [
     SignIn: "Đăng nhập",
     ForgotPassword: "Quên mật khẩu ?",
     SIGNIN: "ĐĂNG NHẬP",
-    SIGNUP: "ĐĂNG XUẤT",
+    SIGNUP: "ĐĂNG KÝ",
     Send: "Gửi",
     Name: "Tên",
     PhoneNumber: "Số điện thoại",

@@ -120,7 +120,6 @@ const hasPermission = async () => {
     }, error => {
     if(error) console.log(JSON.stringify(error));
     }).then(data => console.log(data));
-    _fetchNewNotification();
   } else {
     // user doesn't have permission
     try {
