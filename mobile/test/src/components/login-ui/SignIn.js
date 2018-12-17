@@ -8,10 +8,13 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import LoginInput from '../custom-ui/login-input/LoginInput';
 import { loginUser }  from '../../no-redux/login';
 import isEmpty from '../../validations/is-empty.validate';
-
+import { GLOBAL } from "../../config/language";
+import { querySettingLanguage } from "../../realm/userQueries";
 class SignIn extends Component {
   
-  static navigationOptions = { title: 'Sign In' };
+  static navigationOptions =  ({navigation}) => ({
+    title: navigation.getParam('SIGNIN','SIGN IN')
+  })
 
   constructor(props) {
     super(props);
@@ -19,8 +22,14 @@ class SignIn extends Component {
       emailOrPhone: '',
       password: '',
       errors: '',
+      lang: querySettingLanguage()
     };
     this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  componentDidMount() {
+    let { lang } = this.state;
+    this.props.navigation.setParams({ SIGNIN: GLOBAL[lang].SIGNIN });
   }
 
   handleLogin (e) {
@@ -53,34 +62,34 @@ class SignIn extends Component {
 
   render() {
     const { errors } = this.state;
-    
+    const { lang } = this.state;
     return (
       <View style = {{ flex: 1, marginHorizontal: 15}} >
         <View style={{ height:20}} />
 
         <LoginInput 
             onChangeText = { (text) => this.onChangeTextEmailOrPhone(text)}  
-            label = {'Email / Phone'} 
+            label = {GLOBAL[lang].EmailPhone} 
             errorMessage = { errors.emailOrPhone }
             />
 
         <LoginInput 
             onChangeText = { (text) => this.onChangeTextPassword(text) } 
             securePassword = {true} 
-            label = {'Password'} 
+            label = {GLOBAL[lang].Password} 
             errorMessage = { errors.password } 
             />
         
         {/* Sign in button */}
         <View style={{ height:height/40}} />
         <Button onPress = { this.handleLogin } block style = {{ backgroundColor: '#ff1a1a' }}>
-            <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Sign In</Text>
+            <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>{GLOBAL[lang].SignIn}</Text>
         </Button>
         <View style={{ height:height/32}} />
 
         {/* Forgot password text */}
         <TouchableOpacity onPress = { () => this.props.navigation.navigate("ForgotPasswordScreen") } style = {{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>Forgot password ?</Text>
+            <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>{GLOBAL[lang].ForgotPassword}</Text>
         </TouchableOpacity>
         <View style={{ height:height/32 }} />
       </View>            

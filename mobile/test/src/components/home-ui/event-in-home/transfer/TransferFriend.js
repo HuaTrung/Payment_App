@@ -4,8 +4,7 @@ import {
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
-import RNEventSource from 'react-native-event-source'
-import { queryUserAvatar } from "../../../../realm/userQueries";
+import { queryUserAvatar, queryUserPhone } from "../../../../realm/userQueries";
 import { searchUserByPhone } from '../../../../no-redux/search'
 
 export default class TransferFriend extends Component {
@@ -28,8 +27,14 @@ export default class TransferFriend extends Component {
   render() {
     const { listFriends } = this.state;
     const options = [];
+    
     for (let i = 0; i < listFriends.length; i++) {
-      options.push(<ListItem avatar>
+      if(listFriends[i].name=="null"){
+        options.push(<Text style={{marginTop:20,fontSize:20,color:"#c62828",textAlign: 'center'}}>Không tìm được kết quả</Text>);
+        break;
+      }
+      if(listFriends[i].phone!=queryUserPhone())
+      options.push(<ListItem avatar key={i}>
      
         <Left>
           <Thumbnail source={{uri: listFriends[i].avatar}} />

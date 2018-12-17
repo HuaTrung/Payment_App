@@ -5,8 +5,8 @@ import {  Button, Toast } from 'native-base';
 import { getForgotPassword }  from '../../no-redux/login';
 import isEmpty from "../../validations/is-empty.validate";
 const height = Dimensions.get('window').height;
-
-
+import { GLOBAL } from "../../config/language";
+import { querySettingLanguage } from "../../realm/userQueries";
 class ForgotPassword extends Component {
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -16,7 +16,7 @@ class ForgotPassword extends Component {
         // height: 40
       },
       headerTintColor: 'white',
-      headerTitle: 'Forgot password'
+      headerTitle: navigation.getParam('FORGOTPASS','Forgot password')
     };
   };
 
@@ -25,14 +25,22 @@ class ForgotPassword extends Component {
     this.state = { 
       emailOrPhone: '',
       errors: '',
+      lang: querySettingLanguage()
     };
     this.handleForgotPassword = this.handleForgotPassword.bind(this);
   }
 
+  
+  componentDidMount() {
+    let { lang } = this.state;
+    this.props.navigation.setParams({ FORGOTPASS: GLOBAL[lang].FORGOTPASS });
+  }
+
   handleForgotPassword(e) {
+    let { lang } = this.state;
     getForgotPassword(this.state.emailOrPhone).then ( api => {
       if(api.type == false) this.setState({ errors: api.errors });
-      else Toast.show({ text: 'Send password success', buttonText: 'Okay', type: "success" });
+      else Toast.show({ text: GLOBAL[lang].SendPassSuccess, buttonText: 'Okay', type: "success" });
     });
   }
 
@@ -47,27 +55,27 @@ class ForgotPassword extends Component {
 
   render() {
     const { errors } = this.state;
+    const { lang } = this.state;
     return (
       <View style = {{ flex: 1}}>
         <View style = {{ marginHorizontal: 15  }}>
           <LoginInput 
-            label = {'Email / Phone'} 
+            label = {GLOBAL[lang].EmailPhone} 
             onChangeText = { text => this.onChangeTextEmailOrPhone(text) }
             errorMessage = { errors.emailOrPhone }
             />
           <View style={{ height:height/40}} />
           <Button onPress = { this.handleForgotPassword } block style = {{ backgroundColor: '#ff1a1a' }}>
-            <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>Get the password</Text>
+            <Text style = {{ color: '#fff',fontSize: 18, textDecorationLine: 'underline' }}>{GLOBAL[lang].GetThePassword}</Text>
           </Button>
           <View style={{ height:height/54}} />
         </View>
         <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text style = {{ fontSize: 15}}>Please provide email address to get the password</Text>
+          <Text style = {{ fontSize: 15}}>{GLOBAL[lang].ProvideEmailAddress}</Text>
         </View>
       </View>
     );
   }
 }
-
 
 export default ForgotPassword;

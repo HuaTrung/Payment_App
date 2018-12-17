@@ -14,12 +14,14 @@ import axios from 'axios';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
+import { GLOBAL } from "../../config/language";
+import { querySettingLanguage } from "../../realm/userQueries";
 class SignUp extends Component {
 
-  static navigationOptions = {
-      title: 'Sign Up'
-  };
+  static navigationOptions =  ({navigation}) => ({
+    title: navigation.getParam('SIGNUP','SIGN UP')
+  })
+
 
   constructor(props) {
     super(props);
@@ -29,11 +31,17 @@ class SignUp extends Component {
       verifyCode: '',
       password: '',
       confirmPassword: '',
-      errors: ''
+      errors: '',
+      lang: querySettingLanguage()
     };
     this.handleSendOtp = this.handleSendOtp.bind(this);
     this.handleRegisterUser = this.handleRegisterUser.bind(this);
   } 
+
+  componentDidMount() {
+    let { lang } = this.state;
+    this.props.navigation.setParams({ SIGNUP: GLOBAL[lang].SIGNUP });
+  }
 
   handleRegisterUser(e) {
     let { name, phone, verifyCode, password, confirmPassword } = this.state;
@@ -49,7 +57,7 @@ class SignUp extends Component {
 
   handleSendOtp(e) {
     checkPhoneError(this.state.phone).then( api => {
-      alert(JSON.stringify(api));
+    //  alert(JSON.stringify(api));
       if(api.type == false) this.setState({errors: api.errors});
     });
   }
@@ -95,41 +103,41 @@ class SignUp extends Component {
   }
 
   render() {
-    const {errors} = this.state;
+    const {errors,lang} = this.state;
     return (
       <ScrollView>
           <View style = {{ flex: 1, marginHorizontal: 15}} >
               <LoginInput 
-                label= {"Name"} 
+                label= {GLOBAL[lang].Name} 
                 onChangeText = { (text) => this.onChangeTextName(text) } 
                 errorMessage = { errors.name }
                 />
               <View style = {{  flexDirection: 'row' }}>
                 <View style = {{ flex: 1 }}>
                     <LoginInput   
-                      label = {'Phone number'} 
+                      label = {GLOBAL[lang].PhoneNumber} 
                       onChangeText = { (text) => this.onChangeTextPhone(text) } 
                       errorMessage = { errors.phone }
                     />
                 </View>               
                 <View style = {{ width:3 }} />
                 <TouchableOpacity onPress = { this.handleSendOtp } style = {{ borderRadius:5,top:8,width: 50,height: 35,backgroundColor: "#42A5F5DC", justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style = {{fontSize: 16, color: 'white'}}>Send</Text>
+                  <Text style = {{fontSize: 16, color: 'white'}}>{GLOBAL[lang].Send}</Text>
                 </TouchableOpacity>
               </View>
               <LoginInput 
-                label= {"Verify code"}           
+                label= {GLOBAL[lang].VerifyCode}           
                 onChangeText = { (text) => this.onChangeTextVerifyCode(text) } 
                 errorMessage = { errors.verifyCode }
               />
               <LoginInput 
-                label= {"Password"} 
+                label= {GLOBAL[lang].Password} 
                 securePassword = {true}           
                 onChangeText = { (text) => this.onChangeTextPassword(text) } 
                 errorMessage = { errors.password }
                 />
               <LoginInput 
-                label= {"Confirm password"} 
+                label= {GLOBAL[lang].ConfirmPassword} 
                 securePassword = {true}           
                 onChangeText = { (text) => this.onChangeTextConfirmPassword(text) } 
                 errorMessage = { errors.confirmPassword }
@@ -137,14 +145,14 @@ class SignUp extends Component {
               <View style={{ height:height/80}} />
               {/* Sign up button */}
               <Button onPress = { this.handleRegisterUser } block style = {{ backgroundColor: '#ff1a1a' }}>
-                  <Text style = {{  color: 'white', fontSize: 18, textDecorationLine: 'underline' }}>Register</Text>
+                  <Text style = {{  color: 'white', fontSize: 18, textDecorationLine: 'underline' }}>{GLOBAL[lang].Register}</Text>
               </Button>
               <View style={{ height:height/80}} />
               {/* Read license */}
               <View style = {{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                  <Text>Registered you have accepted </Text>
+                  <Text>{GLOBAL[lang].RegisterEccept}</Text>
                   <TouchableOpacity onPress = { () => this.props.navigation.push('TermsScreen') }>
-                      <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>the terms of use</Text>
+                      <Text style = {{ color: '#4d94ff',fontSize: 16, textDecorationLine: 'underline' }}>{GLOBAL[lang].TermOfUse}</Text>
                   </TouchableOpacity>
               </View>  
           </View>        

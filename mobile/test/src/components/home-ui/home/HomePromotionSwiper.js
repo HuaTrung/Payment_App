@@ -8,25 +8,43 @@ import {
 } from 'react-native';
 
 import Swiper from "react-native-swiper";
+import { searchPromotion } from '../../../no-redux/search'
+import { connect } from "react-redux";
+
 
 class HomePromotionSwiper extends Component {
 
   constructor(props) {
     super(props);
-    // alert(JSON.stringify(this.props));
+    this.state = {
+      listPromotion: []
+    };
+    searchPromotion().then((status) => {
+      this.setState({
+        listPromotion: status.listPromotion});
+    });
   }
 
   render() {
+    const { listPromotion } = this.state;
+    const options = [];
+    for (let i =0; i<listPromotion.length;i++) {
+      console.log(listPromotion[i]);
+      options.push(<View style = {{ flex: 1, justifyContent : "center", alignItems : "center", backgroundColor: "#9dd6eb" }}>
+      <ImageBackground source={{uri:listPromotion[i].Image}} style={styles.backgroundImage}></ImageBackground>
+     </View>)
+    }
     return (
-      <Swiper showsButtons = {true}>
-        {
-          this.props.data.map((item, key) => {
-          return (
-            <View key={key} style = {{ flex: 1, justifyContent : "center", alignItems : "center", backgroundColor: "#9dd6eb" }}>
-             <ImageBackground source={{uri:"http://res.cloudinary.com/dzzyu5ejs/image/upload/Promotion.jpg"}} style={styles.backgroundImage}></ImageBackground>
-            </View>
-          )})  
-        }
+      <Swiper showsButtons={true} autoplay={true} autoplayTimeout={4}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#9dd6eb" }}>
+          <ImageBackground source={{ uri: "https://res.cloudinary.com/dzzyu5ejs/image/upload/Promotion2.png" }} style={styles.backgroundImage}></ImageBackground>
+        </View>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#9dd6eb" }}>
+          <ImageBackground source={{ uri: "https://res.cloudinary.com/dzzyu5ejs/image/upload/Promotion3.png" }} style={styles.backgroundImage}></ImageBackground>
+        </View>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#9dd6eb" }}>
+          <ImageBackground source={{ uri: "https://res.cloudinary.com/dzzyu5ejs/image/upload/Promotion4.png" }} style={styles.backgroundImage}></ImageBackground>
+        </View>
       </Swiper>
     );
   }
@@ -41,5 +59,4 @@ const styles = StyleSheet.create({
     height:"100%"
   }
 })
-
 export default HomePromotionSwiper;

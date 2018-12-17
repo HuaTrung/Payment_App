@@ -4,16 +4,19 @@ import { Icon } from 'react-native-elements'
 import ProfileElement from "./ProfileElement";
 import { Toast } from 'native-base';
 import UserElement from "./UserElement";
-import { deleteUserLogout, queryUserLoginData} from "../../../realm/userQueries";
+import { querySettingLanguage,deleteUserLogout, queryUserLoginData, queryUserMoney } from "../../../realm/userQueries";
+import { formatCurrency } from "../../../validations/util";
 const { width, height } = Dimensions.get('window');
-
 const w1 = width / 4.5;
 const w11 = width / 7;
 const w3 = width / 10;
 const h1 = height / 7;
 
+import { GLOBAL } from "../../../config/language";
 class UserProfile extends Component {
-
+  // static navigationOptions =  ({navigation}) => ({
+  //   title: navigation.getParam('USER','User')
+  // })
   constructor(props) {
     super(props);
     this._navigateProfileChange = this._navigateProfileChange.bind(this);
@@ -24,7 +27,8 @@ class UserProfile extends Component {
         name: '',
         phone: '',
         memberAt: '',
-      } 
+      } ,
+      lang: querySettingLanguage()
     };
 
   }
@@ -42,24 +46,25 @@ class UserProfile extends Component {
 
   _handleLogOut() {
     deleteUserLogout().then(() => {
+      let {lang} = this.state;
       this.props.navigation.navigate("SignOutScreen");
-      Toast.show({ text: 'Log out successfully', buttonText: 'Okay', type: "success" });
+      Toast.show({ text: GLOBAL[lang].LogoutSuccess, buttonText: 'Okay', type: "success" });
     });
   }
   
   componentDidMount() {
     queryUserLoginData().then((listUsers) => this.setState({user: listUsers}));
+
   }
 
   render() {
     
-    const { user } = this.state;
-
+    const { user,lang } = this.state;
     return (
       <View style={styles.container}>
         {/* Top bar */}
         <View style = {{ height:45, backgroundColor: "#1aa3ff",justifyContent: "center",alignItems: "center" }}>       
-          <Text style = {{ textAlign : "center", color: "white", fontWeight:"500", fontSize: 18}} >Profile Setting</Text>
+          <Text style = {{ textAlign : "center", color: "white", fontWeight:"500", fontSize: 18}} >{GLOBAL[lang].ProfileSetting}</Text>
         </View>
         <ScrollView>
         <View style = {{ height:10 }} />
@@ -77,7 +82,7 @@ class UserProfile extends Component {
           iconType = "Ionicons"
           iconName = "md-settings" 
           w1 = {w11} w3 = {w3}
-          textValue = "High Protect Account"
+          textValue = {GLOBAL[lang].HighProtectAccount}
           allowBotBorder = {true}
         />
         {/* Link account to social */}
@@ -85,7 +90,7 @@ class UserProfile extends Component {
           iconType = "Entypo"
           iconName = "globe" 
           w1 = {w11} w3 = {w3}
-          textValue = "Connect Social"
+          textValue = {GLOBAL[lang].ConnectSocial}
           iconColor = "green"
         />
 
@@ -95,8 +100,8 @@ class UserProfile extends Component {
           iconType = "FontAwesome5"
           iconName = "paypal" 
           w1 = {w11} w3 = {w3}
-          textValue = "Pay Account"
-          rightValue = "123,456 vnđ"
+          textValue = {GLOBAL[lang].PayAccount}
+          rightValue = { formatCurrency(queryUserMoney()) }
           allowBotBorder = {true}
         />
         {/* View gift list */}
@@ -104,32 +109,32 @@ class UserProfile extends Component {
           iconType = "FontAwesome5"
           iconName = "gift" 
           w1 = {w11} w3 = {w3}
-          textValue = "Gifts List"
+          textValue = {GLOBAL[lang].GiftsList}
         />
         <View style = {{ height:10 }} />
         <UserElement  
           iconType = "FontAwesome"
           iconName = "support" 
           w1 = {w11} w3 = {w3}
-          textValue = "Support"
+          textValue = {GLOBAL[lang].Support}
           allowBotBorder = {true}
         />
         <UserElement  
           iconType = "MaterialIcons"
           iconName = "feedback" 
           w1 = {w11} w3 = {w3}
-          textValue = "Quick Feedback"
+          textValue = {GLOBAL[lang].QuickFeedback}
           allowBotBorder = {true}
         />
         <UserElement  
           iconType = "Entypo"
           iconName = "info" 
           w1 = {w11} w3 = {w3}
-          textValue = "About App"
+          textValue = {GLOBAL[lang].AboutApp}
         />
         <View style = {{ height:10 }} />
         <TouchableOpacity onPress = { this._handleLogOut } style = {{ height:50, backgroundColor: "#1aa3ff", justifyContent: "center", alignItems: "center" }}>       
-          <Text style = {{ color: "white", fontWeight:"500", fontSize: 20 }} >Sign out</Text>
+          <Text style = {{ color: "white", fontWeight:"500", fontSize: 20 }} >{GLOBAL[lang].SignOut}</Text>
         </TouchableOpacity>
         <View style = {{ height:10 }} />
         </ScrollView>

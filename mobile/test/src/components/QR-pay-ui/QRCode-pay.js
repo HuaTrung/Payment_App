@@ -20,8 +20,12 @@ export default class QrPay extends Component {
     return (
       <View style = {{ flex: 1 }}> 
          <RNCamera
-            style = {{height: 200, width: 200}}
-            type={RNCamera.Constants.Type.front}
+            style = {{height: 500, width: width}}
+            type={RNCamera.Constants.Type.back}
+            barCodeTypes = {[RNCamera.Constants.BarCodeType.qr]}
+            onGoogleVisionBarcodesDetected = {({ barcodes }) => {
+              alert( JSON.stringify(barcodes));
+            }}
         /> 
       </View>
     )

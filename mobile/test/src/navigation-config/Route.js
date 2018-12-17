@@ -11,7 +11,7 @@ import { Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements'
 
 import { TermsScreen, CompanyBanner, SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../components/login-ui'
-import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen,RechargeScreen,TransferScreen,TransferFriendScreen,ActionTransferFriend } from '../components/home-ui';
+import { HomeScreen, UserProfileScreen, TransactionScreen, SearchScreen,RechargeScreen,TransferScreen,TransferFriendScreen,ActionTransferFriend,PromotionScreen } from '../components/home-ui';
 import ProfileChangeScreen from "../components/home-ui/user/ProfileChange";
 import HomeSearchBar from "../components/home-ui/home/HomeSearchBar";
 
@@ -22,20 +22,22 @@ import QRCodeScreen from "../components/QR-pay-ui/QRCode-pay";
 import MCIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import AntDesign from "react-native-vector-icons/AntDesign"
 const { height } = Dimensions.get('window');
 Height = (height / 4);
-
+import { isEmptyUserLogin,isEmptySetting, querySettingLanguage } from "../realm/userQueries.js";
+import { GLOBAL } from "../config/language";
 const SignedInTabNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        title: 'Home',
+        title: isEmptySetting() ? "Trang chủ" : GLOBAL[querySettingLanguage()].HOME,
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            name='sc-telegram'
-            type='evilicon'
+          <FontAwesome5
+            name='home'
             color='#517fa4'
+            size= {24}
           />
         )
       }
@@ -43,13 +45,33 @@ const SignedInTabNavigator = createBottomTabNavigator(
     Transaction: {
       screen: TransactionScreen,
       navigationOptions: {
-        title: 'Transaction'
+        title: isEmptySetting() ? "Giao dịch" : GLOBAL[querySettingLanguage()].TRANSACTION,
+        tabBarIcon: ({ tintColor }) => (
+          <AntDesign
+            name='menufold'
+            color='#517fa4'
+            size= {24}
+          />
+        )
+      }
+    },
+    Promotion: {
+      screen:PromotionScreen,
+      navigationOptions: {
+        title:isEmptySetting() ? "Khuyến mãi" :  GLOBAL[querySettingLanguage()].PROMOTION,
+        tabBarIcon: ({ tintColor }) => (
+          <AntDesign
+            name='gift'
+            color='#517fa4'
+            size= {24}
+          />
+        )
       }
     },
     UserProfile: {
       screen: UserProfileScreen,
       navigationOptions: {
-        title: 'User',
+        title: isEmptySetting() ? "Tài khoản" : GLOBAL[querySettingLanguage()].USER,
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome5
             name='user-shield'
@@ -157,7 +179,7 @@ const LoginTabNavigator = createMaterialTopTabNavigator(
         backgroundColor: "#ffa31a",
         height: 3
       }
-    },
+    }
 
   }
 );
@@ -181,7 +203,7 @@ const SignOutStack = createStackNavigator(
     }
   });
 
-  import { isEmptyUserLogin } from "../realm/userQueries.js";
+
   /**
    * @param SignOutScreen : Sign out to login/ register
    * @param SignedInScreen : user signed in 

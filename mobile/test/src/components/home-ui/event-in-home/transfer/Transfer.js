@@ -4,7 +4,6 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import RNEventSource from 'react-native-event-source'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
