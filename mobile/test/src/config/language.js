@@ -79,7 +79,8 @@ export const GLOBAL = [
     ResetLanguage: "You must restart app to apply new language",
     OK:"OK",
     Cancel:"Cancel",
-    TypeTransaction:["Transfer","Pay","Recharge","Receive"]
+    TypeTransaction:["Transfer","Pay","Recharge","Receive"],
+    Error:["Money no enough","Wrong security password","Network error"]
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -161,7 +162,8 @@ export const GLOBAL = [
     ResetLanguage: "Bạn phải khởi đội lại phần mềm để sủ dụng ngôn ngữ mới",
     OK:"OK",
     Cancel:"Cancel",
-    TypeTransaction:["Chuyển tiền","Thanh toán","Nạp tiền","Nhận tiền"]
+    TypeTransaction:["Chuyển tiền","Thanh toán","Nạp tiền","Nhận tiền"],
+    Error:["Không đủ số dư","Sai mật khẩu bảo mật","Lỗi đường truyền"]
   } ,
   {
     QRPay: "コードリーダー", //

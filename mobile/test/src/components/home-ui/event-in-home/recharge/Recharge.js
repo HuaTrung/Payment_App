@@ -10,6 +10,7 @@ import { updateUserMoney } from "../../../../redux/actions/updateUser.action";
 import { connect } from "react-redux";
 import { formatCurrency } from "../../../../validations/util";
 import { GLOBAL } from "../../../../config/language";
+
 const moneyHeight = height / 3
 class Recharge extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class Recharge extends Component {
       modalPro:"",
       newMoney: queryUserMoney(),
       process:false,
-      lang: querySettingLanguage()
+      lang: querySettingLanguage(),
+      moneyReturn:"",
+      messageError:null
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -49,31 +52,40 @@ class Recharge extends Component {
   setPassword(value) {
     if (this.state.passWord.length == 5) {
         let pass = this.state.passWord + value;
-        this.setState({ passWord: this.state.passWord + value })
-        rechargeMoney( this.state.money).then(result => {
-          alert(this.state.passWord);
-          if(result.value["status"]==1){
-            this.setState({
-              modalVisible: !this.state.modalVisible,
-              passWord: "",
-              sucessOrNot: true,
-              modalFee:result.value["Fee"],
-              modalTime:result.value["DateTrans"],
-              modalID:result.value["TranID"],
-              modalPro:result.value["MoneyPromotion"],
-              process:false
-            });
-          }
-          else{
-            this.setState({
-              modalVisible: !this.state.modalVisible,
-              passWord: "",
-            });
-            this.setState({sucessOrNot:false});
-          }
-        });
-        
-       this.setState({process:true});
+        if(querySecurityPass()===pass){
+          rechargeMoney( this.state.money).then(result => {
+            if(result.value["status"]==1){
+              this.setState({
+                modalVisible: !this.state.modalVisible,
+                passWord: "",
+                sucessOrNot: true,
+                modalFee:result.value["Fee"],
+                modalTime:result.value["DateTrans"],
+                modalID:result.value["TranID"],
+                modalPro:result.value["MoneyPromotion"],
+                process:false,
+                moneyReturn:result.value["money"]
+              });
+            }
+            else{
+              this.setState({
+                modalVisible: !this.state.modalVisible,
+                passWord: "",
+                sucessOrNot:false,
+                messageError:3
+              });
+            }
+          });
+          this.setState({process:true});
+        }
+        else{
+          this.setState({
+            sucessOrNot:false,
+            messageError:2,
+            modalVisible: false,
+            passWord: ""
+          });
+        }
     }
     else this.setState({ passWord: this.state.passWord + value });
     
@@ -98,6 +110,11 @@ class Recharge extends Component {
             });
           }
         }
+      }
+      else{
+        this.setState({
+          money: this.state.money+"000"
+        })
       }
     }
 
@@ -242,7 +259,7 @@ class Recharge extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].RechargeMoney}</Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.money)}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.moneyReturn)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
@@ -283,29 +300,9 @@ class Recharge extends Component {
           <View style={styles.modalContent}>
             <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
               <Icon type='FontAwesome' name='times-circle' style={{ color: "#CE3C3E" ,marginRight:10}} />
-              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>{GLOBAL[lang].RechargeFail}</Text>
+              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>{GLOBAL[lang].Error[parseInt(this.state.messageError)-1]}</Text>
             </View>
-            <View style={{alignItems: "center",paddingBottom:10}}>
-              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].RechargeMoney}</Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{formatCurrency(this.state.money)}</Text>
-                <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
-              </View>
-            </View>
-            <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
-             <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].ServiceType}</Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Recharge}</Text>
-             </View>
-             <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].FeeRecharge}</Text>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Free}</Text>
-             </View>
-             <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"60%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Time}</Text>
-              <Text style={{ width:"40%",color: "#212121", fontSize: 15,margin:3 }}>19:30 11/19/2018 </Text>
-             </View>
-            </View>
+           
             <View style={styles.buttonFail}>
               <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
                 <View style={{padding:5}}>
