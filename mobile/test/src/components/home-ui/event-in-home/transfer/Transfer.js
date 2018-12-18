@@ -56,7 +56,7 @@ export default class Transfer extends Component {
             <View style={{ flexDirection: "row", borderColor: "#e0e0e0", borderBottomWidth: 1, width: "100%", padding: 15 }}>
               <View style={{ width: "10%", alignItems: 'center', justifyContent: 'center' }}><FontAwesome5 name="university" size={30} color="#20A8D8" /></View>
               <View style={{width:"80%"}}>
-                <Text style={{ fontSize: 15, marginLeft: 15 }}>{GLOBAL[lang].}</Text>
+                <Text style={{ fontSize: 15, marginLeft: 15 }}>{GLOBAL[lang].TransferBank}</Text>
                 <Text style={{ fontSize: 12, marginLeft: 15 }}>Tài khoản của 41 ngân hàng nội địa  </Text>
               </View>
               <View style={{width:"10%",alignItems: 'flex-end', justifyContent: 'flex-end'}}>
