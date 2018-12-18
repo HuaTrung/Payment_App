@@ -145,11 +145,10 @@ class ProfileChange extends Component {
 
       if(result.type) {
         queryUserLoginData().then((listUsers) => {
- 
-          const {name, phone, gender, address, email, birthday} = listUsers;
+
+          const {name, gender, address, email, birthday, avatar} = listUsers;
           this.setState({
             name: name,
-            phone: phone,
             address: address,
             gender: gender,
             email: email,
@@ -206,7 +205,7 @@ class ProfileChange extends Component {
           <Text style = { [{flex: 1}, styles.textStyle] } >User Information</Text>
           <TouchableOpacity 
             style = {[{ justifyContent:"flex-end", marginRight: 10 }, styles.buttonSave]}
-            // onPress = { () => this._saveInformationUser() } 
+            onPress = { () => this._saveInformationUser() } 
             >
             <Text 
               style = {[styles.textStyle]}>Save</Text>
