@@ -62,7 +62,6 @@ const registerUser = data => new Promise((resolve,reject) => {
   if(!isEmpty(errors)) resolve({ type: false, errors });  
   else {
     axios.post(GLOBAL.HostName +"/app/user/register",data)
-    .then(response => response.json())
     .then( response => {
       let {data} = response;
       if(data.status == 0 && isEmpty(data.errors)) resolve({type: true}); // success
@@ -74,12 +73,15 @@ const registerUser = data => new Promise((resolve,reject) => {
 
 const checkPhoneError = phone => new Promise((resolve,reject) => {
   let errors = {};
-  if(!isNaN(phone)) {
+  if(isNaN(phone)) {
     errors.phone = PHONE_INVALID;
     resolve({ type: false, errors});
   } else {
     axios.post(GLOBAL.HostName +"/app/user/send-verify", {phone})
-    .then(response => response.json()) // do later
+    .then(response => {
+      let { data } = response;
+      if(data.status == 0) resolve({ type: true });
+    }) // do later
     .catch( err => reject(err));
   } 
 });
