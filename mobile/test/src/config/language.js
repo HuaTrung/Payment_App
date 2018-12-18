@@ -80,7 +80,15 @@ export const GLOBAL = [
     OK:"OK",
     Cancel:"Cancel",
     TypeTransaction:["Transfer","Pay","Recharge","Receive"],
-    Error:["Money no enough","Wrong security password","Network error"]
+    Error:["Money no enough","Wrong security password","Network error"],
+    TRANSACTION_SUCCESS: "TRANSACTION SUCCESS",
+    TRANSACTION_FAIL: "TRANSACTION FAIL",
+    ReceiveUser: "Receive User",
+    EnterPass2Transfer: "Enter password to transfer",
+    Transfer2Friend: "Transfer to friend",
+    PhoneLib:"Phone, library",
+    EnterPhone: "Enter phone number"    ,
+    TransferBank: "Transfer to bank"
   }, 
   { // vi
     QRPay: "Quét mã",
@@ -163,7 +171,15 @@ export const GLOBAL = [
     OK:"OK",
     Cancel:"Cancel",
     TypeTransaction:["Chuyển tiền","Thanh toán","Nạp tiền","Nhận tiền"],
-    Error:["Không đủ số dư","Sai mật khẩu bảo mật","Lỗi đường truyền"]
+    Error:["Không đủ số dư","Sai mật khẩu bảo mật","Lỗi đường truyền"],
+    TRANSACTION_SUCCESS: "GIAO DỊCH THÀNH CÔNG",
+    TRANSACTION_FAIL: "GIAO DỊCH THẤT BẠI",
+    ReceiveUser: "Người nhận",
+    EnterPass2Transfer: "Nhập mật khẩu để giao dịch",
+    Transfer2Friend: "Chuyển tiền cho bạn bè",
+    PhoneLib:"Số điện thoại, danh bạ"   ,
+    EnterPhone: "Nhập số điện thoại" ,
+    TransferBank: "Chuyển khoản đến ngân hàng"
   } ,
   {
     QRPay: "コードリーダー", //
@@ -244,6 +260,16 @@ export const GLOBAL = [
     Language: "言葉",
     ResetLanguage: "あなたはベトナムからきましたか？",
     OK:"はい",
-    Cancel:"いいえ"
+    Cancel:"いいえ",
+    TypeTransaction:["Chuyển tiền","Thanh toán","Nạp tiền","Nhận tiền"],
+    Error:["Không đủ số dư","Sai mật khẩu bảo mật","Lỗi đường truyền"],
+    TRANSACTION_SUCCESS: "商売が成功です",
+    TRANSACTION_FAIL: "商売が失敗です",
+    ReceiveUser: "利用者",
+    EnterPass2Transfer: "振替のに合言葉を入れる",
+    Transfer2Friend: "友達に商売する",
+    PhoneLib:"電話、図書館"    ,
+    EnterPhone: "電話をいれる" ,
+    TransferBank: "　銀行をいれる"
   } 
 ];

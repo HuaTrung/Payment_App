@@ -4,9 +4,9 @@ import { rechargeMoney } from '../../../../no-redux/recharge'
 const { width, height } = Dimensions.get('window');
 import { Form, Item, Input, Label, Button, Icon } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
+import { querySettingLanguage } from "../../../../realm/userQueries";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { GLOBAL } from "../../../../config/language";
 export default class Transfer extends Component {
   constructor(props) {
     super(props);
@@ -14,12 +14,14 @@ export default class Transfer extends Component {
       money: "",
       modalVisible: false,
       passWord: "",
-      sucessOrNot: null
+      sucessOrNot: null,
+      lang: querySettingLanguage()
     };
   }
     
 
   render() {
+    const { lang } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{
@@ -42,8 +44,8 @@ export default class Transfer extends Component {
             <View style={{ flexDirection: "row", borderColor: "#e0e0e0", borderBottomWidth: 1, width: "100%", padding: 15 }}>
               <View style={{ width: "10%", alignItems: 'center', justifyContent: 'center' }}><FontAwesome5 name="user-friends" size={30} color="#20A8D8" /></View>
               <View style={{width:"80%"}}>
-                <Text style={{ fontSize: 15, marginLeft: 15 }}>Chuyển tiền đến bạn bè</Text>
-                <Text style={{ fontSize: 12, marginLeft: 15 }}>Số điện thoại, danh bạ</Text>
+                <Text style={{ fontSize: 15, marginLeft: 15 }}>{GLOBAL[lang].Transfer2Friend}</Text>
+                <Text style={{ fontSize: 12, marginLeft: 15 }}>{GLOBAL[lang].PhoneLib}</Text>
               </View>
               <View style={{width:"10%",alignItems: 'flex-end', justifyContent: 'flex-end'}}>
               <Ionicons name="ios-arrow-forward" size={20} color="#20A8D8" />
@@ -54,7 +56,7 @@ export default class Transfer extends Component {
             <View style={{ flexDirection: "row", borderColor: "#e0e0e0", borderBottomWidth: 1, width: "100%", padding: 15 }}>
               <View style={{ width: "10%", alignItems: 'center', justifyContent: 'center' }}><FontAwesome5 name="university" size={30} color="#20A8D8" /></View>
               <View style={{width:"80%"}}>
-                <Text style={{ fontSize: 15, marginLeft: 15 }}>Chuyển tiền đến ngân hàng</Text>
+                <Text style={{ fontSize: 15, marginLeft: 15 }}>{GLOBAL[lang].}</Text>
                 <Text style={{ fontSize: 12, marginLeft: 15 }}>Tài khoản của 41 ngân hàng nội địa  </Text>
               </View>
               <View style={{width:"10%",alignItems: 'flex-end', justifyContent: 'flex-end'}}>

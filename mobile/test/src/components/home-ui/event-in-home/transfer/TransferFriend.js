@@ -4,15 +4,16 @@ import {
   , List, ListItem, Left, Body, Right, Thumbnail
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
-import { queryUserAvatar, queryUserPhone } from "../../../../realm/userQueries";
+import { queryUserAvatar, queryUserPhone, querySettingLanguage } from "../../../../realm/userQueries";
 import { searchUserByPhone } from '../../../../no-redux/search'
-
+import { GLOBAL } from "../../../../config/language";
 export default class TransferFriend extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listFriends: [],
-      valueSearch: ""
+      valueSearch: "",
+      lang: querySettingLanguage()
     };
   }
  
@@ -25,7 +26,7 @@ export default class TransferFriend extends Component {
     });
   }
   render() {
-    const { listFriends } = this.state;
+    const { listFriends, lang } = this.state;
     const options = [];
     
     for (let i = 0; i < listFriends.length; i++) {
@@ -59,7 +60,7 @@ export default class TransferFriend extends Component {
             <Icon onPress={() => this.props.navigation.goBack()}
               type='Ionicons' name='ios-arrow-back' style={{ color: "#1aa3ff" }} fontSize={35} />
             <Icon onPress={() => { this.searchUser() }} name="ios-search" />
-            <Input placeholder="Nhập số điện thoại"
+            <Input placeholder={GLOBAL[lang].EnterPhone}
               onChangeText={(valueSearch) => this.setState({ valueSearch })}
               value={this.state.username} />
             <Icon name="ios-people" />

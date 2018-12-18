@@ -150,19 +150,19 @@ class ActionTransferFriend extends Component {
        
            <Thumbnail source={{uri:this.props.navigation.state.params.target.avatar}} large/>
           <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 25 }} >{this.props.navigation.state.params.target.name}</Text>
-          <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 20 }} >Số ĐT: {this.props.navigation.state.params.target.phone}</Text>
+          <Text style={{ textAlign: "center", color: "#424242", fontWeight: "300", fontSize: 20 }} >{GLOBAL[lang].PhoneNumber + ": " + this.props.navigation.state.params.target.phone}</Text>
           </ImageBackground>
         </View>
         <ScrollView style={{ flex: 1, backgroundColor: "#ffffff" }} >
           <Form style={{ marginTop: 10 }}>
             <Item floatingLabel>
-              <Label>Nhập số tiền</Label>
+              <Label>{GLOBAL[lang].EnterMoney}</Label>
               <Input editable={false}  value={formatCurrency(this.state.money)} />
             </Item>
           </Form>
           <Form style={{ marginTop: 10 }}>
             <Item floatingLabel>
-              <Label>Lời nhắn</Label>
+              <Label>{GLOBAL[lang].DesTrans}</Label>
               <Input 
                 onFocus={() =>  this.setState({onFocusNumber: false})} 
                 onBlur={() =>  this.setState({onFocusNumber:true})} 
@@ -182,7 +182,7 @@ class ActionTransferFriend extends Component {
                   this.setModalVisible(!this.state.modalVisible);
               }}>
               <Icon type='MaterialCommunityIcons' name='verified' style={{ color: "#1565c0" }} />
-              <Text style={{ color: "#1565c0" }}>Xác nhận</Text>
+              <Text style={{ color: "#1565c0" }}>{GLOBAL[lang].Confirm}</Text>
           </Button> 
           )
         }
@@ -198,7 +198,7 @@ class ActionTransferFriend extends Component {
           </View>
           <View backgroundColor="#ffffff" style={{ height: "50%" }}>
             <View style={{ marginTop: 10, flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
-              <Text>Nhập mật khẩu để nạp tiền</Text>
+              <Text>{GLOBAL[lang].EnterPass2Transfer}</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
               <View style={this.state.passWord.length > 0 ? styles.circleRounded : styles.circle} />
@@ -264,41 +264,41 @@ class ActionTransferFriend extends Component {
           <View style={styles.modalContent}>
             <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
               <Icon type='MaterialCommunityIcons' name='check-circle' style={{ color: "#0EB709" ,marginRight:10}} />
-              <Text style={{ color: "#0EB709", fontSize: 20 }}>GIAO DỊCH THÀNH CÔNG </Text>
+              <Text style={{ color: "#0EB709", fontSize: 20 }}>{GLOBAL[lang].TRANSACTION_SUCCESS}</Text>
             </View>
             <View style={{alignItems: "center",paddingBottom:10}}>
-              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].MoneyTrans}</Text>
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
-             <View style={{flexDirection: 'row'}}>
+             {/* <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>Chuyển tiền </Text>
-             </View>
+             </View> */}
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Phí giao dịch </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Fee}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.Fee==0?"Miễn phí":this.state.Fee+" VNĐ"}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Thời gian </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].Time}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.DateTrans} </Text>
              </View>
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Người nhận</Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].ReceiveUser}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30 }}>{this.state.Target}</Text>
              </View>
              <View style={{flexDirection: 'row'}}>
-              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Mã giao dịch </Text>
+              <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>{GLOBAL[lang].TranId}</Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3,textAlign: 'right',paddingRight:30  }}>{this.state.TranID} </Text>
              </View>
             </View>
             <View style={styles.buttonSuccess}>
               <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
                 <View style={{padding:5}}>
-                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                 <Text style={{color:"white",fontSize:16}}>{GLOBAL[lang].Close}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -309,10 +309,10 @@ class ActionTransferFriend extends Component {
           <View style={styles.modalContent}>
             <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
               <Icon type='FontAwesome' name='times-circle' style={{ color: "#CE3C3E" ,marginRight:10}} />
-              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>GIAO DỊCH THẤT BẠI </Text>
+              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>{GLOBAL[lang].TRANSACTION_FAIL}</Text>
             </View>
             <View style={{alignItems: "center",paddingBottom:10}}>
-              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
+              <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>{GLOBAL[lang].MoneyTrans}</Text>
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
@@ -327,7 +327,7 @@ class ActionTransferFriend extends Component {
             <View style={styles.buttonFail}>
               <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
                 <View style={{padding:5}}>
-                 <Text style={{color:"white",fontSize:16}}>Đóng</Text>
+                 <Text style={{color:"white",fontSize:16}}>{GLOBAL[lang].Close}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -401,5 +401,4 @@ const styles = StyleSheet.create({
     height:"100%"
   }
 })
-export default ActionTransferFriend
-;
+export default ActionTransferFriend;
