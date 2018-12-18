@@ -59,6 +59,7 @@ class SignUp extends Component {
     checkPhoneError(this.state.phone).then( api => {
     //  alert(JSON.stringify(api));
       if(api.type == false) this.setState({errors: api.errors});
+      else Toast.show({ text: 'Send verify code success', buttonText: 'Okay', type: "success" });
     });
   }
 

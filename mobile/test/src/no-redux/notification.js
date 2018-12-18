@@ -50,6 +50,7 @@ const onMessageListener = () => {
                   type: POPUP_TRANSACTION,
                   payload: value
                 })
+                firebase.notifications().displayNotification(notification);
               }              
               break;
               case '1': // "RECEIVE_TRANSACTION_NO_POPUP":
@@ -119,7 +120,11 @@ const hasPermission = async () => {
       token: token
     }, error => {
     if(error) console.log(JSON.stringify(error));
-    }).then(data => console.log(data));
+    }).then(data => {
+      AsyncStorage.setItem('RUN_ONCE','1').then(() => {
+        _fetchNewNotification();
+      });
+    });
   } else {
     // user doesn't have permission
     try {

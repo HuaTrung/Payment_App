@@ -3,7 +3,7 @@ import GLOBAL from "../config";
 import { deleteUserLogout ,queryUserId, isEmptyUserLogin, queryUserPhone, queryUserOnline } from "../realm/userQueries";
 import firebase from "react-native-firebase";
 import dev from "react-native-device-info";
-
+import { AsyncStorage } from "react-native";
 const logout = () => new Promise( (resolve,reject) => {
   
   let id = queryUserId();
@@ -13,7 +13,9 @@ const logout = () => new Promise( (resolve,reject) => {
     if(data.status == 0) {
       console.log("log out");
       firebase.database().ref("user/" + id).off("child_changed");
-      resolve();
+      AsyncStorage.removeItem('RUN_ONCE').then(()=>{
+        resolve();
+      });
     }
     else reject();
   }).catch(err=> reject());

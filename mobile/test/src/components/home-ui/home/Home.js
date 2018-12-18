@@ -11,7 +11,8 @@ import {
   AppState,
   BackHandler,
   NativeModules,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import Modal from "react-native-modal";
 import Swiper from "react-native-swiper";
@@ -170,7 +171,10 @@ class Home extends Component {
       else if(val == 2)  // update security pass success
         Toast.show({ text: GLOBAL[lang].CreatePin, buttonText: 'Okay', type: "success", position: "center",duration:3000 });  
     });
-    _fetchNewNotification();
+    AsyncStorage.getItem('RUN_ONCE').then(value => {
+      if(value !=  null)
+        _fetchNewNotification();
+    })
   }
 
   componentWillUnmount() {
