@@ -7,7 +7,8 @@ import Modal from "react-native-modal";
 import MyKeyBoard from "../recharge/MyKeyboard"
 const moneyUser = height /4;
 import { formatCurrency } from "../../../../validations/util";
-import {querySecurityPass} from "../../../../realm/userQueries"
+import {querySecurityPass,querySettingLanguage} from "../../../../realm/userQueries"
+import { GLOBAL } from "../../../../config/language";
 class ActionTransferFriend extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +23,10 @@ class ActionTransferFriend extends Component {
       Target: '',
       TranID: '',
       Fee: 0,
-
+      messageError:null,
       onFocusNumber:true,
-      process:false
+      process:false,
+      lang: querySettingLanguage()
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -41,7 +43,8 @@ class ActionTransferFriend extends Component {
   setPassword(value) {
     if (this.state.passWord.length >= 5) {
       if (this.state.passWord.length == 5) {
-        this.setState({ passWord: this.state.passWord + value })
+        let pass = this.state.passWord + value;
+        if(querySecurityPass()===pass){
         let description=this.state.description;
         if(description===undefined) description="null"
 
@@ -64,11 +67,23 @@ class ActionTransferFriend extends Component {
             this.setState({
               modalVisible: !this.state.modalVisible,
               passWord: "",
+              messageError:1,
+              process:false
+
             });
           this.setState({sucessOrNot:false});
           }
         });
        this.setState({process:true});
+      }
+      else{
+        this.setState({
+          sucessOrNot:false,
+          messageError:3,
+          modalVisible: false,
+          passWord: ""
+        });
+      }
       }
     }
     else {
@@ -93,10 +108,15 @@ class ActionTransferFriend extends Component {
           this.setState({ money: "" })}
         }
       }
+      else{
+        this.setState({
+          money: this.state.money+"000"
+        })
+      }
     }
   
   render() {
-    const { money } = this.state;
+    const { money,lang } = this.state;
     //alert(this.state.onFocusNumber);
     return (
       <View style={{ flex: 1 }}>
@@ -294,10 +314,11 @@ class ActionTransferFriend extends Component {
             <View style={{alignItems: "center",paddingBottom:10}}>
               <Text style={{ color: "#bdbdbd",  margin:5,fontSize: 15,marginTop:10 }}>SỐ TIỀN GIAO DỊCH </Text>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.moneyTrans)}</Text>
+                <Text style={{ color: "#212121", fontSize: 30 }}>{ formatCurrency(this.state.money)}</Text>
                 <Text style={{ color: "#212121", fontSize: 15 }}> VND</Text>
               </View>
             </View>
+
             <View style={{width:"100%",backgroundColor:"#F0F4F7",padding:5,paddingLeft:10}}> 
              <View style={{flexDirection: 'row'}}>
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Loại dịch vụ </Text>
@@ -315,6 +336,9 @@ class ActionTransferFriend extends Component {
               <Text style={{ width:"30%",color: "#212121", fontSize: 15,margin:3 }}>Người nhận </Text>
               <Text style={{ width:"70%",color: "#212121", fontSize: 15,margin:3 }}>{this.state.Target}</Text>
              </View>
+             {/* <View style={{flexDirection:"row",borderColor: "#F7F8F9",borderWidth: 0.5,width:"100%",padding:10,backgroundColor:"#F0F4F7"}}> 
+              <Text style={{ color: "#CE3C3E", fontSize: 20 }}>{GLOBAL[lang].Error[parseInt(this.state.messageError)-1]}</Text>
+            </View> */}
             </View>
             <View style={styles.buttonFail}>
               <TouchableOpacity onPress={() => this.setState({ sucessOrNot: null })}>
@@ -336,6 +360,7 @@ class ActionTransferFriend extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   circle: {
     marginTop: 20,
