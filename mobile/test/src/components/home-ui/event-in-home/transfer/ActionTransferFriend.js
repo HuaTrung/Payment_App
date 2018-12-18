@@ -49,7 +49,6 @@ class ActionTransferFriend extends Component {
         if(description===undefined) description="null"
 
         sendMoney( this.state.money,this.props.navigation.state.params.target.phone,description,this.props.navigation.state.params.target.name).then(result => {
-          console.log(result.value);
           if(result.value["status"]==1){
             this.setState({
               moneyTrans: result.value["money"],
@@ -68,10 +67,9 @@ class ActionTransferFriend extends Component {
               modalVisible: !this.state.modalVisible,
               passWord: "",
               messageError:1,
-              process:false
-
+              process:false,
+              sucessOrNot:false
             });
-          this.setState({sucessOrNot:false});
           }
         });
        this.setState({process:true});
@@ -79,7 +77,7 @@ class ActionTransferFriend extends Component {
       else{
         this.setState({
           sucessOrNot:false,
-          messageError:3,
+          messageError:2,
           modalVisible: false,
           passWord: ""
         });
